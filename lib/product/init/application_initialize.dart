@@ -2,6 +2,8 @@
 
 import 'dart:async';
 
+import 'package:al_anime_creator/product/init/config/app_enviroment.dart';
+import 'package:al_anime_creator/product/init/config/dev_env.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_logger/easy_logger.dart';
@@ -34,6 +36,8 @@ final class ApplicationInitialize {
 
 
     };
+
+    AppEnviroment.setup(config: DevEnv());
   }
 
 
