@@ -1,4 +1,3 @@
-import 'package:al_anime_creator/core/widgets/bottom_navigator_bar_widget.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
@@ -16,8 +15,11 @@ class _FeedViewState extends State<FeedView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
+    return Container(
+      color: const Color(0xFF1E1531),
+      width: double.infinity,
+      height: double.infinity,
+      child: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -34,13 +36,12 @@ class _FeedViewState extends State<FeedView> {
                 _buildStoryCarousel(),
                 const SizedBox(height: 30),
                 _buildPopularSection(),
-                 const SizedBox(height: 30),
+                const SizedBox(height: 30),
               ],
             ),
           ),
         ),
       ),
-      bottomNavigationBar: buildBottomNavBar(),
     );
   }
 
