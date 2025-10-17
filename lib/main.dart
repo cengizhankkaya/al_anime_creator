@@ -1,30 +1,28 @@
-import 'package:al_anime_creator/feature/home/home.dart';
-
-import 'package:al_anime_creator/product/init/product_localization.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'product/init/index.dart';
 
-import 'product/init/application_initialize.dart';
+
 
 Future<void> main() async {
   await ApplicationInitialize().make();
   runApp(ProductLocalization(child: const MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+final class MyApp extends StatelessWidget {
   const MyApp({super.key});
+  static final appRouter = AppRouter();
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
+      routerConfig: appRouter.config(),
+      theme: CustomLightTheme().themeData,
+      darkTheme: CustomDarkTheme().themeData,
       locale: context.locale,
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      ),
-      home: const HomePage(),
     );
   }
 }

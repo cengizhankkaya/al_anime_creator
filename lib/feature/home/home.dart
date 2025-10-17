@@ -1,12 +1,15 @@
 
 
 
-import 'package:al_anime_creator/product/init/product_localization.dart';
+import 'package:al_anime_creator/product/init/config/app_enviroment.dart';
+import 'package:al_anime_creator/product/init/language/product_localization.dart';
 import 'package:al_anime_creator/product/init/language/locale_keys.g.dart';
 import 'package:al_anime_creator/product/utility/constans/enums/locales.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
+@RoutePage(name: 'HomeRoute')
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -21,7 +24,8 @@ class _HomePageState extends State<HomePage> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-           Text('Change language'),
+          ElevatedButton(onPressed: () {}, child: Text(AppEnvironmentItems.baseUrl.value))
+         ,
           ElevatedButton(onPressed: () {
             ProductLocalization.updateLanguage(context: context, value: Locales.en);
           } ,

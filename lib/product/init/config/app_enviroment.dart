@@ -1,15 +1,36 @@
-
 import 'package:al_anime_creator/product/init/config/app_configuration.dart';
+import 'package:al_anime_creator/product/init/config/dev_env.dart';
+import 'package:al_anime_creator/product/init/config/prod_env.dart';
+import 'package:flutter/foundation.dart';
 
-final class AppEnviroment {
-  AppEnviroment.setup({required AppConfiguration config}) {
+
+final class AppEnvironment {
+  AppEnvironment.setup({required AppConfiguration config}) {
     _config = config;
   }
 
+  AppEnvironment.general() {
+    _config = kDebugMode ? DevEnv() : ProdEnv();
+  }
+
   static late final AppConfiguration _config;
-
-  static String get baseUrl => _config.baseUrl;
-
-  static String get apiKey => _config.apiKey;
 }
 
+enum AppEnvironmentItems {
+  baseUrl,
+
+  apiKey;
+
+  String get value {
+    try {
+      switch (this) {
+        case AppEnvironmentItems.baseUrl:
+          return AppEnvironment._config.baseUrl;
+        case AppEnvironmentItems.apiKey:
+          return AppEnvironment._config.apiKey;
+      }
+    } catch (e) {
+      throw Exception('AppEnvironment is not initialized.');
+    }
+  }
+}
