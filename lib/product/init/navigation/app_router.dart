@@ -1,17 +1,19 @@
-import 'package:al_anime_creator/features/demo/demo_view.dart';
-import 'package:al_anime_creator/features/feed/view/feed_view.dart';
-import 'package:al_anime_creator/features/home/home_view.dart';
-import 'package:al_anime_creator/features/profile/profile_view.dart';
+import 'package:al_anime_creator/features/screens/home/home_screen.dart';
+import 'package:al_anime_creator/features/screens/onboding/onboding_screen.dart';
 import 'package:auto_route/auto_route.dart';
+
+// TODO: Rota vermek istediğiniz sayfaları (View) buraya import edin.
+// Örnek:
+// import 'package:al_anime_creator/features/splash/view/splash_view.dart';
+// import 'package:al_anime_creator/features/home/view/home_view.dart';
 
 part 'app_router.gr.dart';
 
-
 @AutoRouterConfig(replaceInRouteName: 'View,Route')
-final class AppRouter extends RootStackRouter {
-
+class AppRouter extends RootStackRouter {
   @override
   List<AutoRoute> get routes => [
-    AutoRoute(page: HomeRoute.page, initial: true),
-  ];
+        AutoRoute(page: OnboardingRoute.page, initial: true),
+        AutoRoute(page: HomeView.page),
+      ];
 }
