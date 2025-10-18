@@ -1,5 +1,5 @@
-import 'package:al_anime_creator/features/screens/home/home_screen.dart';
-import 'package:al_anime_creator/features/screens/onboding/onboding_screen.dart';
+import 'package:al_anime_creator/features/home/home_screen.dart';
+import 'package:al_anime_creator/features/onboding/onboding_screen.dart';
 import 'package:auto_route/auto_route.dart';
 
 // TODO: Rota vermek istediğiniz sayfaları (View) buraya import edin.

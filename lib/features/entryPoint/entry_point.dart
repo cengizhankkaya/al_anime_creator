@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:al_anime_creator/features/navbar/model/menu.dart';
-import 'package:al_anime_creator/features/screens/home/home_screen.dart';
+import 'package:al_anime_creator/features/home/home_screen.dart';
 import 'package:al_anime_creator/product/utility/constans/rive_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
