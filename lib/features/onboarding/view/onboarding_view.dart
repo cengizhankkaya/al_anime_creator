@@ -4,20 +4,20 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:rive/rive.dart' hide Image;
 
-import 'components/animated_btn.dart';
-import 'components/sign_in_dialog.dart';
+import 'widgets/animated_btn.dart';
+import 'widgets/sign_in_dialog.dart';
 
 @RoutePage(
   name: 'OnboardingRoute',
 )
-class OnbodingScreen extends StatefulWidget {
-  const OnbodingScreen({super.key});
+class onboardingView extends StatefulWidget {
+  const onboardingView({super.key});
 
   @override
-  State<OnbodingScreen> createState() => _OnbodingScreenState();
+  State<onboardingView> createState() => _onboardingViewState();
 }
 
-class _OnbodingScreenState extends State<OnbodingScreen> {
+class _onboardingViewState extends State<onboardingView> {
   late RiveAnimationController _btnAnimationController;
 
   bool isShowSignInDialog = false;

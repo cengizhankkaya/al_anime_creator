@@ -1,4 +1,4 @@
-import 'package:al_anime_creator/features/navbar/model/course.dart';
+import 'package:al_anime_creator/features/entryPoint/course.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 

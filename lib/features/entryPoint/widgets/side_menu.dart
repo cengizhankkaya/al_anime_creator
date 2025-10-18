@@ -1,4 +1,4 @@
-import 'package:al_anime_creator/features/navbar/model/menu.dart';
+import 'package:al_anime_creator/features/entryPoint/menu.dart';
 import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
 

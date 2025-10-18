@@ -7,7 +7,7 @@ final class CustomColorScheme {
   /// Light color scheme set
   static const lightColorScheme = ColorScheme(
     brightness: Brightness.light,
-    primary: Color(0xFF6750A4),
+    primary: Color(0xFF24FF00),
     onPrimary: Color(0xFFFFFFFF),
     primaryContainer: Color(0xFFEADDFF),
     onPrimaryContainer: Color(0xFF21005D),
@@ -35,6 +35,7 @@ final class CustomColorScheme {
     surfaceTint: Color(0xFF6750A4),
     outlineVariant: Color(0xFFCAC4D0),
     scrim: Color(0xFF000000),
+    surfaceContainer: Color(0xFF17203A),
   );
 
   /// Light dark scheme set
@@ -68,5 +69,6 @@ final class CustomColorScheme {
     surfaceTint: Color(0xFFD0BCFF),
     outlineVariant: Color(0xFF49454F),
     scrim: Color(0xFF000000),
+    surfaceContainer: Color(0xFF17203A),
   );
 }

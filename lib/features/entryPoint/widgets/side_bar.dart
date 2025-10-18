@@ -1,4 +1,4 @@
-import 'package:al_anime_creator/features/navbar/model/menu.dart';
+import 'package:al_anime_creator/features/entryPoint/menu.dart';
 import 'package:al_anime_creator/product/utility/constans/rive_utils.dart' show RiveUtils;
 import 'package:flutter/material.dart';
 

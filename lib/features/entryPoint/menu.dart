@@ -1,4 +1,4 @@
-import 'rive_model.dart';
+import 'model/rive_model.dart';
 
 class Menu {
   final String title;
@@ -55,6 +55,13 @@ List<Menu> sidebarMenus2 = [
 ];
 
 List<Menu> bottomNavItems = [
+  Menu(
+    title: "Story Generation",
+    rive: RiveModel(
+        src: "assets/RiveAssets/icons.riv",
+        artboard: "HOME",
+        stateMachineName: "HOME_interactivity"),
+  ),
   Menu(
     title: "Chat",
     rive: RiveModel(

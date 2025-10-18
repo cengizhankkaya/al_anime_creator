@@ -1,5 +1,7 @@
 import 'package:al_anime_creator/features/home/home_screen.dart';
-import 'package:al_anime_creator/features/onboding/onboding_screen.dart';
+import 'package:al_anime_creator/features/onboarding/view/onboarding_view.dart';
+import 'package:al_anime_creator/features/storygeneration/view/story_generation_view.dart';
+import 'package:al_anime_creator/features/storyHistory/view/story_history_view.dart';
 import 'package:auto_route/auto_route.dart';
 
 // TODO: Rota vermek istediğiniz sayfaları (View) buraya import edin.
@@ -15,5 +17,7 @@ class AppRouter extends RootStackRouter {
   List<AutoRoute> get routes => [
         AutoRoute(page: OnboardingRoute.page, initial: true),
         AutoRoute(page: HomeView.page),
+        AutoRoute(page: StoryGenerationRoute.page),
+        AutoRoute(page: StoryHistoryRoute.page),
       ];
 }

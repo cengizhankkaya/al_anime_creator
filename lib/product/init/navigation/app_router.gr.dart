@@ -27,7 +27,39 @@ class HomeView extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [OnbodingScreen]
+/// [StoryGenerationView]
+class StoryGenerationRoute extends PageRouteInfo<void> {
+  const StoryGenerationRoute({List<PageRouteInfo>? children})
+    : super(StoryGenerationRoute.name, initialChildren: children);
+
+  static const String name = 'StoryGenerationRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const StoryGenerationView();
+    },
+  );
+}
+
+/// generated route for
+/// [StoryHistoryView]
+class StoryHistoryRoute extends PageRouteInfo<void> {
+  const StoryHistoryRoute({List<PageRouteInfo>? children})
+    : super(StoryHistoryRoute.name, initialChildren: children);
+
+  static const String name = 'StoryHistoryRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const StoryHistoryView();
+    },
+  );
+}
+
+/// generated route for
+/// [onboardingView]
 class OnboardingRoute extends PageRouteInfo<void> {
   const OnboardingRoute({List<PageRouteInfo>? children})
     : super(OnboardingRoute.name, initialChildren: children);
@@ -37,7 +69,7 @@ class OnboardingRoute extends PageRouteInfo<void> {
   static PageInfo page = PageInfo(
     name,
     builder: (data) {
-      return const OnbodingScreen();
+      return const onboardingView();
     },
   );
 }

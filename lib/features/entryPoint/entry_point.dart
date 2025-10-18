@@ -1,14 +1,20 @@
 import 'dart:math';
 
-import 'package:al_anime_creator/features/navbar/model/menu.dart';
+import 'package:al_anime_creator/features/entryPoint/menu.dart';
 import 'package:al_anime_creator/features/home/home_screen.dart';
+import 'package:al_anime_creator/features/screens/view/notification_view.dart';
+import 'package:al_anime_creator/features/screens/view/profile_view.dart';
+import 'package:al_anime_creator/features/screens/view/search_view.dart';
+import 'package:al_anime_creator/features/screens/view/timer_view.dart';
+import 'package:al_anime_creator/features/storyHistory/view/story_history_view.dart';
+import 'package:al_anime_creator/features/storygeneration/view/story_generation_view.dart';
 import 'package:al_anime_creator/product/utility/constans/rive_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
 
-import 'components/btm_nav_item.dart';
-import 'components/menu_btn.dart';
-import 'components/side_bar.dart';
+import 'widgets/btm_nav_item.dart';
+import 'widgets/menu_btn.dart';
+import 'widgets/side_bar.dart';
 
 class EntryPoint extends StatefulWidget {
   const EntryPoint({super.key});
@@ -32,6 +38,54 @@ class _EntryPointState extends State<EntryPoint>
         selectedBottonNav = menu;
       });
     }
+  }
+
+  Widget _getCurrentScreen() {
+    Widget currentScreen;
+    switch (selectedBottonNav.title) {
+      case "Story Generation":
+        currentScreen = const StoryGenerationView();
+        break;
+      case "Search":
+        currentScreen = const SearchView();
+        break;
+      case "Timer":
+        currentScreen = const TimerView();
+        break;
+      case "Chat":
+        currentScreen = const StoryHistoryView();
+        break;
+      case "Notification":
+        currentScreen = const NotificationView();
+        break;
+      case "Profile":
+        currentScreen = const ProfileView();
+        break;
+      default:
+        currentScreen = const HomePage();
+    }
+
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 300),
+      switchInCurve: Curves.easeInOut,
+      switchOutCurve: Curves.easeInOut,
+      transitionBuilder: (Widget child, Animation<double> animation) {
+        return FadeTransition(
+          opacity: animation,
+          child: SlideTransition(
+            position: Tween<Offset>(
+              begin: const Offset(1.0, 0.0),
+              end: Offset.zero,
+            ).animate(animation),
+            child: child,
+          ),
+        );
+      },
+      child: Container(
+        key: ValueKey<String>(selectedBottonNav.title),
+        child: currentScreen,
+      ),
+    );
   }
 
   late AnimationController _animationController;
@@ -62,10 +116,12 @@ class _EntryPointState extends State<EntryPoint>
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Scaffold(
       extendBody: true,
       resizeToAvoidBottomInset: false,
-      backgroundColor: Color(0xFF17203A),
+      backgroundColor: colorScheme.surfaceContainer,
       body: Stack(
         children: [
           AnimatedPositioned(
@@ -87,11 +143,11 @@ class _EntryPointState extends State<EntryPoint>
               offset: Offset(animation.value * 265, 0),
               child: Transform.scale(
                 scale: scalAnimation.value,
-                child: const ClipRRect(
+                child: ClipRRect(
                   borderRadius: BorderRadius.all(
                     Radius.circular(24),
                   ),
-                  child: HomePage(),
+                  child: _getCurrentScreen(),
                 ),
               ),
             ),
@@ -139,11 +195,11 @@ class _EntryPointState extends State<EntryPoint>
                 const EdgeInsets.only(left: 12, top: 12, right: 12, bottom: 12),
             margin: const EdgeInsets.symmetric(horizontal: 24),
             decoration: BoxDecoration(
-              color: Color(0xFF17203A).withOpacity(0.8),
+              color: colorScheme.surfaceContainer.withOpacity(0.8),
               borderRadius: const BorderRadius.all(Radius.circular(24)),
               boxShadow: [
                 BoxShadow(
-                  color: Color(0xFF17203A).withOpacity(0.3),
+                  color: colorScheme.surfaceContainer.withOpacity(0.3),
                   offset: const Offset(0, 20),
                   blurRadius: 20,
                 ),
