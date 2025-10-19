@@ -1,6 +1,12 @@
 
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_ai/firebase_ai.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:al_anime_creator/firebase_options.dart';
+import 'package:al_anime_creator/product/model/story.dart';
+import 'package:al_anime_creator/features/storyHistory/view_model/story_history_viewmodel.dart';
+import 'package:uuid/uuid.dart';
 
 @RoutePage(
   name: 'StoryGenerationRoute',
@@ -19,6 +25,239 @@ class _StoryGenerationViewState extends State<StoryGenerationView> {
   bool isExpanded2 = false;
   bool isExpanded3 = false;
   bool isExpanded4 = false;
+
+  // AI Model and Story Generation
+  late GenerativeModel _model;
+  bool _isLoading = false;
+  String _generatedStory = '';
+  bool _showStory = false;
+
+  // Text Controllers for expandable sections
+  final TextEditingController _characterController = TextEditingController();
+  final TextEditingController _settingController = TextEditingController();
+  final TextEditingController _plotController = TextEditingController();
+  final TextEditingController _emotionController = TextEditingController();
+
+  // Story History için ViewModel
+  late StoryHistoryViewModel _storyHistoryViewModel;
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeFirebase();
+    _storyHistoryViewModel = StoryHistoryViewModel();
+  }
+
+  Future<void> _initializeFirebase() async {
+    try {
+      await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform,
+      );
+      _model = FirebaseAI.googleAI().generativeModel(
+        model: 'gemini-2.0-flash-001',
+      );
+    } catch (e) {
+      print('Firebase initialization error: $e');
+    }
+  }
+
+  Future<void> _generateStory() async {
+    // Kullanıcı hiç input vermediyse uyarı ver
+    final String characterDetails = _characterController.text.trim();
+    final String settingDetails = _settingController.text.trim();
+    final String plotDetails = _plotController.text.trim();
+    final String emotionDetails = _emotionController.text.trim();
+
+    if (characterDetails.isEmpty &&
+        settingDetails.isEmpty &&
+        plotDetails.isEmpty &&
+        emotionDetails.isEmpty) {
+      _showErrorSnackBar('Lütfen en az bir hikaye detayı girin');
+      return;
+    }
+
+    setState(() {
+      _isLoading = true;
+      _showStory = false;
+    });
+
+    try {
+      // Kullanıcı girdilerini topla
+      final String characterDetails = _characterController.text.trim();
+      final String settingDetails = _settingController.text.trim();
+      final String plotDetails = _plotController.text.trim();
+      final String emotionDetails = _emotionController.text.trim();
+
+      // Hikaye uzunluğunu belirle
+      final Map<int, String> lengthMap = {
+        0: 'kısa',
+        1: 'orta uzunlukta',
+        2: 'uzun'
+      };
+      final String storyLength = lengthMap[selectedLength] ?? 'orta uzunlukta';
+
+      // Yaratıcılık seviyesini belirle
+      String creativityLevel;
+      if (sliderValue <= -0.3) {
+        creativityLevel = 'standart';
+      } else if (sliderValue >= 0.3) {
+        creativityLevel = 'yaratıcı';
+      } else {
+        creativityLevel = 'karmaşık';
+      }
+
+      // Hikaye oluşturma prompt'unu hazırla
+      final String prompt = '''
+      Türkçe bir hikaye oluştur. Hikaye şu özelliklerde olsun:
+
+      Hikaye Uzunluğu: $storyLength
+      Yaratıcılık Seviyesi: $creativityLevel
+
+      ${characterDetails.isNotEmpty ? 'Karakter Detayları: $characterDetails' : ''}
+      ${settingDetails.isNotEmpty ? 'Mekan ve Ortam: $settingDetails' : ''}
+      ${plotDetails.isNotEmpty ? 'Olay Örgüsü: $plotDetails' : ''}
+      ${emotionDetails.isNotEmpty ? 'Duygu ve Ton: $emotionDetails' : ''}
+
+      Hikaye anime tarzında, sürükleyici ve görsel olarak zengin olsun. Türkçe yaz.
+      ''';
+
+      // Gemini AI'ye gönder
+      final Content content = Content.text(prompt);
+      final response = await _model.generateContent([content])
+          .timeout(const Duration(seconds: 30));
+
+      final String aiResponse = response.text ?? "Üzgünüm, bir hikaye oluşturamadım.";
+
+      // Hikayeyi kaydet
+      _saveStoryToHistory(aiResponse);
+
+      setState(() {
+        _generatedStory = aiResponse;
+        _showStory = true;
+        _isLoading = false;
+      });
+
+    } catch (e) {
+      setState(() {
+        _isLoading = false;
+      });
+
+      String errorMessage = 'Hikaye oluşturulurken hata oluştu: ';
+      if (e.toString().contains('timeout')) {
+        errorMessage += 'İstek zaman aşımına uğradı. Lütfen tekrar deneyin.';
+      } else if (e.toString().contains('network')) {
+        errorMessage += 'İnternet bağlantınızı kontrol edin.';
+      } else {
+        errorMessage += e.toString();
+      }
+
+      _showErrorSnackBar(errorMessage);
+    }
+  }
+
+  void _showErrorSnackBar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: Colors.red,
+      ),
+    );
+  }
+
+  TextEditingController _getControllerForSection(String title) {
+    switch (title) {
+      case 'character details':
+        return _characterController;
+      case 'setting and environment':
+        return _settingController;
+      case 'plot structure':
+        return _plotController;
+      case 'emotions and tone':
+        return _emotionController;
+      default:
+        return TextEditingController();
+    }
+  }
+
+  void _saveStoryToHistory(String storyContent) {
+    try {
+      // Hikaye başlığını oluştur (ilk cümleden)
+      String title = 'AI Generated Story';
+      if (storyContent.length > 50) {
+        final firstSentence = storyContent.split('.').first;
+        if (firstSentence.length > 10) {
+          title = firstSentence.substring(0, firstSentence.length > 50 ? 50 : firstSentence.length) + '...';
+        }
+      }
+
+      // Hikaye ayarlarını topla
+      final Map<int, String> lengthMap = {
+        0: 'Short',
+        1: 'Mid',
+        2: 'Long'
+      };
+      final String storyLength = lengthMap[selectedLength] ?? 'Mid';
+
+      String creativityLevel;
+      if (sliderValue <= -0.3) {
+        creativityLevel = 'Standard';
+      } else if (sliderValue >= 0.3) {
+        creativityLevel = 'Creative';
+      } else {
+        creativityLevel = 'Complex';
+      }
+
+      // Yeni hikaye oluştur
+      final Story newStory = Story(
+        id: const Uuid().v4(),
+        title: title,
+        chapters: [
+          Chapter(
+            id: const Uuid().v4(),
+            title: 'Chapter 1',
+            content: storyContent,
+            chapterNumber: 1,
+          ),
+        ],
+        createdAt: DateTime.now(),
+        settings: StorySettings(
+          length: storyLength,
+          complexity: creativityLevel,
+          characterDetails: _characterController.text.trim(),
+          settingEnvironment: _settingController.text.trim(),
+          plotStructure: _plotController.text.trim(),
+          emotionsTone: _emotionController.text.trim(),
+        ),
+      );
+
+      // Hikayeyi kaydet
+      _storyHistoryViewModel.addStory(newStory);
+
+      // Başarı mesajı göster
+      _showSuccessSnackBar('Hikaye başarıyla kaydedildi!');
+
+    } catch (e) {
+      _showErrorSnackBar('Hikaye kaydedilirken hata oluştu: $e');
+    }
+  }
+
+  void _showSuccessSnackBar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: const Color(0xFF24FF00),
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    _characterController.dispose();
+    _settingController.dispose();
+    _plotController.dispose();
+    _emotionController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -166,25 +405,111 @@ class _StoryGenerationViewState extends State<StoryGenerationView> {
                 width: double.infinity,
                 height: 60,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: _isLoading ? null : _generateStory,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF24FF00),
+                    backgroundColor: _isLoading
+                        ? Colors.grey.shade700
+                        : const Color(0xFF24FF00),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
                     ),
                   ),
-                  child: const Text(
-                    'Generate',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
+                  child: _isLoading
+                      ? const SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            valueColor:
+                                AlwaysStoppedAnimation<Color>(Colors.black),
+                          ),
+                        )
+                      : const Text(
+                          'Generate',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
                 ),
               ),
 
               const SizedBox(height: 40),
+
+              // Generated Story Section
+              if (_showStory) ...[
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF1A1A1A),
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(
+                      color: const Color(0xFF24FF00),
+                      width: 1,
+                    ),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.auto_stories,
+                            color: Color(0xFF24FF00),
+                            size: 24,
+                          ),
+                          const SizedBox(width: 12),
+                          const Text(
+                            'Generated Story',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          const Spacer(),
+                          IconButton(
+                            onPressed: () {
+                              setState(() {
+                                _showStory = false;
+                                _generatedStory = '';
+                              });
+                            },
+                            icon: const Icon(
+                              Icons.close,
+                              color: Colors.grey,
+                              size: 20,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 16),
+                      Container(
+                        width: double.infinity,
+                        constraints: const BoxConstraints(minHeight: 200),
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: Colors.grey.shade900,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: SingleChildScrollView(
+                          child: Text(
+                            _generatedStory,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              height: 1.6,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 40),
+              ],
             ],
           ),
         ),
@@ -280,6 +605,7 @@ class _StoryGenerationViewState extends State<StoryGenerationView> {
                 borderRadius: BorderRadius.circular(8),
               ),
               child: TextField(
+                controller: _getControllerForSection(title),
                 decoration: InputDecoration(
                   hintText: 'Enter $title details...',
                   hintStyle: TextStyle(color: Colors.grey.shade500),

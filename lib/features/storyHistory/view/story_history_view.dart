@@ -133,7 +133,10 @@ class _StoryHistoryViewState extends State<StoryHistoryView> {
           ),
           const SizedBox(height: 32),
           ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              // Story Generation sayfasına git
+              Navigator.of(context).pushReplacementNamed('StoryGenerationRoute');
+            },
             style: ElevatedButton.styleFrom(
               backgroundColor: const Color(0xFF24FF00),
               shape: RoundedRectangleBorder(

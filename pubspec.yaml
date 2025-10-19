@@ -12,6 +12,18 @@ dependencies:
 
   cupertino_icons: ^1.0.8
 
+  # State Management
+  flutter_bloc: ^9.1.1
+
+  # Firebase dependencies
+  firebase_core: ^3.6.0
+  firebase_auth: ^5.3.1
+  cloud_firestore: ^5.4.3
+  firebase_ai: ^2.3.0
+  
+  # Environment variables
+  flutter_dotenv: ^5.1.0
+
   #Utility
   easy_logger: ^0.0.2
   logger: ^2.6.2
@@ -29,6 +41,9 @@ dependencies:
   #Animation
   rive: ^0.13.20
   flutter_svg: ^2.2.1
+
+  #Utility
+  uuid: ^4.4.0
 
 
 
