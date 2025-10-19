@@ -4,8 +4,8 @@
 .dart_tool/
 .packages
 build/
-# If you're building an application, you may want to check-in your pubspec.lock
-pubspec.lock
+# Remove the pubspec.lock exclusion since it's needed for reproducible builds
+# pubspec.lock
 
 # Directory created by dartdoc
 # If you don't generate documentation locally you can remove this line.
@@ -25,3 +25,60 @@ doc/api/
 
 .flutter-plugins
 .flutter-plugins-dependencies
+
+# Firebase and sensitive configuration files
+android/app/google-services.json
+ios/Runner/GoogleService-Info.plist
+firebase.json
+lib/firebase_options.dart
+
+# IDE and Editor files
+.vscode/
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Platform-specific build directories and files
+android/build/
+android/.gradle/
+ios/build/
+ios/Pods/
+ios/Podfile.lock
+macos/build/
+macos/Pods/
+macos/Flutter/GeneratedPluginRegistrant.swift
+windows/build/
+linux/build/
+
+# Platform-specific configuration that may contain sensitive data
+android/gradle.properties
+android/local.properties
+ios/Flutter/Generated.xcconfig
+ios/Flutter/AppFrameworkInfo.plist
+ios/Flutter/Debug.xcconfig
+ios/Flutter/Release.xcconfig
+macos/Flutter/GeneratedPluginRegistrant.swift
+windows/flutter/generated_plugin_registrant.cc
+windows/flutter/generated_plugins.cmake
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+android/app/src/debug/
+ios/Flutter/ephemeral/
