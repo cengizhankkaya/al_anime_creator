@@ -3,6 +3,7 @@
 import 'package:al_anime_creator/features/storyHistory/view_model/story_history_viewmodel.dart';
 import 'package:al_anime_creator/features/storygeneration/model/story.dart';
 import 'package:al_anime_creator/features/storygeneration/service/ai_service.dart';
+import 'package:al_anime_creator/product/service/firestore_service.dart';
 import 'package:uuid/uuid.dart';
 
 abstract class StoryGenerationRepository {
@@ -12,18 +13,29 @@ abstract class StoryGenerationRepository {
 class StoryGenerationRepositoryImpl implements StoryGenerationRepository {
   final AIService _aiService;
   final StoryHistoryViewModel _historyViewModel;
+  final FirestoreService _firestoreService;
 
-  StoryGenerationRepositoryImpl(this._aiService, this._historyViewModel);
+  StoryGenerationRepositoryImpl(
+    this._aiService, 
+    this._historyViewModel,
+    this._firestoreService,
+  );
 
   @override
   Future<Story> generateAndSaveStory(StoryGenerationParams params) async {
     // AI'den hikaye üret
     final storyContent = await _aiService.generateStory(params);
     
-    // Hikayeyi kaydet
-    _historyViewModel.addStory(_createStoryFromContent(storyContent, params));
+    // Hikaye objesini oluştur
+    final newStory = _createStoryFromContent(storyContent, params);
     
-    return _createStoryFromContent(storyContent, params);
+    // Firebase'e kaydet
+    await _firestoreService.saveStory(newStory);
+    
+    // Local ViewModel'e de ekle
+    _historyViewModel.addStory(newStory);
+    
+    return newStory;
   }
 
   Story _createStoryFromContent(String content, StoryGenerationParams params) {

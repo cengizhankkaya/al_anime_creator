@@ -23,8 +23,7 @@ final class ApplicationInitialize {
   Future<void> _initialize() async {
     WidgetsFlutterBinding.ensureInitialized();
     AppEnvironment.general();
-    await Firebase.initializeApp();
-    await setupServiceLocator(); // Dependency injection setup
+    await setupServiceLocator(); // Firebase initialization burada yapılıyor
     await EasyLocalization.ensureInitialized();
     EasyLocalization.logger.enableLevels = [LevelMessages.error];
     await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);

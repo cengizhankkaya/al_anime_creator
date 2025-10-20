@@ -5,11 +5,13 @@ import 'package:al_anime_creator/firebase_options.dart';
 import 'package:al_anime_creator/features/storygeneration/service/ai_service.dart';
 import 'package:al_anime_creator/features/storygeneration/repository/story_generation_repository.dart';
 import 'package:al_anime_creator/features/storyHistory/view_model/story_history_viewmodel.dart';
+import 'package:al_anime_creator/product/service/firestore_service.dart';
+import 'package:al_anime_creator/features/storyHistory/cubit/story_firestore_cubit.dart';
 
 final GetIt getIt = GetIt.instance;
 
 Future<void> setupServiceLocator() async {
-  // Firebase AI Service
+  // Firebase Core initialization
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -18,8 +20,19 @@ Future<void> setupServiceLocator() async {
     model: 'gemini-2.0-flash-001',
   );
 
+  // Firestore Service
+  getIt.registerSingleton<FirestoreService>(
+    FirestoreService(),
+  );
+
+  // AI Service
   getIt.registerSingleton<AIService>(
     AIServiceImpl(aiModel),
+  );
+
+  // Story Firestore Cubit
+  getIt.registerSingleton<StoryFirestoreCubit>(
+    StoryFirestoreCubit(getIt<FirestoreService>()),
   );
 
   // Story History ViewModel
@@ -32,6 +45,12 @@ Future<void> setupServiceLocator() async {
     StoryGenerationRepositoryImpl(
       getIt<AIService>(),
       getIt<StoryHistoryViewModel>(),
+      getIt<FirestoreService>(),
     ),
   );
+
+  // Debug: Servislerin kayıtlı olduğunu kontrol et
+  print('✅ FirestoreService kayıtlı: ${getIt.isRegistered<FirestoreService>()}');
+  print('✅ StoryFirestoreCubit kayıtlı: ${getIt.isRegistered<StoryFirestoreCubit>()}');
+  print('✅ StoryGenerationRepository kayıtlı: ${getIt.isRegistered<StoryGenerationRepository>()}');
 }

@@ -28,6 +28,26 @@ class Chapter {
       chapterNumber: chapterNumber ?? this.chapterNumber,
     );
   }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'title': title,
+      'content': content,
+      'imageUrl': imageUrl,
+      'chapterNumber': chapterNumber,
+    };
+  }
+
+  factory Chapter.fromMap(Map<String, dynamic> map) {
+    return Chapter(
+      id: map['id'],
+      title: map['title'],
+      content: map['content'],
+      imageUrl: map['imageUrl'],
+      chapterNumber: map['chapterNumber'],
+    );
+  }
 }
 
 class Story {
@@ -70,6 +90,30 @@ class Story {
       settings: settings ?? this.settings,
     );
   }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'title': title,
+      'chapters': chapters.map((chapter) => chapter.toMap()).toList(),
+      'createdAt': createdAt.toIso8601String(),
+      'coverImageUrl': coverImageUrl,
+      'settings': settings.toMap(),
+    };
+  }
+
+  factory Story.fromMap(Map<String, dynamic> map) {
+    return Story(
+      id: map['id'],
+      title: map['title'],
+      chapters: (map['chapters'] as List)
+          .map((chapterMap) => Chapter.fromMap(chapterMap))
+          .toList(),
+      createdAt: DateTime.parse(map['createdAt']),
+      coverImageUrl: map['coverImageUrl'],
+      settings: StorySettings.fromMap(map['settings']),
+    );
+  }
 }
 
 class StorySettings {
@@ -104,6 +148,28 @@ class StorySettings {
       settingEnvironment: settingEnvironment ?? this.settingEnvironment,
       plotStructure: plotStructure ?? this.plotStructure,
       emotionsTone: emotionsTone ?? this.emotionsTone,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'length': length,
+      'complexity': complexity,
+      'characterDetails': characterDetails,
+      'settingEnvironment': settingEnvironment,
+      'plotStructure': plotStructure,
+      'emotionsTone': emotionsTone,
+    };
+  }
+
+  factory StorySettings.fromMap(Map<String, dynamic> map) {
+    return StorySettings(
+      length: map['length'],
+      complexity: map['complexity'],
+      characterDetails: map['characterDetails'],
+      settingEnvironment: map['settingEnvironment'],
+      plotStructure: map['plotStructure'],
+      emotionsTone: map['emotionsTone'],
     );
   }
 }
