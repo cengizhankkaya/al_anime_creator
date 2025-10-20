@@ -11,6 +11,22 @@
 part of 'app_router.dart';
 
 /// generated route for
+/// [EntryPoint]
+class EntryPointRoute extends PageRouteInfo<void> {
+  const EntryPointRoute({List<PageRouteInfo>? children})
+    : super(EntryPointRoute.name, initialChildren: children);
+
+  static const String name = 'EntryPointRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const EntryPoint();
+    },
+  );
+}
+
+/// generated route for
 /// [HomePage]
 class HomeView extends PageRouteInfo<void> {
   const HomeView({List<PageRouteInfo>? children})

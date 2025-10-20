@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:al_anime_creator/product/model/story.dart';
+import 'package:al_anime_creator/features/storygeneration/model/story.dart';
 
 class StoryHistoryViewModel extends ChangeNotifier {
   List<Story> _stories = [];

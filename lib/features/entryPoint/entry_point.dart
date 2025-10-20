@@ -9,6 +9,7 @@ import 'package:al_anime_creator/features/screens/view/timer_view.dart';
 import 'package:al_anime_creator/features/storyHistory/view/story_history_view.dart';
 import 'package:al_anime_creator/features/storygeneration/view/story_generation_view.dart';
 import 'package:al_anime_creator/product/utility/constans/rive_utils.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
 
@@ -16,6 +17,9 @@ import 'widgets/btm_nav_item.dart';
 import 'widgets/menu_btn.dart';
 import 'widgets/side_bar.dart';
 
+@RoutePage(
+  name: 'EntryPointRoute',
+)
 class EntryPoint extends StatefulWidget {
   const EntryPoint({super.key});
 

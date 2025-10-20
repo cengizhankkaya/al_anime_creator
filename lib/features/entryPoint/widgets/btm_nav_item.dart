@@ -1,7 +1,4 @@
 import 'package:al_anime_creator/features/entryPoint/menu.dart';
-import 'package:al_anime_creator/product/init/navigation/app_router.dart';
-import 'package:al_anime_creator/product/init/theme/theme.dart';
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
 

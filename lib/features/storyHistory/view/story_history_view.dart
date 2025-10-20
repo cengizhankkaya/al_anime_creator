@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:al_anime_creator/product/model/story.dart';
+import 'package:al_anime_creator/features/storygeneration/model/story.dart';
 import 'package:al_anime_creator/features/storyHistory/view_model/story_history_viewmodel.dart';
 import 'package:auto_route/annotations.dart';
 

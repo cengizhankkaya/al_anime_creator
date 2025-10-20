@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:al_anime_creator/features/auth/cubit/auth_cubit.dart';
+import 'package:al_anime_creator/features/auth/repository/auth_repository.dart';
 
 import 'sign_in_form.dart';
 
@@ -10,9 +13,11 @@ void showCustomDialog(BuildContext context, {required ValueChanged onValue}) {
     barrierDismissible: true,
     barrierColor: Colors.black.withOpacity(0.5),
     transitionDuration: const Duration(milliseconds: 400),
-    pageBuilder: (_, __, ___) {
-      return Center(
-        child: Container(
+    pageBuilder: (context, animation, secondaryAnimation) {
+      return BlocProvider<AuthCubit>(
+        create: (_) => AuthCubit(AuthRepository()),
+        child: Center(
+          child: Container(
           height: 670,
           margin: const EdgeInsets.symmetric(horizontal: 16),
           padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 24),
@@ -32,16 +37,16 @@ void showCustomDialog(BuildContext context, {required ValueChanged onValue}) {
               ),
             ],
           ),
-          child: Scaffold(
-            // backgroundColor: Colors.transparent,
-            body: Stack(
-              clipBehavior: Clip.none,
-              children: [
+          child: Material(
+            child: Container(
+              child: Stack(
+                clipBehavior: Clip.none,
+                children: [
                 SingleChildScrollView(
                   child: Column(
                     children: [
                       const Text(
-                        "Sign in",
+                        "Giriş Yap / Kayıt Ol",
                         style: TextStyle(
                           fontSize: 34,
                           fontFamily: "Poppins",
@@ -55,7 +60,7 @@ void showCustomDialog(BuildContext context, {required ValueChanged onValue}) {
                           textAlign: TextAlign.center,
                         ),
                       ),
-                      const SignInForm(),
+                      SignInForm(),
                       const Row(
                         children: [
                           Expanded(
@@ -116,24 +121,29 @@ void showCustomDialog(BuildContext context, {required ValueChanged onValue}) {
                     ],
                   ),
                 ),
-                const Positioned(
+                Positioned(
                   left: 0,
                   right: 0,
                   bottom: -48,
-                  child: CircleAvatar(
-                    radius: 16,
-                    backgroundColor: Colors.white,
-                    child: Icon(
-                      Icons.close,
-                      size: 20,
-                      color: Colors.black,
+                  child: GestureDetector(
+                    onTap: () => Navigator.of(context, rootNavigator: true).pop(),
+                    child: const CircleAvatar(
+                      radius: 16,
+                      backgroundColor: Colors.white,
+                      child: Icon(
+                        Icons.close,
+                        size: 20,
+                        color: Colors.black,
+                      ),
                     ),
                   ),
                 )
               ],
             ),
           ),
+          ),
         ),
+      ),
       );
     },
     transitionBuilder: (_, anim, __, child) {

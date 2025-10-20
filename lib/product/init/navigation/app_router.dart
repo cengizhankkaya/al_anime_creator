@@ -1,3 +1,4 @@
+import 'package:al_anime_creator/features/entryPoint/entry_point.dart';
 import 'package:al_anime_creator/features/home/home_screen.dart';
 import 'package:al_anime_creator/features/onboarding/view/onboarding_view.dart';
 import 'package:al_anime_creator/features/storygeneration/view/story_generation_view.dart';
@@ -16,6 +17,7 @@ class AppRouter extends RootStackRouter {
   @override
   List<AutoRoute> get routes => [
         AutoRoute(page: OnboardingRoute.page, initial: true),
+        AutoRoute(page: EntryPointRoute.page),
         AutoRoute(page: HomeView.page),
         AutoRoute(page: StoryGenerationRoute.page),
         AutoRoute(page: StoryHistoryRoute.page),

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:rive/rive.dart' hide Image;
 
 import 'widgets/animated_btn.dart';
-import 'widgets/sign_in_dialog.dart';
+import 'package:al_anime_creator/features/auth/view/sign_in_dialog.dart';
 
 @RoutePage(
   name: 'OnboardingRoute',
