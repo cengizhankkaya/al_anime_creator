@@ -57,6 +57,7 @@ class Story {
   final DateTime createdAt;
   final String? coverImageUrl;
   final StorySettings settings;
+  final bool isFavorite;
 
   const Story({
     required this.id,
@@ -65,6 +66,7 @@ class Story {
     required this.createdAt,
     this.coverImageUrl,
     required this.settings,
+    this.isFavorite = false,
   });
 
   // Getter for total content (combining all chapters)
@@ -80,6 +82,7 @@ class Story {
     DateTime? createdAt,
     String? coverImageUrl,
     StorySettings? settings,
+    bool? isFavorite,
   }) {
     return Story(
       id: id ?? this.id,
@@ -88,6 +91,7 @@ class Story {
       createdAt: createdAt ?? this.createdAt,
       coverImageUrl: coverImageUrl ?? this.coverImageUrl,
       settings: settings ?? this.settings,
+      isFavorite: isFavorite ?? this.isFavorite,
     );
   }
 
@@ -99,6 +103,7 @@ class Story {
       'createdAt': createdAt.toIso8601String(),
       'coverImageUrl': coverImageUrl,
       'settings': settings.toMap(),
+      'isFavorite': isFavorite,
     };
   }
 
@@ -112,6 +117,7 @@ class Story {
       createdAt: DateTime.parse(map['createdAt']),
       coverImageUrl: map['coverImageUrl'],
       settings: StorySettings.fromMap(map['settings']),
+      isFavorite: map['isFavorite'] ?? false,
     );
   }
 }

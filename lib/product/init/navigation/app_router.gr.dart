@@ -27,17 +27,33 @@ class EntryPointRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [HomePage]
-class HomeView extends PageRouteInfo<void> {
-  const HomeView({List<PageRouteInfo>? children})
-    : super(HomeView.name, initialChildren: children);
+/// [FavoritesView]
+class FavoritesRoute extends PageRouteInfo<void> {
+  const FavoritesRoute({List<PageRouteInfo>? children})
+    : super(FavoritesRoute.name, initialChildren: children);
 
-  static const String name = 'HomeView';
+  static const String name = 'FavoritesRoute';
 
   static PageInfo page = PageInfo(
     name,
     builder: (data) {
-      return const HomePage();
+      return const FavoritesView();
+    },
+  );
+}
+
+/// generated route for
+/// [ProfileView]
+class ProfileRoute extends PageRouteInfo<void> {
+  const ProfileRoute({List<PageRouteInfo>? children})
+    : super(ProfileRoute.name, initialChildren: children);
+
+  static const String name = 'ProfileRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const ProfileView();
     },
   );
 }
@@ -59,19 +75,49 @@ class StoryGenerationRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [StoryHistoryView]
-class StoryHistoryRoute extends PageRouteInfo<void> {
-  const StoryHistoryRoute({List<PageRouteInfo>? children})
-    : super(StoryHistoryRoute.name, initialChildren: children);
+/// [StoryHistoryViewWrapper]
+class StoryHistoryRoute extends PageRouteInfo<StoryHistoryRouteArgs> {
+  StoryHistoryRoute({Key? key, String? storyId, List<PageRouteInfo>? children})
+    : super(
+        StoryHistoryRoute.name,
+        args: StoryHistoryRouteArgs(key: key, storyId: storyId),
+        initialChildren: children,
+      );
 
   static const String name = 'StoryHistoryRoute';
 
   static PageInfo page = PageInfo(
     name,
     builder: (data) {
-      return const StoryHistoryView();
+      final args = data.argsAs<StoryHistoryRouteArgs>(
+        orElse: () => const StoryHistoryRouteArgs(),
+      );
+      return StoryHistoryViewWrapper(key: args.key, storyId: args.storyId);
     },
   );
+}
+
+class StoryHistoryRouteArgs {
+  const StoryHistoryRouteArgs({this.key, this.storyId});
+
+  final Key? key;
+
+  final String? storyId;
+
+  @override
+  String toString() {
+    return 'StoryHistoryRouteArgs{key: $key, storyId: $storyId}';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! StoryHistoryRouteArgs) return false;
+    return key == other.key && storyId == other.storyId;
+  }
+
+  @override
+  int get hashCode => key.hashCode ^ storyId.hashCode;
 }
 
 /// generated route for

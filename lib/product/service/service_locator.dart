@@ -7,6 +7,7 @@ import 'package:al_anime_creator/features/storygeneration/repository/story_gener
 import 'package:al_anime_creator/features/storyHistory/view_model/story_history_viewmodel.dart';
 import 'package:al_anime_creator/product/service/firestore_service.dart';
 import 'package:al_anime_creator/features/storyHistory/cubit/story_firestore_cubit.dart';
+import 'package:al_anime_creator/features/profile/repository/profile_repository.dart';
 
 final GetIt getIt = GetIt.instance;
 
@@ -37,7 +38,7 @@ Future<void> setupServiceLocator() async {
 
   // Story History ViewModel
   getIt.registerSingleton<StoryHistoryViewModel>(
-    StoryHistoryViewModel(),
+    StoryHistoryViewModel(getIt<FirestoreService>()),
   );
 
   // Story Generation Repository
@@ -49,8 +50,14 @@ Future<void> setupServiceLocator() async {
     ),
   );
 
+  // Profile Repository
+  getIt.registerSingleton<ProfileRepository>(
+    ProfileRepositoryImpl(),
+  );
+
   // Debug: Servislerin kayıtlı olduğunu kontrol et
   print('✅ FirestoreService kayıtlı: ${getIt.isRegistered<FirestoreService>()}');
   print('✅ StoryFirestoreCubit kayıtlı: ${getIt.isRegistered<StoryFirestoreCubit>()}');
   print('✅ StoryGenerationRepository kayıtlı: ${getIt.isRegistered<StoryGenerationRepository>()}');
+  print('✅ ProfileRepository kayıtlı: ${getIt.isRegistered<ProfileRepository>()}');
 }

@@ -1,19 +1,17 @@
 import 'dart:math';
 
 import 'package:al_anime_creator/features/entryPoint/menu.dart';
-import 'package:al_anime_creator/features/home/home_screen.dart';
 import 'package:al_anime_creator/features/screens/view/notification_view.dart';
-import 'package:al_anime_creator/features/screens/view/profile_view.dart';
+import 'package:al_anime_creator/features/profile/profile_view.dart';
 import 'package:al_anime_creator/features/screens/view/search_view.dart';
 import 'package:al_anime_creator/features/screens/view/timer_view.dart';
 import 'package:al_anime_creator/features/storyHistory/view/story_history_view.dart';
+import 'package:al_anime_creator/features/storyHistory/view/favorites_view.dart';
 import 'package:al_anime_creator/features/storygeneration/view/story_generation_view.dart';
-import 'package:al_anime_creator/product/utility/constans/rive_utils.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
 
-import 'widgets/btm_nav_item.dart';
 import 'widgets/menu_btn.dart';
 import 'widgets/side_bar.dart';
 
@@ -31,42 +29,37 @@ class _EntryPointState extends State<EntryPoint>
     with SingleTickerProviderStateMixin {
   bool isSideBarOpen = false;
 
-  Menu selectedBottonNav = bottomNavItems.first;
-  Menu selectedSideMenu = sidebarMenus.first;
+  Menu selectedSideMenu = sidebarMenus[0]; // StoryGeneration seçili başlasın
 
   late SMIBool isMenuOpenInput;
 
-  void updateSelectedBtmNav(Menu menu) {
-    if (selectedBottonNav != menu) {
-      setState(() {
-        selectedBottonNav = menu;
-      });
-    }
-  }
 
   Widget _getCurrentScreen() {
     Widget currentScreen;
-    switch (selectedBottonNav.title) {
+    switch (selectedSideMenu.title) {
       case "Story Generation":
         currentScreen = const StoryGenerationView();
         break;
       case "Search":
         currentScreen = const SearchView();
         break;
-      case "Timer":
-        currentScreen = const TimerView();
+      case "Favorites":
+        currentScreen = const FavoritesView();
         break;
-      case "Chat":
-        currentScreen = const StoryHistoryView();
+      case "Help":
+        currentScreen = const ProfileView(); // Profile'ı Help olarak kullan
         break;
-      case "Notification":
-        currentScreen = const NotificationView();
+      case "History":
+        currentScreen = const StoryHistoryViewWrapper();
         break;
       case "Profile":
         currentScreen = const ProfileView();
         break;
+      case "Notifications":
+        currentScreen = const NotificationView();
+        break;
       default:
-        currentScreen = const HomePage();
+        currentScreen = const TimerView();
     }
 
     return AnimatedSwitcher(
@@ -86,7 +79,7 @@ class _EntryPointState extends State<EntryPoint>
         );
       },
       child: Container(
-        key: ValueKey<String>(selectedBottonNav.title),
+        key: ValueKey<String>(selectedSideMenu.title),
         child: currentScreen,
       ),
     );
@@ -123,7 +116,7 @@ class _EntryPointState extends State<EntryPoint>
     final colorScheme = Theme.of(context).colorScheme;
 
     return Scaffold(
-      extendBody: true,
+      extendBody: false,
       resizeToAvoidBottomInset: false,
       backgroundColor: colorScheme.surfaceContainer,
       body: Stack(
@@ -135,7 +128,13 @@ class _EntryPointState extends State<EntryPoint>
             curve: Curves.fastOutSlowIn,
             left: isSideBarOpen ? 0 : -288,
             top: 0,
-            child: const SideBar(),
+            child: SideBar(
+              onMenuSelected: (menu) {
+                setState(() {
+                  selectedSideMenu = menu;
+                });
+              },
+            ),
           ),
           Transform(
             alignment: Alignment.center,
@@ -190,50 +189,6 @@ class _EntryPointState extends State<EntryPoint>
             ),
           ),
         ],
-      ),
-      bottomNavigationBar: Transform.translate(
-        offset: Offset(0, 100 * animation.value),
-        child: SafeArea(
-          child: Container(
-            padding:
-                const EdgeInsets.only(left: 12, top: 12, right: 12, bottom: 12),
-            margin: const EdgeInsets.symmetric(horizontal: 24),
-            decoration: BoxDecoration(
-              color: colorScheme.surfaceContainer.withOpacity(0.8),
-              borderRadius: const BorderRadius.all(Radius.circular(24)),
-              boxShadow: [
-                BoxShadow(
-                  color: colorScheme.surfaceContainer.withOpacity(0.3),
-                  offset: const Offset(0, 20),
-                  blurRadius: 20,
-                ),
-              ],
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                ...List.generate(
-                  bottomNavItems.length,
-                  (index) {
-                    Menu navBar = bottomNavItems[index];
-                    return BtmNavItem(
-                      navBar: navBar,
-                      press: () {
-                        RiveUtils.chnageSMIBoolState(navBar.rive.status!);
-                        updateSelectedBtmNav(navBar);
-                      },
-                      riveOnInit: (artboard) {
-                        navBar.rive.status = RiveUtils.getRiveInput(artboard,
-                            stateMachineName: navBar.rive.stateMachineName);
-                      },
-                      selectedNav: selectedBottonNav,
-                    );
-                  },
-                ),
-              ],
-            ),
-          ),
-        ),
       ),
     );
   }

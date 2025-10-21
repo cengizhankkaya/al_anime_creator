@@ -7,14 +7,16 @@ import 'info_card.dart';
 import 'side_menu.dart';
 
 class SideBar extends StatefulWidget {
-  const SideBar({super.key});
+  final Function(Menu)? onMenuSelected;
+
+  const SideBar({super.key, this.onMenuSelected});
 
   @override
   State<SideBar> createState() => _SideBarState();
 }
 
 class _SideBarState extends State<SideBar> {
-  Menu selectedSideMenu = sidebarMenus.first;
+  Menu selectedSideMenu = sidebarMenus[0]; // StoryGeneration seçili başlasın
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -54,6 +56,7 @@ class _SideBarState extends State<SideBar> {
                       setState(() {
                         selectedSideMenu = menu;
                       });
+                      widget.onMenuSelected?.call(menu);
                     },
                     riveOnInit: (artboard) {
                       menu.rive.status = RiveUtils.getRiveInput(artboard,
@@ -78,6 +81,7 @@ class _SideBarState extends State<SideBar> {
                       setState(() {
                         selectedSideMenu = menu;
                       });
+                      widget.onMenuSelected?.call(menu);
                     },
                     riveOnInit: (artboard) {
                       menu.rive.status = RiveUtils.getRiveInput(artboard,
