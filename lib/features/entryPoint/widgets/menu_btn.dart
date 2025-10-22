@@ -1,3 +1,4 @@
+import 'package:al_anime_creator/features/profile/utils/profile_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
 
@@ -21,7 +22,7 @@ class MenuBtn extends StatelessWidget {
             shape: BoxShape.circle,
             boxShadow: [
               BoxShadow(
-                color: Colors.black12,
+                color: Color.fromARGB(255, 111, 110, 110),
                 offset: Offset(0, 3),
                 blurRadius: 8,
               ),

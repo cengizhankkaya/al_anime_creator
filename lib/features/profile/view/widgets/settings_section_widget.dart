@@ -20,12 +20,12 @@ class SettingsSectionWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildSectionTitle(ProfileConstants.generalSectionTitle),
+        _buildSectionTitle(context, ProfileConstants.generalSectionTitle),
         _buildLanguageSetting(context),
         const SizedBox(height: ProfileConstants.smallPadding),
         _buildThemeSetting(context),
         const SizedBox(height: ProfileConstants.defaultPadding),
-        _buildSectionTitle(ProfileConstants.contentSectionTitle),
+        _buildSectionTitle(context, ProfileConstants.contentSectionTitle),
         _buildAboutSetting(context),
         const SizedBox(height: ProfileConstants.smallPadding),
         _buildPrivacySetting(context),
@@ -35,7 +35,7 @@ class SettingsSectionWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildSectionTitle(String title) {
+  Widget _buildSectionTitle(BuildContext context, String title) {
     return Padding(
       padding: const EdgeInsets.only(
         left: ProfileConstants.defaultPadding,
@@ -43,8 +43,8 @@ class SettingsSectionWidget extends StatelessWidget {
       ),
       child: Text(
         title,
-        style: const TextStyle(
-          color: Colors.white,
+        style: TextStyle(
+          color: Theme.of(context).colorScheme.onBackground,
           fontSize: ProfileConstants.sectionTitleFontSize,
           fontWeight: FontWeight.w600,
         ),
@@ -53,7 +53,7 @@ class SettingsSectionWidget extends StatelessWidget {
   }
 
   Widget _buildLanguageSetting(BuildContext context) {
-    return _buildSettingTile(
+    return _buildSettingTile(context,
       icon: Icons.translate,
       title: ProfileConstants.languageTitle,
       subtitle: user.settings.language,
@@ -62,7 +62,7 @@ class SettingsSectionWidget extends StatelessWidget {
   }
 
   Widget _buildThemeSetting(BuildContext context) {
-    return _buildSettingTile(
+    return _buildSettingTile(context,
       icon: Icons.dark_mode,
       title: ProfileConstants.themeTitle,
       subtitle: user.settings.theme,
@@ -71,7 +71,7 @@ class SettingsSectionWidget extends StatelessWidget {
   }
 
   Widget _buildAboutSetting(BuildContext context) {
-    return _buildSettingTile(
+    return _buildSettingTile(context,
       icon: Icons.info_outline,
       title: ProfileConstants.aboutTitle,
       onTap: () {
@@ -79,9 +79,8 @@ class SettingsSectionWidget extends StatelessWidget {
       },
     );
   }
-
   Widget _buildPrivacySetting(BuildContext context) {
-    return _buildSettingTile(
+    return _buildSettingTile(context,
       icon: Icons.privacy_tip,
       title: ProfileConstants.privacyTitle,
       onTap: () {
@@ -89,9 +88,8 @@ class SettingsSectionWidget extends StatelessWidget {
       },
     );
   }
-
   Widget _buildTermsSetting(BuildContext context) {
-    return _buildSettingTile(
+    return _buildSettingTile(context,
       icon: Icons.description,
       title: ProfileConstants.termsTitle,
       onTap: () {
@@ -100,7 +98,7 @@ class SettingsSectionWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildSettingTile({
+  Widget _buildSettingTile(BuildContext context, {
     required IconData icon,
     required String title,
     String? subtitle,
@@ -109,27 +107,27 @@ class SettingsSectionWidget extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: ProfileConstants.defaultPadding),
       decoration: BoxDecoration(
-        color: const Color(ProfileConstants.secondaryBackgroundColor),
+        color: Theme.of(context).colorScheme.secondaryContainer,
         borderRadius: BorderRadius.circular(ProfileConstants.borderRadius),
       ),
       child: ListTile(
         leading: Icon(
           icon,
-          color: Colors.white,
+          color: Theme.of(context).colorScheme.primary,
         ),
         title: Text(
           title,
-          style: const TextStyle(color: Colors.white),
+          style: TextStyle(color: Theme.of(context).colorScheme.onSecondaryContainer),
         ),
         subtitle: subtitle != null
             ? Text(
                 subtitle,
-                style: const TextStyle(color: Colors.grey),
+                style: TextStyle(color: Theme.of(context).colorScheme.outline),
               )
             : null,
-        trailing: const Icon(
+        trailing: Icon(
           Icons.arrow_forward_ios,
-          color: Colors.grey,
+          color: Theme.of(context).colorScheme.outline,
           size: ProfileConstants.smallIconSize,
         ),
         onTap: onTap,

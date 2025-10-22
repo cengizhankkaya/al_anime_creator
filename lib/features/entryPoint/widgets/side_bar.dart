@@ -23,14 +23,14 @@ class _SideBarState extends State<SideBar> {
       child: Container(
         width: 288,
         height: double.infinity,
-        decoration: const BoxDecoration(
-          color: Color(0xFF17203A),
-          borderRadius: BorderRadius.all(
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.surface,
+          borderRadius: const BorderRadius.all(
             Radius.circular(30),
           ),
         ),
         child: DefaultTextStyle(
-          style: const TextStyle(color: Colors.white),
+          style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -45,7 +45,7 @@ class _SideBarState extends State<SideBar> {
                   style: Theme.of(context)
                       .textTheme
                       .titleMedium!
-                      .copyWith(color: Colors.white70),
+                      .copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant),
                 ),
               ),
               ...sidebarMenus.map((menu) => SideMenu(
@@ -70,7 +70,7 @@ class _SideBarState extends State<SideBar> {
                   style: Theme.of(context)
                       .textTheme
                       .titleMedium!
-                      .copyWith(color: Colors.white70),
+                      .copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant),
                 ),
               ),
               ...sidebarMenus2.map((menu) => SideMenu(

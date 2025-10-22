@@ -11,14 +11,15 @@ class ThemeDialogWidget extends StatelessWidget {
     required this.currentTheme,
     required this.onThemeSelected,
   });
-
+ 
+  
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      backgroundColor: const Color(ProfileConstants.secondaryBackgroundColor),
-      title: const Text(
+      backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
+      title: Text(
         ProfileConstants.selectThemeTitle,
-        style: TextStyle(color: Colors.white),
+        style: TextStyle(color: Theme.of(context).colorScheme.onSecondaryContainer),
       ),
       content: Column(
         mainAxisSize: MainAxisSize.min,
@@ -26,12 +27,12 @@ class ThemeDialogWidget extends StatelessWidget {
           return ListTile(
             title: Text(
               theme,
-              style: const TextStyle(color: Colors.white),
+              style: TextStyle(color: Theme.of(context).colorScheme.onSecondaryContainer),
             ),
             trailing: theme == currentTheme
-                ? const Icon(
+                ? Icon(
                     Icons.check,
-                    color: Color(ProfileConstants.primaryAccentColor),
+                    color: Theme.of(context).colorScheme.primary,
                   )
                 : null,
             onTap: () {

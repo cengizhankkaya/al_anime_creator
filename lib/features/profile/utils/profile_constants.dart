@@ -56,7 +56,7 @@ class ProfileConstants {
   static const String unknownErrorMessage = 'Bilinmeyen bir hata oluştu';
   
   // UI metinleri
-  static const String profileTitle = 'Ayarlar';
+  static const String profileTitle = 'Profile';
   static const String generalSectionTitle = 'Genel';
   static const String contentSectionTitle = 'İçerik';
   static const String languageTitle = 'Diller';

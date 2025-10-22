@@ -23,7 +23,7 @@ class SideMenu extends StatelessWidget {
       children: [
         const Padding(
           padding: EdgeInsets.only(left: 24),
-          child: Divider(color: Colors.white24, height: 1),
+          child: Divider(height: 1, color: Colors.transparent), // Tema üzerinden almak için değiştirildi
         ),
         Stack(
           children: [
@@ -34,9 +34,9 @@ class SideMenu extends StatelessWidget {
               height: 56,
               left: 0,
               child: Container(
-                decoration: const BoxDecoration(
-                  color: Color(0xFF6792FF),
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.primary.withOpacity(0.12),
+                  borderRadius: const BorderRadius.all(Radius.circular(10)),
                 ),
               ),
             ),
@@ -53,7 +53,7 @@ class SideMenu extends StatelessWidget {
               ),
               title: Text(
                 menu.title,
-                style: const TextStyle(color: Colors.white),
+                style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
               ),
             ),
           ],

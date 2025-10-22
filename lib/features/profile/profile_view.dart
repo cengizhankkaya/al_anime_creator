@@ -25,16 +25,16 @@ class ProfileView extends StatelessWidget {
     return BlocProvider(
       create: (context) => ProfileCubit(GetIt.instance<ProfileRepository>()),
       child: Scaffold(
-        backgroundColor: const Color(ProfileConstants.primaryBackgroundColor),
+        backgroundColor: Theme.of(context).colorScheme.background,
         appBar: _buildAppBar(context),
         body: BlocBuilder<ProfileCubit, ProfileState>(
           builder: (context, state) {
             if (state is ProfileLoading) {
-              return _buildLoadingView();
+              return _buildLoadingView(context);
             }
 
             if (state is ProfileError) {
-              return _buildErrorView(state.failure.message);
+              return _buildErrorView(context, state.failure.message);
             }
 
             if (state is ProfileLoaded) {
@@ -50,26 +50,22 @@ class ProfileView extends StatelessWidget {
 
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     return AppBar(
-      backgroundColor: Colors.transparent,
+      backgroundColor: Theme.of(context).colorScheme.background,
       elevation: 0,
-      title: const Text(
+      title: Text(
         ProfileConstants.profileTitle,
         style: TextStyle(
-          color: Colors.white,
+          color: Theme.of(context).colorScheme.onBackground,
           fontSize: ProfileConstants.titleFontSize,
           fontWeight: FontWeight.w600,
         ),
-      ),
-      leading: IconButton(
-        icon: const Icon(Icons.arrow_back, color: Colors.white),
-        onPressed: () => Navigator.of(context).pop(),
       ),
     );
   }
 
   Widget _buildUnauthenticatedView(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(ProfileConstants.primaryBackgroundColor),
+      backgroundColor: Theme.of(context).colorScheme.primary,
       appBar: _buildAppBar(context),
       body: Center(
         child: Column(
@@ -81,19 +77,19 @@ class ProfileView extends StatelessWidget {
               size: ProfileConstants.largeIconSize,
             ),
             const SizedBox(height: ProfileConstants.defaultPadding),
-            const Text(
+            Text(
               ProfileConstants.signInRequiredTitle,
               style: TextStyle(
-                color: Colors.white,
+                color: Theme.of(context).colorScheme.onBackground,
                 fontSize: ProfileConstants.nameFontSize,
                 fontWeight: FontWeight.w600,
               ),
             ),
             const SizedBox(height: ProfileConstants.smallPadding),
-            const Text(
+            Text(
               ProfileConstants.signInRequiredMessage,
               style: TextStyle(
-                color: Colors.grey,
+                color: Theme.of(context).colorScheme.outline,
                 fontSize: ProfileConstants.subtitleFontSize,
               ),
               textAlign: TextAlign.center,
@@ -101,8 +97,8 @@ class ProfileView extends StatelessWidget {
             const SizedBox(height: ProfileConstants.defaultPadding),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(ProfileConstants.primaryAccentColor),
-                foregroundColor: Colors.black,
+                backgroundColor: Theme.of(context).colorScheme.primary,
+                foregroundColor: Theme.of(context).colorScheme.onPrimary,
                 padding: const EdgeInsets.symmetric(
                   horizontal: ProfileConstants.defaultPadding * 1.6,
                   vertical: ProfileConstants.smallPadding * 1.5,
@@ -126,19 +122,19 @@ class ProfileView extends StatelessWidget {
     );
   }
 
-  Widget _buildLoadingView() {
-    return const Center(
+  Widget _buildLoadingView(BuildContext context) {
+    return Center(
       child: CircularProgressIndicator(
-        color: Color(ProfileConstants.primaryAccentColor),
+        color: Theme.of(context).colorScheme.primary,
       ),
     );
   }
 
-  Widget _buildErrorView(String message) {
+  Widget _buildErrorView(BuildContext context, String message) {
     return Center(
       child: Text(
         message,
-        style: const TextStyle(color: Colors.red),
+        style: TextStyle(color: Theme.of(context).colorScheme.error),
       ),
     );
   }

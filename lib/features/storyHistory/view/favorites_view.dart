@@ -48,10 +48,7 @@ class _FavoritesViewState extends State<FavoritesView> {
             fontWeight: FontWeight.w600,
           ),
         ),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
+        
       ),
       body: BlocBuilder<StoryFirestoreCubit, StoryFirestoreState>(
         bloc: _storyCubit,

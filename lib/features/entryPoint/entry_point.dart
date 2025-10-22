@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:al_anime_creator/features/entryPoint/menu.dart';
+import 'package:al_anime_creator/features/help/help_view.dart';
 import 'package:al_anime_creator/features/screens/view/notification_view.dart';
 import 'package:al_anime_creator/features/profile/profile_view.dart';
 import 'package:al_anime_creator/features/screens/view/search_view.dart';
@@ -47,7 +48,7 @@ class _EntryPointState extends State<EntryPoint>
         currentScreen = const FavoritesView();
         break;
       case "Help":
-        currentScreen = const ProfileView(); // Profile'ı Help olarak kullan
+        currentScreen = const HelpView(); 
         break;
       case "History":
         currentScreen = const StoryHistoryViewWrapper();
