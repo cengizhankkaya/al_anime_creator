@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:al_anime_creator/features/entryPoint/entry_point.dart';
 import 'package:al_anime_creator/features/onboarding/view/onboarding_view.dart';
 import 'package:al_anime_creator/features/storygeneration/view/story_generation_view.dart';
-import 'package:al_anime_creator/features/storyHistory/view/story_history_view.dart';
-import 'package:al_anime_creator/features/storyHistory/view/favorites_view.dart';
+import 'package:al_anime_creator/features/storyhistory/view/story_history_view.dart';
+import 'package:al_anime_creator/features/storyhistory/view/favorites_view.dart';
+import 'package:al_anime_creator/features/storyhistory/view/reader_page.dart';
 import 'package:auto_route/auto_route.dart';
 
 // TODO: Rota vermek istediğiniz sayfaları (View) buraya import edin.
@@ -23,5 +24,6 @@ class AppRouter extends RootStackRouter {
         AutoRoute(page: StoryGenerationRoute.page),
         AutoRoute(page: StoryHistoryRoute.page, path: '/story-history'),
         AutoRoute(page: FavoritesRoute.page, path: '/favorites'),
+        AutoRoute(page: ReaderRoute.page, path: '/reader'),
       ];
 }

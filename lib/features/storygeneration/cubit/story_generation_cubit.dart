@@ -1,7 +1,10 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:al_anime_creator/features/storygeneration/cubit/story_generation_state.dart';
 import 'package:al_anime_creator/features/storygeneration/repository/story_generation_repository.dart';
-import 'package:al_anime_creator/features/storygeneration/service/ai_service.dart';
+import 'package:al_anime_creator/features/storygeneration/model/story_generation_params.dart';
+import 'package:al_anime_creator/features/storygeneration/model/story.dart';
+import 'package:al_anime_creator/features/storygeneration/utils/story_generation_validation.dart';
+import 'package:al_anime_creator/features/storygeneration/utils/story_generation_error_handler.dart';
 
 class StoryGenerationCubit extends Cubit<StoryGenerationState> {
   final StoryGenerationRepository _repository;
@@ -57,8 +60,13 @@ class StoryGenerationCubit extends Cubit<StoryGenerationState> {
       final currentState = state as StoryGenerationInitial;
       
       // Validation
-      if (!_isValidInput(currentState)) {
-        emit(StoryGenerationError('Lütfen en az bir hikaye detayı girin'));
+      if (!StoryGenerationValidation.hasAtLeastOneInput(
+        currentState.characterDetails,
+        currentState.settingDetails,
+        currentState.plotDetails,
+        currentState.emotionDetails,
+      )) {
+        emit(StoryGenerationError(StoryGenerationErrorHandler.getValidationErrorMessage()));
         return;
       }
 
@@ -78,7 +86,7 @@ class StoryGenerationCubit extends Cubit<StoryGenerationState> {
         emit(StoryGenerationLoaded(story.content, story));
         
       } catch (e) {
-        emit(StoryGenerationError(_getErrorMessage(e)));
+        emit(StoryGenerationError(StoryGenerationErrorHandler.getErrorMessage(e)));
       }
     }
   }
@@ -87,22 +95,28 @@ class StoryGenerationCubit extends Cubit<StoryGenerationState> {
     emit(StoryGenerationInitial());
   }
 
-  bool _isValidInput(StoryGenerationInitial state) {
-    return (state.characterDetails?.isNotEmpty ?? false) ||
-           (state.settingDetails?.isNotEmpty ?? false) ||
-           (state.plotDetails?.isNotEmpty ?? false) ||
-           (state.emotionDetails?.isNotEmpty ?? false);
+  // Hikaye devam ettirme metodu
+  Future<void> continueStory(Story existingStory, String continuationPrompt) async {
+    emit(StoryGenerationLoading());
+
+    try {
+      final updatedStory = await _repository.continueStory(existingStory, continuationPrompt);
+      emit(StoryGenerationLoaded(updatedStory.content, updatedStory));
+    } catch (e) {
+      emit(StoryGenerationError(StoryGenerationErrorHandler.getErrorMessage(e)));
+    }
   }
 
-  String _getErrorMessage(Object error) {
-    String errorMessage = 'Hikaye oluşturulurken hata oluştu: ';
-    if (error.toString().contains('timeout')) {
-      errorMessage += 'İstek zaman aşımına uğradı. Lütfen tekrar deneyin.';
-    } else if (error.toString().contains('network')) {
-      errorMessage += 'İnternet bağlantınızı kontrol edin.';
-    } else {
-      errorMessage += error.toString();
+  // Otomatik hikaye devam ettirme metodu (sadece Long hikayeler için)
+  Future<void> autoContinueStory(Story existingStory) async {
+    emit(StoryGenerationLoading());
+
+    try {
+      final updatedStory = await _repository.autoContinueStory(existingStory);
+      emit(StoryGenerationLoaded(updatedStory.content, updatedStory));
+    } catch (e) {
+      emit(StoryGenerationError(StoryGenerationErrorHandler.getErrorMessage(e)));
     }
-    return errorMessage;
   }
+
 }

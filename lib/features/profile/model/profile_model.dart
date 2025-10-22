@@ -1,4 +1,6 @@
-class UserProfile {
+import 'package:equatable/equatable.dart';
+
+class UserProfile extends Equatable {
   final String id;
   final String name;
   final String email;
@@ -14,6 +16,9 @@ class UserProfile {
     required this.createdAt,
     required this.settings,
   });
+
+  @override
+  List<Object?> get props => [id, name, email, avatarUrl, createdAt, settings];
 
   UserProfile copyWith({
     String? id,
@@ -66,7 +71,7 @@ class UserProfile {
   }
 }
 
-class UserSettings {
+class UserSettings extends Equatable {
   final String language;
   final String theme;
   final bool notificationsEnabled;
@@ -78,6 +83,9 @@ class UserSettings {
     required this.notificationsEnabled,
     required this.soundEnabled,
   });
+
+  @override
+  List<Object?> get props => [language, theme, notificationsEnabled, soundEnabled];
 
   UserSettings copyWith({
     String? language,

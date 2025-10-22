@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:firebase_auth/firebase_auth.dart';
 import '../model/profile_model.dart';
+import '../model/profile_failure.dart';
+import '../utils/profile_constants.dart';
 
 abstract class ProfileRepository {
   Future<UserProfile> getCurrentUserProfile();
@@ -20,11 +22,11 @@ class ProfileRepositoryImpl implements ProfileRepository {
   @override
   Future<UserProfile> getCurrentUserProfile() async {
     if (_userId.isEmpty) {
-      throw Exception('Kullanıcı oturumu bulunamadı');
+      throw const ProfileAuthFailure();
     }
 
     try {
-      final doc = await _firestore.collection('users').doc(_userId).get();
+      final doc = await _firestore.collection(ProfileConstants.usersCollection).doc(_userId).get();
 
       if (doc.exists) {
         return UserProfile.fromMap(doc.data()!);
@@ -38,48 +40,57 @@ class ProfileRepositoryImpl implements ProfileRepository {
           avatarUrl: firebaseUser?.photoURL,
           createdAt: DateTime.now(),
           settings: const UserSettings(
-            language: 'Türkçe',
-            theme: 'Koyu',
-            notificationsEnabled: true,
-            soundEnabled: true,
+            language: ProfileConstants.defaultLanguage,
+            theme: ProfileConstants.defaultTheme,
+            notificationsEnabled: ProfileConstants.defaultNotificationsEnabled,
+            soundEnabled: ProfileConstants.defaultSoundEnabled,
           ),
         );
 
         // Varsayılan profili kaydet
-        await _firestore.collection('users').doc(_userId).set(defaultProfile.toMap());
+        await _firestore.collection(ProfileConstants.usersCollection).doc(_userId).set(defaultProfile.toMap());
         return defaultProfile;
       }
     } catch (e) {
-      throw Exception('Profil yüklenirken hata oluştu: $e');
+      if (e is ProfileFailure) {
+        rethrow;
+      }
+      throw ProfileLoadFailure(message: '${ProfileConstants.loadErrorMessage}: $e');
     }
   }
 
   @override
   Future<void> updateUserProfile(UserProfile user) async {
     if (_userId.isEmpty) {
-      throw Exception('Kullanıcı oturumu bulunamadı');
+      throw const ProfileAuthFailure();
     }
 
     try {
-      await _firestore.collection('users').doc(_userId).update(user.toMap());
+      await _firestore.collection(ProfileConstants.usersCollection).doc(_userId).update(user.toMap());
     } catch (e) {
-      throw Exception('Profil güncellenirken hata oluştu: $e');
+      if (e is ProfileFailure) {
+        rethrow;
+      }
+      throw ProfileUpdateFailure(message: '${ProfileConstants.updateErrorMessage}: $e');
     }
   }
 
   @override
   Future<void> updateUserSettings(UserSettings settings) async {
     if (_userId.isEmpty) {
-      throw Exception('Kullanıcı oturumu bulunamadı');
+      throw const ProfileAuthFailure();
     }
 
     try {
       await _firestore
-          .collection('users')
+          .collection(ProfileConstants.usersCollection)
           .doc(_userId)
           .update({'settings': settings.toMap()});
     } catch (e) {
-      throw Exception('Ayarlar güncellenirken hata oluştu: $e');
+      if (e is ProfileFailure) {
+        rethrow;
+      }
+      throw ProfileSettingsUpdateFailure(message: '${ProfileConstants.settingsUpdateErrorMessage}: $e');
     }
   }
 }

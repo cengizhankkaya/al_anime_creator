@@ -135,3 +135,21 @@ class OnboardingRoute extends PageRouteInfo<void> {
     },
   );
 }
+
+/// generated route for
+/// [ReaderPage]
+class ReaderRoute extends PageRouteInfo<void> {
+  const ReaderRoute({List<PageRouteInfo>? children})
+    : super(ReaderRoute.name, initialChildren: children);
+
+  static const String name = 'ReaderRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      // Note: ReaderPage requires args; you may navigate with a custom route push providing widget directly
+      // or extend to typed args if desired.
+      return const SizedBox.shrink();
+    },
+  );
+}

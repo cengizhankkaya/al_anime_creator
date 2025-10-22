@@ -7,7 +7,7 @@ import 'package:al_anime_creator/features/storygeneration/cubit/story_generation
 import 'package:al_anime_creator/features/storygeneration/repository/story_generation_repository.dart';
 import 'package:al_anime_creator/features/storygeneration/view/widgets/story_form.dart';
 import 'package:al_anime_creator/features/storygeneration/view/widgets/loading_button.dart';
-import 'package:al_anime_creator/features/storygeneration/view/utils/ui_helpers.dart';
+import 'package:al_anime_creator/features/storygeneration/utils/story_generation_ui_helpers.dart';
 import 'package:al_anime_creator/features/storygeneration/view/utils/app_colors.dart';
 import 'package:al_anime_creator/product/init/navigation/app_router.dart';
 import 'package:auto_route/auto_route.dart';
@@ -58,9 +58,9 @@ class StoryGenerationView extends StatelessWidget {
 
   void _handleStateListener(BuildContext context, StoryGenerationState state) {
     if (state is StoryGenerationError) {
-      UIHelpers.showErrorSnackBar(context, state.message);
+      StoryGenerationUIHelpers.showErrorSnackBar(context, state.message);
     } else if (state is StoryGenerationLoaded) {
-      UIHelpers.showSuccessSnackBar(context, 'Hikaye başarıyla kaydedildi!');
+      StoryGenerationUIHelpers.showSuccessSnackBar(context, 'Hikaye başarıyla kaydedildi!');
       // Hikaye oluşturulduktan hemen sonra Story History sayfasına yönlendir
       // Oluşturulan hikayenin detayına gitmek için story ID'sini geç
       if (context.mounted) {

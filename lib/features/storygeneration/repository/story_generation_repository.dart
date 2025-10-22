@@ -1,30 +1,32 @@
 
 
-import 'package:al_anime_creator/features/storyHistory/view_model/story_history_viewmodel.dart';
 import 'package:al_anime_creator/features/storygeneration/model/story.dart';
+import 'package:al_anime_creator/features/storygeneration/model/story_generation_params.dart';
+import 'package:al_anime_creator/features/storygeneration/model/story_generation_constants.dart';
 import 'package:al_anime_creator/features/storygeneration/service/ai_service.dart';
 import 'package:al_anime_creator/product/service/firestore_service.dart';
 import 'package:uuid/uuid.dart';
 
 abstract class StoryGenerationRepository {
   Future<Story> generateAndSaveStory(StoryGenerationParams params);
+  Future<Story> continueStory(Story existingStory, String continuationPrompt);
+  Future<Story> autoContinueStory(Story existingStory);
 }
 
 class StoryGenerationRepositoryImpl implements StoryGenerationRepository {
   final AIService _aiService;
-  final StoryHistoryViewModel _historyViewModel;
   final FirestoreService _firestoreService;
 
   StoryGenerationRepositoryImpl(
-    this._aiService, 
-    this._historyViewModel,
+    this._aiService,
     this._firestoreService,
   );
 
   @override
   Future<Story> generateAndSaveStory(StoryGenerationParams params) async {
     // AI'den hikaye üret
-    final storyContent = await _aiService.generateStory(params);
+    final storyContentRaw = await _aiService.generateStory(params);
+    final storyContent = _sanitizeContent(storyContentRaw);
     
     // Hikaye objesini oluştur
     final newStory = _createStoryFromContent(storyContent, params);
@@ -32,16 +34,98 @@ class StoryGenerationRepositoryImpl implements StoryGenerationRepository {
     // Firebase'e kaydet
     await _firestoreService.saveStory(newStory);
     
-    // Local ViewModel'e de ekle
-    _historyViewModel.addStory(newStory);
-    
     return newStory;
+  }
+
+  @override
+  Future<Story> continueStory(Story existingStory, String continuationPrompt) async {
+    // AI'den hikaye devamını üret
+    final continuationContentRaw = await _aiService.continueStory(existingStory, continuationPrompt);
+    final continuationContent = _sanitizeContent(continuationContentRaw);
+    
+    // Yeni bölüm oluştur
+    final newChapter = Chapter(
+      id: const Uuid().v4(),
+      title: 'Bölüm ${existingStory.chapters.length + 1}',
+      content: continuationContent,
+      chapterNumber: existingStory.chapters.length + 1,
+    );
+    
+    // Mevcut hikayeye yeni bölümü ekle
+    final updatedChapters = List<Chapter>.from(existingStory.chapters)..add(newChapter);
+    final updatedStory = existingStory.copyWith(chapters: updatedChapters);
+    
+    // Firebase'e güncellenmiş hikayeyi kaydet
+    await _firestoreService.updateStory(updatedStory);
+    
+    return updatedStory;
+  }
+
+  @override
+  Future<Story> autoContinueStory(Story existingStory) async {
+    // Sadece Long hikayeler için otomatik devam ettirme
+    if (existingStory.settings.length.toLowerCase() != 'long') {
+      throw Exception('Otomatik devam ettirme sadece Long hikayeler için kullanılabilir');
+    }
+
+    // AI'den otomatik hikaye devamını üret
+    final continuationContentRaw = await _aiService.autoContinueStory(existingStory);
+    final continuationContent = _sanitizeContent(continuationContentRaw);
+    
+    // Yeni bölüm oluştur
+    final newChapter = Chapter(
+      id: const Uuid().v4(),
+      title: 'Bölüm ${existingStory.chapters.length + 1}',
+      content: continuationContent,
+      chapterNumber: existingStory.chapters.length + 1,
+    );
+    
+    // Mevcut hikayeye yeni bölümü ekle
+    final updatedChapters = List<Chapter>.from(existingStory.chapters)..add(newChapter);
+    final updatedStory = existingStory.copyWith(chapters: updatedChapters);
+    
+    // Firebase'e güncellenmiş hikayeyi kaydet
+    await _firestoreService.updateStory(updatedStory);
+    
+    return updatedStory;
+  }
+
+  /// AI cevabındaki gereksiz giriş cümlelerini temizler
+  String _sanitizeContent(String content) {
+    String text = content.trim();
+
+    final List<RegExp> leadingPreamblePatterns = [
+      // Türkçe yaygın kalıplar
+      RegExp(r'^\s*(tamamdır[,!\.]?\s*)?(işte\s*(isted[iı]ğin(?:iz)?\s*özelliklerde[,!\.]?\s*)?(anime\s*tarz[ıi]nda\s*)?(bir\s*)?hikaye\s*:\s*)', caseSensitive: false, dotAll: true),
+      RegExp(r'^\s*(işte\s*(bir\s*)?hikaye\s*:\s*)', caseSensitive: false, dotAll: true),
+      // İngilizce olası kalıplar
+      RegExp(r"^\s*(sure[,!\.]?\s*)?(here\'?s\s*(an?|the)?\s*.*story\s*:\s*)", caseSensitive: false, dotAll: true),
+    ];
+
+    for (final pattern in leadingPreamblePatterns) {
+      final match = pattern.firstMatch(text);
+      if (match != null) {
+        text = text.replaceFirst(pattern, '');
+        break;
+      }
+    }
+
+    // Eğer ilk satır tamamen açıklama cümlesiyse ve ardından boş satır geliyorsa onu da at
+    final lines = text.split('\n');
+    if (lines.isNotEmpty && lines.first.trim().length < 120) {
+      final first = lines.first.trim().toLowerCase();
+      if ((first.contains('hikaye') || first.contains('story')) && first.endsWith(':')) {
+        text = lines.skip(1).join('\n');
+      }
+    }
+
+    return text.trimLeft();
   }
 
   Story _createStoryFromContent(String content, StoryGenerationParams params) {
     try {
       // Hikaye başlığını oluştur (ilk cümleden)
-      String title = 'AI Generated Story';
+      String title = StoryGenerationConstants.defaultStoryTitle;
       if (content.length > 50) {
         final firstSentence = content.split('.').first;
         if (firstSentence.length > 10) {
@@ -73,7 +157,7 @@ class StoryGenerationRepositoryImpl implements StoryGenerationRepository {
         chapters: [
           Chapter(
             id: const Uuid().v4(),
-            title: 'Chapter 1',
+            title: StoryGenerationConstants.defaultChapterTitle,
             content: content,
             chapterNumber: 1,
           ),

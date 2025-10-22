@@ -1,7 +1,13 @@
 import 'package:firebase_ai/firebase_ai.dart';
+import 'package:al_anime_creator/features/storygeneration/model/story_generation_params.dart';
+import 'package:al_anime_creator/features/storygeneration/model/story_generation_constants.dart';
+import 'package:al_anime_creator/features/storygeneration/model/story.dart';
+import 'package:al_anime_creator/features/storygeneration/utils/story_generation_error_handler.dart';
 
 abstract class AIService {
   Future<String> generateStory(StoryGenerationParams params);
+  Future<String> continueStory(Story existingStory, String continuationPrompt);
+  Future<String> autoContinueStory(Story existingStory);
 }
 
 class AIServiceImpl implements AIService {
@@ -48,36 +54,102 @@ class AIServiceImpl implements AIService {
       // Gemini AI'ye gönder
       final Content content = Content.text(prompt);
       final response = await _model.generateContent([content])
-          .timeout(const Duration(seconds: 30));
+          .timeout(StoryGenerationConstants.requestTimeout);
 
       return response.text ?? "Üzgünüm, bir hikaye oluşturamadım.";
 
     } catch (e) {
-      if (e.toString().contains('timeout')) {
-        throw Exception('İstek zaman aşımına uğradı. Lütfen tekrar deneyin.');
-      } else if (e.toString().contains('network')) {
-        throw Exception('İnternet bağlantınızı kontrol edin.');
-      } else {
-        throw Exception('Hikaye oluşturulurken hata oluştu: $e');
-      }
+      throw Exception(StoryGenerationErrorHandler.getErrorMessage(e));
     }
   }
-}
 
-class StoryGenerationParams {
-  final String characterDetails;
-  final String settingDetails;
-  final String plotDetails;
-  final String emotionDetails;
-  final int selectedLength;
-  final double sliderValue;
+  @override
+  Future<String> continueStory(Story existingStory, String continuationPrompt) async {
+    try {
+      // Mevcut hikayenin son bölümünü al
+      final lastChapter = existingStory.chapters.last;
+      
+      // Hikaye devam ettirme prompt'unu hazırla
+      final String prompt = '''
+      Bu hikayenin devamını yaz. Mevcut hikaye şu şekilde:
 
-  StoryGenerationParams({
-    required this.characterDetails,
-    required this.settingDetails,
-    required this.plotDetails,
-    required this.emotionDetails,
-    required this.selectedLength,
-    required this.sliderValue,
-  });
+      Hikaye Başlığı: ${existingStory.title}
+      
+      Son Bölüm:
+      ${lastChapter.content}
+
+      Hikaye Ayarları:
+      - Uzunluk: ${existingStory.settings.length}
+      - Karmaşıklık: ${existingStory.settings.complexity}
+      ${existingStory.settings.characterDetails.isNotEmpty ? '- Karakter Detayları: ${existingStory.settings.characterDetails}' : ''}
+      ${existingStory.settings.settingEnvironment.isNotEmpty ? '- Mekan ve Ortam: ${existingStory.settings.settingEnvironment}' : ''}
+      ${existingStory.settings.plotStructure.isNotEmpty ? '- Olay Örgüsü: ${existingStory.settings.plotStructure}' : ''}
+      ${existingStory.settings.emotionsTone.isNotEmpty ? '- Duygu ve Ton: ${existingStory.settings.emotionsTone}' : ''}
+
+      Kullanıcı İsteği: $continuationPrompt
+
+      Lütfen hikayenin devamını yaz. Mevcut karakterleri, ortamı ve hikaye tonunu koruyarak devam et. 
+      Anime tarzında, sürükleyici ve görsel olarak zengin olsun. Türkçe yaz.
+      ''';
+
+      // Gemini AI'ye gönder
+      final Content content = Content.text(prompt);
+      final response = await _model.generateContent([content])
+          .timeout(StoryGenerationConstants.requestTimeout);
+
+      return response.text ?? "Üzgünüm, hikayenin devamını oluşturamadım.";
+
+    } catch (e) {
+      throw Exception(StoryGenerationErrorHandler.getErrorMessage(e));
+    }
+  }
+
+  @override
+  Future<String> autoContinueStory(Story existingStory) async {
+    try {
+      // Hikayenin tüm içeriğini analiz et
+      final allContent = existingStory.chapters.map((chapter) => chapter.content).join('\n\n');
+      final lastChapter = existingStory.chapters.last;
+      
+      // Otomatik devam ettirme prompt'unu hazırla
+      final String prompt = '''
+      Bu uzun hikayenin devamını otomatik olarak yaz. Hikayeyi analiz edip mantıklı bir şekilde devam ettir.
+
+      Hikaye Başlığı: ${existingStory.title}
+      
+      Hikaye Özeti (İlk bölümlerden):
+      ${allContent.length > 1000 ? allContent.substring(0, 1000) + '...' : allContent}
+      
+      Son Bölüm:
+      ${lastChapter.content}
+
+      Hikaye Ayarları:
+      - Uzunluk: ${existingStory.settings.length}
+      - Karmaşıklık: ${existingStory.settings.complexity}
+      ${existingStory.settings.characterDetails.isNotEmpty ? '- Karakter Detayları: ${existingStory.settings.characterDetails}' : ''}
+      ${existingStory.settings.settingEnvironment.isNotEmpty ? '- Mekan ve Ortam: ${existingStory.settings.settingEnvironment}' : ''}
+      ${existingStory.settings.plotStructure.isNotEmpty ? '- Olay Örgüsü: ${existingStory.settings.plotStructure}' : ''}
+      ${existingStory.settings.emotionsTone.isNotEmpty ? '- Duygu ve Ton: ${existingStory.settings.emotionsTone}' : ''}
+
+      Görevler:
+      1. Hikayenin mevcut karakterlerini, ortamını ve tonunu analiz et
+      2. Son bölümdeki olayların mantıklı devamını yaz
+      3. Hikayenin genel akışını ve temalarını koru
+      4. Yeni ilginç olaylar ve karakter gelişimleri ekle
+      5. Uzun hikaye formatına uygun detaylı ve sürükleyici içerik üret
+
+      Lütfen hikayenin doğal devamını yaz. Anime tarzında, görsel olarak zengin ve sürükleyici olsun. Türkçe yaz.
+      ''';
+
+      // Gemini AI'ye gönder
+      final Content content = Content.text(prompt);
+      final response = await _model.generateContent([content])
+          .timeout(StoryGenerationConstants.requestTimeout);
+
+      return response.text ?? "Üzgünüm, hikayenin otomatik devamını oluşturamadım.";
+
+    } catch (e) {
+      throw Exception(StoryGenerationErrorHandler.getErrorMessage(e));
+    }
+  }
 }

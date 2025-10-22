@@ -1,12 +1,12 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:al_anime_creator/features/storyHistory/cubit/story_firestore_state.dart';
+import 'package:al_anime_creator/features/storyhistory/cubit/story_firestore_state.dart';
 import 'package:al_anime_creator/features/storygeneration/model/story.dart';
-import 'package:al_anime_creator/product/service/firestore_service.dart';
+import 'package:al_anime_creator/features/storyhistory/repository/story_repository.dart';
 
 class StoryFirestoreCubit extends Cubit<StoryFirestoreState> {
-  final FirestoreService _firestoreService;
+  final StoryRepository _storyRepository;
 
-  StoryFirestoreCubit(this._firestoreService) : super(StoryFirestoreInitial());
+  StoryFirestoreCubit(this._storyRepository) : super(StoryFirestoreInitial());
 
   /// Kullanıcının tüm hikayelerini yükle
   Future<void> loadStories() async {
@@ -14,7 +14,7 @@ class StoryFirestoreCubit extends Cubit<StoryFirestoreState> {
     emit(StoryFirestoreLoading());
     
     try {
-      final stories = await _firestoreService.getStories();
+      final stories = await _storyRepository.getStories();
       if (isClosed) return;
       emit(StoryFirestoreLoaded(stories));
     } catch (e) {
@@ -29,7 +29,7 @@ class StoryFirestoreCubit extends Cubit<StoryFirestoreState> {
     emit(StoryFirestoreLoading());
     
     try {
-      final story = await _firestoreService.getStory(storyId);
+      final story = await _storyRepository.getStory(storyId);
       if (isClosed) return;
       if (story != null) {
         emit(StoryFirestoreSingleLoaded(story));
@@ -46,7 +46,7 @@ class StoryFirestoreCubit extends Cubit<StoryFirestoreState> {
   Future<void> saveStory(Story story) async {
     if (isClosed) return;
     try {
-      await _firestoreService.saveStory(story);
+      await _storyRepository.saveStory(story);
       if (isClosed) return;
       emit(StoryFirestoreSaved(story));
     } catch (e) {
@@ -59,7 +59,7 @@ class StoryFirestoreCubit extends Cubit<StoryFirestoreState> {
   Future<void> updateStory(Story story) async {
     if (isClosed) return;
     try {
-      await _firestoreService.updateStory(story);
+      await _storyRepository.updateStory(story);
       if (isClosed) return;
       emit(StoryFirestoreUpdated(story));
     } catch (e) {
@@ -72,7 +72,7 @@ class StoryFirestoreCubit extends Cubit<StoryFirestoreState> {
   Future<void> deleteStory(String storyId) async {
     if (isClosed) return;
     try {
-      await _firestoreService.deleteStory(storyId);
+      await _storyRepository.deleteStory(storyId);
       if (isClosed) return;
       emit(StoryFirestoreDeleted(storyId));
     } catch (e) {
@@ -93,7 +93,7 @@ class StoryFirestoreCubit extends Cubit<StoryFirestoreState> {
 
         if (storyIndex != -1) {
           final updatedStory = stories[storyIndex].copyWith(isFavorite: isFavorite);
-          await _firestoreService.updateStory(updatedStory);
+          await _storyRepository.updateStory(updatedStory);
 
           // State'i güncelle
           final updatedStories = List<Story>.from(stories);
@@ -111,7 +111,7 @@ class StoryFirestoreCubit extends Cubit<StoryFirestoreState> {
 
   /// Hikayeleri gerçek zamanlı dinle
   Stream<List<Story>> getStoriesStream() {
-    return _firestoreService.getStoriesStream();
+    return _storyRepository.getStoriesStream();
   }
 
   /// Durumu sıfırla
