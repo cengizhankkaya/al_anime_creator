@@ -2,10 +2,8 @@ import 'dart:math';
 
 import 'package:al_anime_creator/features/entryPoint/menu.dart';
 import 'package:al_anime_creator/features/help/help_view.dart';
-import 'package:al_anime_creator/features/screens/view/notification_view.dart';
+import 'package:al_anime_creator/features/notifications/notification_view.dart';
 import 'package:al_anime_creator/features/profile/profile_view.dart';
-import 'package:al_anime_creator/features/screens/view/search_view.dart';
-import 'package:al_anime_creator/features/screens/view/timer_view.dart';
 import 'package:al_anime_creator/features/storyhistory/view/story_history_view.dart';
 import 'package:al_anime_creator/features/storyhistory/view/favorites_view.dart';
 import 'package:al_anime_creator/features/storygeneration/view/story_generation_view.dart';
@@ -15,6 +13,12 @@ import 'package:rive/rive.dart';
 
 import 'widgets/menu_btn.dart';
 import 'widgets/side_bar.dart';
+
+// Sihirli sayılar için sabitler
+const double kSidebarWidth = 288;
+const double kSidebarOpenOffset = 265;
+const double kSidebarRadius = 24;
+const Duration kSidebarAnimationDuration = Duration(milliseconds: 200);
 
 @RoutePage(
   name: 'EntryPointRoute',
@@ -34,35 +38,17 @@ class _EntryPointState extends State<EntryPoint>
 
   late SMIBool isMenuOpenInput;
 
+  // Ekranlar ile başlıkları eşleştirerek kodu sadeleştir
+  final Map<String, Widget> _screens = const {
+    "Story Generation": StoryGenerationView(),
+    "Favorites": FavoritesView(),
+    "Help": HelpView(),
+    "History": StoryHistoryViewWrapper(),
+    "Profile": ProfileView(),
+    "Notifications": NotificationView(),
+  };
 
   Widget _getCurrentScreen() {
-    Widget currentScreen;
-    switch (selectedSideMenu.title) {
-      case "Story Generation":
-        currentScreen = const StoryGenerationView();
-        break;
-      case "Search":
-        currentScreen = const SearchView();
-        break;
-      case "Favorites":
-        currentScreen = const FavoritesView();
-        break;
-      case "Help":
-        currentScreen = const HelpView(); 
-        break;
-      case "History":
-        currentScreen = const StoryHistoryViewWrapper();
-        break;
-      case "Profile":
-        currentScreen = const ProfileView();
-        break;
-      case "Notifications":
-        currentScreen = const NotificationView();
-        break;
-      default:
-        currentScreen = const TimerView();
-    }
-
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 300),
       switchInCurve: Curves.easeInOut,
@@ -81,34 +67,32 @@ class _EntryPointState extends State<EntryPoint>
       },
       child: Container(
         key: ValueKey<String>(selectedSideMenu.title),
-        child: currentScreen,
+        child: _screens[selectedSideMenu.title] ?? const StoryGenerationView(),
       ),
     );
   }
 
-  late AnimationController _animationController;
-  late Animation<double> scalAnimation;
-  late Animation<double> animation;
+  late AnimationController _sidebarAnimationController;
+  late Animation<double> scaleAnimation;
+  late Animation<double> yRotationAnimation;
 
   @override
   void initState() {
-    _animationController = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 200))
-      ..addListener(
-        () {
-          setState(() {});
-        },
-      );
-    scalAnimation = Tween<double>(begin: 1, end: 0.8).animate(CurvedAnimation(
-        parent: _animationController, curve: Curves.fastOutSlowIn));
-    animation = Tween<double>(begin: 0, end: 1).animate(CurvedAnimation(
-        parent: _animationController, curve: Curves.fastOutSlowIn));
+    _sidebarAnimationController = AnimationController(
+        vsync: this, duration: kSidebarAnimationDuration)
+      ..addListener(() {
+        setState(() {});
+      });
+    scaleAnimation = Tween<double>(begin: 1, end: 0.8).animate(CurvedAnimation(
+        parent: _sidebarAnimationController, curve: Curves.fastOutSlowIn));
+    yRotationAnimation = Tween<double>(begin: 0, end: 1).animate(CurvedAnimation(
+        parent: _sidebarAnimationController, curve: Curves.fastOutSlowIn));
     super.initState();
   }
 
   @override
   void dispose() {
-    _animationController.dispose();
+    _sidebarAnimationController.dispose();
     super.dispose();
   }
 
@@ -122,12 +106,13 @@ class _EntryPointState extends State<EntryPoint>
       backgroundColor: colorScheme.surfaceContainer,
       body: Stack(
         children: [
+          // SideBar animasyonu
           AnimatedPositioned(
-            width: 288,
+            width: kSidebarWidth,
             height: MediaQuery.of(context).size.height,
-            duration: const Duration(milliseconds: 200),
+            duration: kSidebarAnimationDuration,
             curve: Curves.fastOutSlowIn,
-            left: isSideBarOpen ? 0 : -288,
+            left: isSideBarOpen ? 0 : -kSidebarWidth,
             top: 0,
             child: SideBar(
               onMenuSelected: (menu) {
@@ -137,27 +122,29 @@ class _EntryPointState extends State<EntryPoint>
               },
             ),
           ),
+          // Ana ekran animasyonu
           Transform(
             alignment: Alignment.center,
             transform: Matrix4.identity()
               ..setEntry(3, 2, 0.001)
               ..rotateY(
-                  1 * animation.value - 30 * (animation.value) * pi / 180),
+                  1 * yRotationAnimation.value - 30 * (yRotationAnimation.value) * pi / 180),
             child: Transform.translate(
-              offset: Offset(animation.value * 265, 0),
+              offset: Offset(yRotationAnimation.value * kSidebarOpenOffset, 0),
               child: Transform.scale(
-                scale: scalAnimation.value,
+                scale: scaleAnimation.value,
                 child: ClipRRect(
                   borderRadius: BorderRadius.all(
-                    Radius.circular(24),
+                    Radius.circular(kSidebarRadius),
                   ),
                   child: _getCurrentScreen(),
                 ),
               ),
             ),
           ),
+          // Menü butonu animasyonu
           AnimatedPositioned(
-            duration: const Duration(milliseconds: 200),
+            duration: kSidebarAnimationDuration,
             curve: Curves.fastOutSlowIn,
             left: isSideBarOpen ? 220 : 0,
             top: 16,
@@ -165,17 +152,15 @@ class _EntryPointState extends State<EntryPoint>
               press: () {
                 isMenuOpenInput.value = !isMenuOpenInput.value;
 
-                if (_animationController.value == 0) {
-                  _animationController.forward();
+                if (_sidebarAnimationController.value == 0) {
+                  _sidebarAnimationController.forward();
                 } else {
-                  _animationController.reverse();
+                  _sidebarAnimationController.reverse();
                 }
 
-                setState(
-                  () {
-                    isSideBarOpen = !isSideBarOpen;
-                  },
-                );
+                setState(() {
+                  isSideBarOpen = !isSideBarOpen;
+                });
               },
               riveOnInit: (artboard) {
                 final controller = StateMachineController.fromArtboard(

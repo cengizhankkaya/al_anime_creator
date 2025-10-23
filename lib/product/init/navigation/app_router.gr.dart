@@ -59,6 +59,22 @@ class HelpRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [OnboardingView]
+class OnboardingRoute extends PageRouteInfo<void> {
+  const OnboardingRoute({List<PageRouteInfo>? children})
+    : super(OnboardingRoute.name, initialChildren: children);
+
+  static const String name = 'OnboardingRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const OnboardingView();
+    },
+  );
+}
+
+/// generated route for
 /// [ProfileView]
 class ProfileRoute extends PageRouteInfo<void> {
   const ProfileRoute({List<PageRouteInfo>? children})
@@ -134,20 +150,4 @@ class StoryHistoryRouteArgs {
 
   @override
   int get hashCode => key.hashCode ^ storyId.hashCode;
-}
-
-/// generated route for
-/// [onboardingView]
-class OnboardingRoute extends PageRouteInfo<void> {
-  const OnboardingRoute({List<PageRouteInfo>? children})
-    : super(OnboardingRoute.name, initialChildren: children);
-
-  static const String name = 'OnboardingRoute';
-
-  static PageInfo page = PageInfo(
-    name,
-    builder: (data) {
-      return const onboardingView();
-    },
-  );
 }
