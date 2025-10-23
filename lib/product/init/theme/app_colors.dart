@@ -7,14 +7,19 @@ class AppColors extends ThemeExtension<AppColors> {
   final Color limegreen;
 
   const AppColors({
-    required this.limegreen,
+    required this.limegreen, required Color bacgroundblue,
   });
 
   static const AppColors light = AppColors(
     limegreen: Color(0xFF24FF00),
+    bacgroundblue: Color(0xFF040116),
+
   );
 
+
+
   static const AppColors dark = AppColors(
+    bacgroundblue: Color(0xFF040116),
     limegreen: Color(0xFFCC8400),
   );
 
@@ -24,7 +29,7 @@ class AppColors extends ThemeExtension<AppColors> {
     Color? limegreen,
   }) {
     return AppColors(
-      limegreen: limegreen ?? this.limegreen,
+      limegreen: limegreen ?? this.limegreen, bacgroundblue: bacgroundblue ??  ,
     );
   }
 
@@ -32,7 +37,7 @@ class AppColors extends ThemeExtension<AppColors> {
   AppColors lerp(ThemeExtension<AppColors>? other, double t) {
     if (other is! AppColors) return this;
     return AppColors(
-      limegreen: Color.lerp(limegreen, other.limegreen, t)!,
+      limegreen: Color.lerp(limegreen, other.limegreen, t)!, bacgroundblue: null,
     );
   }
 
