@@ -1,4 +1,6 @@
+
 import 'package:flutter/material.dart';
+import '../../../../product/init/theme/app_colors.dart';
 import '../../utils/profile_constants.dart';
 
 /// Dil seçimi için dialog widget'ı
@@ -29,9 +31,9 @@ class LanguageDialogWidget extends StatelessWidget {
               style: const TextStyle(color: Colors.white),
             ),
             trailing: language == currentLanguage
-                ? const Icon(
+                ?  Icon(
                     Icons.check,
-                    color: Color(ProfileConstants.primaryAccentColor),
+                    color: AppColors.of(context).limegreen,
                   )
                 : null,
             onTap: () {

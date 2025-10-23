@@ -89,7 +89,6 @@ class _SignInFormState extends State<SignInForm> {
   Widget build(BuildContext context) {
     return BlocConsumer<AuthCubit, AuthState>(
       listener: (context, state) {
-        // Sadece kullanıcı Sign In'e bastıktan (isShowLoading=true) sonra başarıda yönlendir
         if (state is AuthSuccess && isShowLoading) {
           setState(() {
             isShowLoading = false;
