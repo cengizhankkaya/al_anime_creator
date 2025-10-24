@@ -1,3 +1,5 @@
+
+import 'package:al_anime_creator/product/init/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'divider_with_or_text.dart';
 import 'sign_up_button_row.dart';
@@ -14,7 +16,7 @@ class DialogContainer extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 16),
       padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 24),
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.95),
+        color: AppColors.of(context).ondarkliht,
         borderRadius: BorderRadius.circular(40),
         boxShadow: [
           BoxShadow(
@@ -25,35 +27,37 @@ class DialogContainer extends StatelessWidget {
         ],
       ),
       child: Material(
-        color: Colors.transparent,
+        color: AppColors.of(context).transparent,
         child: Stack(
           clipBehavior: Clip.none,
           children: [
             SingleChildScrollView(
               child: Column(
                 children: [
-                  const Text(
-                    "Giriş Yap / Kayıt Ol",
+                  Text(
+                    "AL Anime Creator",
                     style: TextStyle(
                       fontSize: 34,
                       fontFamily: "Poppins",
                       fontWeight: FontWeight.w600,
+                      color: Theme.of(context).colorScheme.onSurface,
                     ),
                   ),
-                  const Padding(
+                   Padding(
                     padding: EdgeInsets.symmetric(vertical: 16),
                     child: Text(
-                      "240+ saatlik içeriğe erişim. Gerçek uygulamalar geliştirerek tasarım ve kod öğren.",
+                      "AI Anime Creator ile yapay zekâ desteğiyle kendi sahnelerini ve hikâyelerini oluştur.",
                       textAlign: TextAlign.center,
+                      style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
                     ),
                   ),
                   SignInForm(),
                   const DividerWithOrText(),
-                  const Padding(
+                   Padding(
                     padding: EdgeInsets.symmetric(vertical: 24),
                     child: Text(
                       "E-posta, Apple veya Google ile kaydol.",
-                      style: TextStyle(color: Colors.black54),
+                      style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
                     ),
                   ),
                   const SignUpButtonRow(),

@@ -6,21 +6,23 @@ class OnboardingHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const SizedBox(
+    return SizedBox(
       width: 260,
       child: Column(
         children: [
           Text(
             kTitle,
             style: TextStyle(
+              color: Theme.of(context).colorScheme.surface,
               fontSize: 60,
               fontWeight: FontWeight.w700,
               fontFamily: "Poppins",
               height: 1.2,
             ),
           ),
-          SizedBox(height: 16),
-          Text(kDescription),
+          const SizedBox(height: 16),
+          Text(kDescription,
+          style: TextStyle(color: Theme.of(context).colorScheme.surface,),),
         ],
       ),
     );

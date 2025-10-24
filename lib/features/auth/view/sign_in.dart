@@ -19,7 +19,7 @@ class SignInForm extends StatefulWidget {
 class _SignInFormState extends State<SignInForm> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController nameController = TextEditingController();
   bool isShowLoading = false;
   bool isShowConfetti = false;
   bool isRegisterMode = false;
@@ -73,12 +73,14 @@ class _SignInFormState extends State<SignInForm> {
               isRegisterMode: isRegisterMode,
               emailController: emailController,
               passwordController: passwordController,
+              nameController: nameController,
               onToggleMode: (val) => setState(() => isRegisterMode = val),
               onSubmit: () {
                 if (isRegisterMode) {
                   context.read<AuthCubit>().register(
                     emailController.text.trim(),
                     passwordController.text.trim(),
+                    nameController.text.trim(),
                   );
                 } else {
                   context.read<AuthCubit>().login(
@@ -104,6 +106,7 @@ class _SignInFormState extends State<SignInForm> {
   void dispose() {
     emailController.dispose();
     passwordController.dispose();
+    nameController.dispose();
     super.dispose();
   }
 }

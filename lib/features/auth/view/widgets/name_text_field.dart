@@ -1,29 +1,29 @@
-
-import 'package:al_anime_creator/product/init/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import '../../../../product/init/theme/app_colors.dart';
 
-class EmailTextField extends StatelessWidget {
-  const EmailTextField({
+class NameTextField extends StatelessWidget {
+  const NameTextField({
     super.key,
-    required this.emailController,
+    required this.nameController,
   });
 
-  final TextEditingController emailController;
+  final TextEditingController nameController;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      controller: emailController,
+      controller: nameController,
       validator: (value) =>
-          value!.isEmpty ? " Email boş olamaz" : null,
-      keyboardType: TextInputType.emailAddress,
+          value!.isEmpty ? "Ad soyad boş olamaz" : null,
+      keyboardType: TextInputType.name,
       textInputAction: TextInputAction.next,
       decoration: InputDecoration(
         prefixIcon: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8),
           child: SvgPicture.asset(
-            "assets/icons/email.svg",
+            "assets/icons/User.svg",
+            color: AppColors.of(context).rosePink,
           ),
         ),
       ),

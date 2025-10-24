@@ -25,7 +25,7 @@ final class CustomColorScheme {
     onErrorContainer: Color(0xFF410E0B),
     outline: Color(0xFF79747E),
     surface: Color(0xFFFFFBFE),
-    onSurface: Color(0xFF1C1B1F),
+    onSurface: Color.fromARGB(255, 0, 0, 0),
     surfaceContainerHighest: Color(0xFFE7E0EC),
     onSurfaceVariant: Color(0xFF49454F),
     inverseSurface: Color(0xFF313033),

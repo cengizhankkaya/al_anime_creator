@@ -1,5 +1,11 @@
+
+
+
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import '../../../../product/init/theme/app_colors.dart';
 
 class AuthButton extends StatelessWidget {
   final bool isRegisterMode;
@@ -15,7 +21,7 @@ class AuthButton extends StatelessWidget {
     return ElevatedButton.icon(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
-        backgroundColor: const Color(0xFFF77D8E),
+        backgroundColor:   AppColors.of(context).bacgroundblue,
         minimumSize: const Size(double.infinity, 56),
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
@@ -26,11 +32,11 @@ class AuthButton extends StatelessWidget {
           ),
         ),
       ),
-      icon: const Icon(
+      icon: Icon(
         CupertinoIcons.arrow_right,
-        color: Color(0xFFFE0037),
+        color: Theme.of(context).colorScheme.surface,
       ),
-      label: Text(isRegisterMode ? "Kayıt Ol" : "Giriş Yap"),
+      label: Text(isRegisterMode ? "Kayıt Ol" : "Giriş Yap", style: TextStyle(color: Theme.of(context).colorScheme.surface),),
     );
   }
 }

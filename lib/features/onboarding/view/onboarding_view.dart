@@ -5,9 +5,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:rive/rive.dart' hide Image;
 
+import '../../../product/init/theme/app_colors.dart';
 import 'widgets/animated_btn.dart';
 import 'package:al_anime_creator/features/auth/view/sign_in_dialog.dart';
-import 'widgets/onboarding_header.dart'; // header widget importu (local dosya)
 import 'widgets/onboarding_constants.dart';
 
 @RoutePage(
@@ -50,6 +50,9 @@ class _OnboardingViewState extends State<OnboardingView> {
     return Scaffold(
       body: Stack(
         children: [
+          Container(
+      color: AppColors.of(context).bacgroundblue, // veya AppColors.of(context).bacgroundblue
+    ),
           _buildBackground(size),
           _buildBlur(sigma: 20),
           const RiveAnimation.asset("assets/RiveAssets/shapes.riv"),
@@ -97,7 +100,7 @@ class _OnboardingViewState extends State<OnboardingView> {
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 24),
-                  child: Text(kPurchaseDetails),
+                  child: Text(kPurchaseDetails, style: TextStyle(color: Theme.of(context).colorScheme.surface,)),
                 )
               ],
             ),

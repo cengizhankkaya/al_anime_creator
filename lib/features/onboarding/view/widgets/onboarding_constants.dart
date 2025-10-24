@@ -1,3 +1,3 @@
-const String kTitle = "Learn design & code";
-const String kDescription = "Don’t skip design. Learn design and code, by building real apps with Flutter and Swift. Complete courses about the best tools.";
-const String kPurchaseDetails = "Purchase includes access to 30+ courses, 240+ premium tutorials, 120+ hours of videos, source files and certificates.";
+const String kTitle = "AI ile Anime Oluştur";
+const String kDescription = "Hayal gücünü gerçeğe dönüştür! Yapay zekâ ile benzersiz anime karakterleri, dünyalar ve hikâyeler oluştur.";
+const String kPurchaseDetails = "Satın alımınla birlikte özel AI modellerine, premium içeriklere ve sınırsız anime üretimine erişim kazan.";

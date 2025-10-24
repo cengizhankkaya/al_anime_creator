@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:al_anime_creator/features/auth/view/widgets/email_text_field.dart';
 import 'package:al_anime_creator/features/auth/view/widgets/password_text_field.dart';
+import 'package:al_anime_creator/features/auth/view/widgets/name_text_field.dart';
 import 'package:al_anime_creator/features/auth/view/widgets/auth_button.dart';
 import 'package:al_anime_creator/features/auth/view/widgets/mode_toggle.dart';
 
@@ -8,6 +9,7 @@ class AuthForm extends StatefulWidget {
   final bool isRegisterMode;
   final TextEditingController emailController;
   final TextEditingController passwordController;
+  final TextEditingController nameController;
   final void Function(bool isRegisterMode)? onToggleMode;
   final void Function()? onSubmit;
 
@@ -16,6 +18,7 @@ class AuthForm extends StatefulWidget {
     required this.isRegisterMode,
     required this.emailController,
     required this.passwordController,
+    required this.nameController,
     this.onToggleMode,
     this.onSubmit,
   });
@@ -41,14 +44,22 @@ class _AuthFormState extends State<AuthForm> {
             },
           ),
           const SizedBox(height: 24),
-          const Text("Email", style: TextStyle(color: Colors.black54)),
+          // Ad soyad alanı sadece kayıt modunda gösterilir
+          if (widget.isRegisterMode) ...[
+            Text("Ad Soyad", style: TextStyle(color: Theme.of(context).colorScheme.onSurface)),
+            Padding(
+              padding: const EdgeInsets.only(top: 8, bottom: 16),
+              child: NameTextField(nameController: widget.nameController),
+            ),
+          ],
+          Text("Email", style: TextStyle(color: Theme.of(context).colorScheme.onSurface)),
           Padding(
             padding: const EdgeInsets.only(top: 8, bottom: 16),
             child: EmailTextField(emailController: widget.emailController),
           ),
-          const Text(
+           Text(
             "Password",
-            style: TextStyle(color: Colors.black54),
+            style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
           ),
           Padding(
             padding: const EdgeInsets.only(top: 8, bottom: 16),

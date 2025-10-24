@@ -1,3 +1,4 @@
+import 'package:al_anime_creator/product/init/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class ModeToggle extends StatelessWidget {
@@ -13,16 +14,16 @@ class ModeToggle extends StatelessWidget {
           child: GestureDetector(
             onTap: () => onToggle(false),
             child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 12),
+              padding:  EdgeInsets.symmetric(vertical: 12),
               decoration: BoxDecoration(
-                color: !isRegisterMode ? const Color(0xFFF77D8E) : Colors.transparent,
+                color: !isRegisterMode ? AppColors.of(context).limegreen : Theme.of(context).colorScheme.onSurface,
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Text(
                 "Giriş Yap",
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: !isRegisterMode ? Colors.white : Colors.black54,
+                  color: !isRegisterMode ? AppColors.of(context).blackd   : Theme.of(context).colorScheme.surface ,
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -36,14 +37,14 @@ class ModeToggle extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.symmetric(vertical: 12),
               decoration: BoxDecoration(
-                color: isRegisterMode ? const Color(0xFFF77D8E) : Colors.transparent,
+                color: isRegisterMode ?  AppColors.of(context).limegreen  :  Theme.of(context).colorScheme.onSurface,
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Text(
                 "Kayıt Ol",
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: isRegisterMode ? Colors.white : Colors.black54,
+                  color: !isRegisterMode ? Theme.of(context).colorScheme.surface : AppColors.of(context).blackd ,
                   fontWeight: FontWeight.w600,
                 ),
               ),

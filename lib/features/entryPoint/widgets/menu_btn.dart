@@ -1,4 +1,3 @@
-import 'package:al_anime_creator/features/profile/utils/profile_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
 

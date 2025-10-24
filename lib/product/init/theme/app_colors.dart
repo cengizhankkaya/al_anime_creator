@@ -5,31 +5,58 @@ import 'package:flutter/material.dart';
 @immutable
 class AppColors extends ThemeExtension<AppColors> {
   final Color limegreen;
+  final Color bacgroundblue;
+  final Color ondarkliht;
+  final Color blackd;
+  final Color transparent;
+  final Color rosePink;
 
   const AppColors({
-    required this.limegreen, required Color bacgroundblue,
+    required this.limegreen,
+    required this.bacgroundblue,
+    required this.ondarkliht,
+    required this.blackd,
+    required this.transparent,
+    required this.rosePink,
   });
 
   static const AppColors light = AppColors(
     limegreen: Color(0xFF24FF00),
     bacgroundblue: Color(0xFF040116),
-
+    ondarkliht: Color.fromARGB(255, 255, 255, 255),
+    blackd: Color.fromARGB(255, 0, 0, 0),
+    transparent: Colors.transparent,
+    rosePink: Color.fromARGB(145, 255, 100, 113),
   );
 
 
 
   static const AppColors dark = AppColors(
-    bacgroundblue: Color(0xFF040116),
-    limegreen: Color(0xFFCC8400),
+    limegreen: Color.fromARGB(255, 252, 134, 152),
+    bacgroundblue: Color.fromARGB(255, 255, 255, 255),
+    ondarkliht: Color(0xFF040116),
+    blackd: Color.fromARGB(255, 0, 0, 0),
+    transparent: Colors.transparent,
+    rosePink: Color.fromARGB(255, 252, 134, 152),
   );
 
 
   @override
   AppColors copyWith({
     Color? limegreen,
+    Color? bacgroundblue,
+    Color? ondarkliht,
+    Color? black,
+    Color? transparent,
+    Color? rosePink,
   }) {
     return AppColors(
-      limegreen: limegreen ?? this.limegreen, bacgroundblue: bacgroundblue ??  ,
+      limegreen: limegreen ?? this.limegreen,
+      bacgroundblue: bacgroundblue ?? this.bacgroundblue,
+      ondarkliht: ondarkliht ?? this.ondarkliht,
+      blackd: black ?? this.blackd,
+      transparent: transparent ?? this.transparent,
+      rosePink: rosePink ?? this.rosePink,
     );
   }
 
@@ -37,7 +64,12 @@ class AppColors extends ThemeExtension<AppColors> {
   AppColors lerp(ThemeExtension<AppColors>? other, double t) {
     if (other is! AppColors) return this;
     return AppColors(
-      limegreen: Color.lerp(limegreen, other.limegreen, t)!, bacgroundblue: null,
+      limegreen: Color.lerp(limegreen, other.limegreen, t)!,
+      bacgroundblue: Color.lerp(bacgroundblue, other.bacgroundblue, t)!,
+      ondarkliht: Color.lerp(ondarkliht, other.ondarkliht, t)!,
+      blackd: Color.lerp(blackd, other.blackd, t)!,
+      transparent: Color.lerp(transparent, other.transparent, t)!,
+      rosePink: Color.lerp(rosePink, other.rosePink, t)!,
     );
   }
 

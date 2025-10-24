@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
+import 'package:al_anime_creator/product/init/theme/app_colors.dart';
 
 class AnimatedBtn extends StatelessWidget {
   const AnimatedBtn({
@@ -31,11 +32,13 @@ class AnimatedBtn extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const Icon(CupertinoIcons.arrow_right),
+                   Icon(CupertinoIcons.arrow_right, color: AppColors.of(context).blackd,),
                   const SizedBox(width: 8),
                   Text(
-                    "Start the course",
-                    style: Theme.of(context).textTheme.labelLarge,
+                    "Anime Oluştur",
+                    style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                      color: AppColors.of(context).blackd,
+                    ),
                   )
                 ],
               ),
