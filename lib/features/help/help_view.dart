@@ -1,6 +1,6 @@
+import 'package:al_anime_creator/product/init/theme/index.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import '../../features/storygeneration/view/utils/app_colors.dart';
 
 @RoutePage()
 class HelpView extends StatelessWidget {
@@ -9,7 +9,7 @@ class HelpView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: AppColors.of(context).transparent,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -68,14 +68,14 @@ class _HelpCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: AppColors.of(context).bacgroundblue,
         borderRadius: BorderRadius.circular(14),
       ),
       padding: const EdgeInsets.all(20),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(icon, color: AppColors.accent, size: 32),
+          Icon(icon, color:AppColors.of(context).limegreen, size: 32),
           const SizedBox(width: 20),
           Expanded(
             child: Column(

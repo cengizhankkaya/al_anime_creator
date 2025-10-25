@@ -1,5 +1,5 @@
+import 'package:al_anime_creator/product/init/index.dart';
 import 'package:flutter/material.dart';
-import 'package:al_anime_creator/features/storygeneration/view/utils/app_colors.dart';
 
 class LengthSelector extends StatelessWidget {
   final int selectedLength;
@@ -60,8 +60,8 @@ class _LengthButton extends StatelessWidget {
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
           backgroundColor: isSelected
-              ? AppColors.accent
-              : AppColors.surface,
+              ? AppColors.of(context).limegreen
+              : AppColors.of(context).white,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(25),
           ),
@@ -70,7 +70,7 @@ class _LengthButton extends StatelessWidget {
         child: Text(
           text,
           style: TextStyle(
-            color: isSelected ? Colors.black : Colors.white,
+            color: isSelected ?  AppColors.of(context).white :  AppColors.of(context).blackd,
             fontSize: 16,
             fontWeight: FontWeight.w500,
           ),

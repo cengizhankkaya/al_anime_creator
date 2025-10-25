@@ -1,4 +1,5 @@
 import 'package:al_anime_creator/features/entryPoint/menu.dart';
+import 'package:al_anime_creator/product/init/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
 
@@ -21,9 +22,9 @@ class SideMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const Padding(
+         Padding(
           padding: EdgeInsets.only(left: 24),
-          child: Divider(height: 1, color: Colors.transparent), // Tema üzerinden almak için değiştirildi
+          child: Divider(height: 1, color: AppColors.of(context).transparent), // Tema üzerinden almak için değiştirildi
         ),
         Stack(
           children: [
@@ -35,7 +36,7 @@ class SideMenu extends StatelessWidget {
               left: 0,
               child: Container(
                 decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.primary.withOpacity(0.12),
+                  color:AppColors.of(context).limegreen,
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
                 ),
               ),
@@ -45,15 +46,27 @@ class SideMenu extends StatelessWidget {
               leading: SizedBox(
                 height: 36,
                 width: 36,
-                child: RiveAnimation.asset(
-                  menu.rive.src,
-                  artboard: menu.rive.artboard,
-                  onInit: riveOnInit,
+                child: ColorFiltered(
+                  colorFilter: ColorFilter.mode(
+                    selectedMenu == menu 
+                      ? AppColors.of(context).blackd 
+                      : AppColors.of(context).bacgroundblue,
+                    BlendMode.srcIn,
+                  ),
+                  child: RiveAnimation.asset(
+                    menu.rive.src,
+                    artboard: menu.rive.artboard,
+                    onInit: riveOnInit,
+                  ),
                 ),
               ),
               title: Text(
                 menu.title,
-                style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
+                style: TextStyle(
+                  color: selectedMenu == menu 
+                    ? AppColors.of(context).blackd 
+                    : Colors.white,
+                ),
               ),
             ),
           ],

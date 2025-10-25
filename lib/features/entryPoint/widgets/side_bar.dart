@@ -1,4 +1,5 @@
 import 'package:al_anime_creator/features/entryPoint/menu.dart';
+import 'package:al_anime_creator/product/init/index.dart';
 import 'package:al_anime_creator/product/utility/constans/rive_utils.dart' show RiveUtils;
 import 'package:flutter/material.dart';
 
@@ -24,7 +25,7 @@ class _SideBarState extends State<SideBar> {
         width: 288,
         height: double.infinity,
         decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.surface,
+          color: Theme.of(context).colorScheme.surfaceContainer,
           borderRadius: const BorderRadius.all(
             Radius.circular(30),
           ),

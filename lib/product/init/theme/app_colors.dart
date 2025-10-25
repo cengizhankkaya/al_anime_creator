@@ -10,6 +10,7 @@ class AppColors extends ThemeExtension<AppColors> {
   final Color blackd;
   final Color transparent;
   final Color rosePink;
+  final Color white;
 
   const AppColors({
     required this.limegreen,
@@ -18,6 +19,7 @@ class AppColors extends ThemeExtension<AppColors> {
     required this.blackd,
     required this.transparent,
     required this.rosePink,
+    required this.white,
   });
 
   static const AppColors light = AppColors(
@@ -27,17 +29,19 @@ class AppColors extends ThemeExtension<AppColors> {
     blackd: Color.fromARGB(255, 0, 0, 0),
     transparent: Colors.transparent,
     rosePink: Color.fromARGB(145, 255, 100, 113),
+    white: Colors.white,
   );
 
 
 
   static const AppColors dark = AppColors(
     limegreen: Color.fromARGB(255, 252, 134, 152),
-    bacgroundblue: Color.fromARGB(255, 255, 255, 255),
+    bacgroundblue: Color(0xFF040116),
     ondarkliht: Color(0xFF040116),
     blackd: Color.fromARGB(255, 0, 0, 0),
     transparent: Colors.transparent,
     rosePink: Color.fromARGB(255, 252, 134, 152),
+    white: Colors.white,
   );
 
 
@@ -49,6 +53,7 @@ class AppColors extends ThemeExtension<AppColors> {
     Color? black,
     Color? transparent,
     Color? rosePink,
+    Color? white,
   }) {
     return AppColors(
       limegreen: limegreen ?? this.limegreen,
@@ -57,6 +62,7 @@ class AppColors extends ThemeExtension<AppColors> {
       blackd: black ?? this.blackd,
       transparent: transparent ?? this.transparent,
       rosePink: rosePink ?? this.rosePink,
+      white: white ?? this.white,
     );
   }
 
@@ -70,6 +76,7 @@ class AppColors extends ThemeExtension<AppColors> {
       blackd: Color.lerp(blackd, other.blackd, t)!,
       transparent: Color.lerp(transparent, other.transparent, t)!,
       rosePink: Color.lerp(rosePink, other.rosePink, t)!,
+      white: Color.lerp(white, other.white, t)!,
     );
   }
 

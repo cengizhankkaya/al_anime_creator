@@ -7,6 +7,7 @@ import 'package:al_anime_creator/features/profile/profile_view.dart';
 import 'package:al_anime_creator/features/storyhistory/view/story_history_view.dart';
 import 'package:al_anime_creator/features/storyhistory/view/favorites_view.dart';
 import 'package:al_anime_creator/features/storygeneration/view/story_generation_view.dart';
+import 'package:al_anime_creator/product/init/index.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
@@ -103,7 +104,7 @@ class _EntryPointState extends State<EntryPoint>
     return Scaffold(
       extendBody: false,
       resizeToAvoidBottomInset: false,
-      backgroundColor: colorScheme.surfaceContainer,
+      backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
       body: Stack(
         children: [
           // SideBar animasyonu

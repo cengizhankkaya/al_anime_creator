@@ -1,16 +1,15 @@
 
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 import 'package:al_anime_creator/features/storygeneration/cubit/story_generation_cubit.dart';
 import 'package:al_anime_creator/features/storygeneration/cubit/story_generation_state.dart';
 import 'package:al_anime_creator/features/storygeneration/repository/story_generation_repository.dart';
-import 'package:al_anime_creator/features/storygeneration/view/widgets/story_form.dart';
-import 'package:al_anime_creator/features/storygeneration/view/widgets/loading_button.dart';
+import 'package:al_anime_creator/product/init/index.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:al_anime_creator/features/storygeneration/utils/story_generation_ui_helpers.dart';
-import 'package:al_anime_creator/features/storygeneration/view/utils/app_colors.dart';
-import 'package:al_anime_creator/product/init/navigation/app_router.dart';
 import 'package:auto_route/auto_route.dart';
+
+import 'widgets/index.dart';
 
 @RoutePage(
   name: 'StoryGenerationRoute',
@@ -25,7 +24,7 @@ class StoryGenerationView extends StatelessWidget {
         GetIt.I<StoryGenerationRepository>(),
       ),
       child: Scaffold(
-        backgroundColor: AppColors.background,
+        backgroundColor: AppColors.of(context).bacgroundblue,
         appBar: _buildAppBar(context),
         body: BlocConsumer<StoryGenerationCubit, StoryGenerationState>(
           listener: (context, state) => _handleStateListener(context, state),
@@ -37,19 +36,19 @@ class StoryGenerationView extends StatelessWidget {
 
   AppBar _buildAppBar(BuildContext context) {
     return AppBar(
-      backgroundColor: Colors.transparent,
+      backgroundColor: AppColors.of(context).bacgroundblue,
       elevation: 0,
-      title: const Text(
+      title:  Text(
         'Result Image',
         style: TextStyle(
-          color: Colors.white,
+          color: AppColors.of(context).white,
           fontSize: 18,
           fontWeight: FontWeight.w600,
         ),
       ),
       actions: [
         IconButton(
-          icon: const Icon(Icons.more_vert, color: Colors.white),
+          icon:  Icon(Icons.more_vert, color: AppColors.of(context).limegreen),
           onPressed: () {},
         ),
       ],
@@ -61,8 +60,6 @@ class StoryGenerationView extends StatelessWidget {
       StoryGenerationUIHelpers.showErrorSnackBar(context, state.message);
     } else if (state is StoryGenerationLoaded) {
       StoryGenerationUIHelpers.showSuccessSnackBar(context, 'Hikaye başarıyla kaydedildi!');
-      // Hikaye oluşturulduktan hemen sonra Story History sayfasına yönlendir
-      // Oluşturulan hikayenin detayına gitmek için story ID'sini geç
       if (context.mounted) {
         context.router.replace(StoryHistoryRoute(storyId: state.savedStory.id));
       }
@@ -72,6 +69,7 @@ class StoryGenerationView extends StatelessWidget {
   Widget _buildBody(BuildContext context, StoryGenerationState state) {
     return SingleChildScrollView(
       child: Padding(
+        
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

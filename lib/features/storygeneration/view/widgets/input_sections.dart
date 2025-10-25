@@ -14,8 +14,8 @@ class InputSections extends StatelessWidget {
     return Column(
       children: [
         InputSection(
-          title: 'character details',
-          subtitle: 'Name, age, personality, appearance.',
+          title: 'Karakter Detayları',
+          subtitle: 'İsim, yaş, kişilik, görünüm.',
           value: state.characterDetails ?? '',
           onChanged: (value) {
             context.read<StoryGenerationCubit>().updateCharacterDetails(value);
@@ -23,8 +23,8 @@ class InputSections extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         InputSection(
-          title: 'setting and environment',
-          subtitle: 'Location, atmosphere.',
+          title: 'Mekan ve Çevre',
+          subtitle: 'Konum, atmosfer.',
           value: state.settingDetails ?? '',
           onChanged: (value) {
             context.read<StoryGenerationCubit>().updateSettingDetails(value);
@@ -32,8 +32,8 @@ class InputSections extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         InputSection(
-          title: 'plot structure',
-          subtitle: 'Beginning, development, conflict, resolution.',
+          title: 'Olay Örgüsü',
+          subtitle: 'Başlangıç, gelişim, çatışma, çözüm.',
           value: state.plotDetails ?? '',
           onChanged: (value) {
             context.read<StoryGenerationCubit>().updatePlotDetails(value);
@@ -41,8 +41,8 @@ class InputSections extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         InputSection(
-          title: 'emotions and tone',
-          subtitle: "Character's feeling, overall mood of the story.",
+          title: 'Duygular ve Ton',
+          subtitle: "Karakterin hisleri, hikayenin genel ruh hali.",
           value: state.emotionDetails ?? '',
           onChanged: (value) {
             context.read<StoryGenerationCubit>().updateEmotionDetails(value);
