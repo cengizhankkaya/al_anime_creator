@@ -51,7 +51,7 @@ class _OnboardingViewState extends State<OnboardingView> {
       body: Stack(
         children: [
           Container(
-      color: AppColors.of(context).bacgroundblue, // veya AppColors.of(context).bacgroundblue
+      color: AppColors.of(context).onboardColor,
     ),
           _buildBackground(size),
           _buildBlur(sigma: 20),

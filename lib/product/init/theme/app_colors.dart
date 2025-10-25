@@ -11,6 +11,8 @@ class AppColors extends ThemeExtension<AppColors> {
   final Color transparent;
   final Color rosePink;
   final Color white;
+  final Color sidebarColor;
+  final Color onboardColor;
 
   const AppColors({
     required this.limegreen,
@@ -20,6 +22,8 @@ class AppColors extends ThemeExtension<AppColors> {
     required this.transparent,
     required this.rosePink,
     required this.white,
+    required this.sidebarColor,
+    required this.onboardColor,
   });
 
   static const AppColors light = AppColors(
@@ -30,6 +34,8 @@ class AppColors extends ThemeExtension<AppColors> {
     transparent: Colors.transparent,
     rosePink: Color.fromARGB(145, 255, 100, 113),
     white: Colors.white,
+    sidebarColor: Color.fromARGB(255, 37, 37, 37),
+    onboardColor: Color(0xFF040116),
   );
 
 
@@ -42,6 +48,8 @@ class AppColors extends ThemeExtension<AppColors> {
     transparent: Colors.transparent,
     rosePink: Color.fromARGB(255, 252, 134, 152),
     white: Colors.white,
+    sidebarColor: Color.fromARGB(255, 37, 37, 37),
+    onboardColor:  Colors.white,
   );
 
 
@@ -54,6 +62,8 @@ class AppColors extends ThemeExtension<AppColors> {
     Color? transparent,
     Color? rosePink,
     Color? white,
+    Color? sidebarColor,
+    Color? onboardColor,
   }) {
     return AppColors(
       limegreen: limegreen ?? this.limegreen,
@@ -63,6 +73,8 @@ class AppColors extends ThemeExtension<AppColors> {
       transparent: transparent ?? this.transparent,
       rosePink: rosePink ?? this.rosePink,
       white: white ?? this.white,
+      sidebarColor: sidebarColor ?? this.sidebarColor,
+      onboardColor: onboardColor ?? this.onboardColor,
     );
   }
 
@@ -77,6 +89,8 @@ class AppColors extends ThemeExtension<AppColors> {
       transparent: Color.lerp(transparent, other.transparent, t)!,
       rosePink: Color.lerp(rosePink, other.rosePink, t)!,
       white: Color.lerp(white, other.white, t)!,
+      sidebarColor: Color.lerp(sidebarColor, other.sidebarColor, t)!,
+      onboardColor: Color.lerp(onboardColor, other.onboardColor, t)!,
     );
   }
 

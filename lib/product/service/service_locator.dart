@@ -10,6 +10,7 @@ import 'package:al_anime_creator/features/storyhistory/cubit/story_firestore_cub
 import 'package:al_anime_creator/features/storyhistory/repository/story_repository.dart';
 import 'package:al_anime_creator/features/profile/repository/profile_repository.dart';
 import 'package:al_anime_creator/features/storygeneration/cubit/story_generation_cubit.dart';
+import 'package:al_anime_creator/features/auth/repository/auth_repository.dart';
 
 final GetIt getIt = GetIt.instance;
 
@@ -63,10 +64,16 @@ Future<void> setupServiceLocator() async {
     ProfileRepositoryImpl(),
   );
 
+  // Auth Repository
+  getIt.registerSingleton<AuthRepository>(
+    AuthRepository(),
+  );
+
   // Debug: Servislerin kayıtlı olduğunu kontrol et
   print('✅ FirestoreService kayıtlı: ${getIt.isRegistered<FirestoreService>()}');
   print('✅ StoryRepository kayıtlı: ${getIt.isRegistered<StoryRepository>()}');
   print('✅ StoryFirestoreCubit kayıtlı: ${getIt.isRegistered<StoryFirestoreCubit>()}');
   print('✅ StoryGenerationRepository kayıtlı: ${getIt.isRegistered<StoryGenerationRepository>()}');
   print('✅ ProfileRepository kayıtlı: ${getIt.isRegistered<ProfileRepository>()}');
+  print('✅ AuthRepository kayıtlı: ${getIt.isRegistered<AuthRepository>()}');
 }

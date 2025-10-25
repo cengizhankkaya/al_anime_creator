@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:auto_route/auto_route.dart';
 import '../../cubit/profile_cubit.dart';
 import '../../model/profile_model.dart';
 import '../../utils/profile_constants.dart';
 import 'language_dialog_widget.dart';
 import 'theme_dialog_widget.dart';
+import 'package:al_anime_creator/product/init/navigation/app_router.dart';
 
 /// Genel ayarlar bölümünü gösteren widget
 class SettingsSectionWidget extends StatelessWidget {
@@ -31,6 +33,9 @@ class SettingsSectionWidget extends StatelessWidget {
         _buildPrivacySetting(context),
         const SizedBox(height: ProfileConstants.smallPadding),
         _buildTermsSetting(context),
+        const SizedBox(height: ProfileConstants.defaultPadding),
+        _buildSectionTitle(context, ProfileConstants.accountSectionTitle),
+        _buildLogoutSetting(context),
       ],
     );
   }
@@ -98,6 +103,14 @@ class SettingsSectionWidget extends StatelessWidget {
     );
   }
 
+  Widget _buildLogoutSetting(BuildContext context) {
+    return _buildSettingTile(context,
+      icon: Icons.logout,
+      title: ProfileConstants.logoutTitle,
+      onTap: () => _showLogoutConfirmation(context),
+    );
+  }
+
   Widget _buildSettingTile(BuildContext context, {
     required IconData icon,
     required String title,
@@ -155,6 +168,36 @@ class SettingsSectionWidget extends StatelessWidget {
         onThemeSelected: (theme) {
           context.read<ProfileCubit>().updateTheme(theme);
         },
+      ),
+    );
+  }
+
+  void _showLogoutConfirmation(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: const Text('Çıkış Yap'),
+        content: const Text('Hesabınızdan çıkış yapmak istediğinizden emin misiniz?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(dialogContext).pop(),
+            child: const Text('İptal'),
+          ),
+          TextButton(
+            onPressed: () async {
+              Navigator.of(dialogContext).pop();
+              // Parent context'i kullanarak ProfileCubit'e eriş
+              await context.read<ProfileCubit>().logout();
+              // Çıkış işlemi sonrası onboarding'e yönlendir
+              if (!context.mounted) return;
+              context.router.replaceAll([const OnboardingRoute()]);
+            },
+            child: Text(
+              'Çıkış Yap',
+              style: TextStyle(color: Theme.of(dialogContext).colorScheme.error),
+            ),
+          ),
+        ],
       ),
     );
   }

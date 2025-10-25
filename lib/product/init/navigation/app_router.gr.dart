@@ -91,6 +91,22 @@ class ProfileRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [SplashView]
+class SplashRoute extends PageRouteInfo<void> {
+  const SplashRoute({List<PageRouteInfo>? children})
+    : super(SplashRoute.name, initialChildren: children);
+
+  static const String name = 'SplashRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const SplashView();
+    },
+  );
+}
+
+/// generated route for
 /// [StoryGenerationView]
 class StoryGenerationRoute extends PageRouteInfo<void> {
   const StoryGenerationRoute({List<PageRouteInfo>? children})

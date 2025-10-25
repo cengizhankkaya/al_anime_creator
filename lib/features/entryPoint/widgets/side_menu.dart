@@ -50,7 +50,7 @@ class SideMenu extends StatelessWidget {
                   colorFilter: ColorFilter.mode(
                     selectedMenu == menu 
                       ? AppColors.of(context).blackd 
-                      : AppColors.of(context).bacgroundblue,
+                      : AppColors.of(context).white,
                     BlendMode.srcIn,
                   ),
                   child: RiveAnimation.asset(

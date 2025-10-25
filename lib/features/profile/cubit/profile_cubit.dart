@@ -7,6 +7,10 @@ import '../utils/profile_error_handler.dart';
 import '../utils/profile_constants.dart';
 import 'profile_state.dart';
 
+// AuthCubit'e erişim için import
+import 'package:al_anime_creator/features/auth/repository/auth_repository.dart';
+import 'package:get_it/get_it.dart';
+
 class ProfileCubit extends Cubit<ProfileState> {
   final ProfileRepository _profileRepository;
 
@@ -63,6 +67,16 @@ class ProfileCubit extends Cubit<ProfileState> {
 
   Future<void> refreshProfile() async {
     await loadProfile();
+  }
+
+  /// Kullanıcı çıkış işlemi
+  Future<void> logout() async {
+    try {
+      final authRepository = GetIt.instance<AuthRepository>();
+      await authRepository.signOut();
+    } catch (e) {
+      emit(ProfileError(ProfileLoadFailure(message: 'Çıkış yapılırken bir hata oluştu')));
+    }
   }
 
   /// Generic settings update method

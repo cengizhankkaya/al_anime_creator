@@ -64,10 +64,12 @@ class ProfileConstants {
   static const String aboutTitle = 'Hakkımızda';
   static const String privacyTitle = 'Gizlilik Politikası';
   static const String termsTitle = 'Kullanım Koşulları';
+  static const String logoutTitle = 'Çıkış Yap';
   static const String signInRequiredTitle = 'Oturum Açmanız Gerekiyor';
   static const String signInRequiredMessage = 'Profil ayarlarını görüntülemek için lütfen oturum açın.';
   static const String signInButtonText = 'Oturum Aç';
   static const String unknownStateMessage = 'Bilinmeyen durum';
   static const String selectLanguageTitle = 'Dil Seçin';
   static const String selectThemeTitle = 'Tema Seçin';
+  static const String accountSectionTitle = 'Hesap';
 }

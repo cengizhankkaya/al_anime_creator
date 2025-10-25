@@ -25,7 +25,7 @@ class _SideBarState extends State<SideBar> {
         width: 288,
         height: double.infinity,
         decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.surfaceContainer,
+          color: AppColors.of(context).sidebarColor,
           borderRadius: const BorderRadius.all(
             Radius.circular(30),
           ),

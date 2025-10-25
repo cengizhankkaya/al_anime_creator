@@ -24,25 +24,33 @@ class ProfileView extends StatelessWidget {
 
     return BlocProvider(
       create: (context) => ProfileCubit(GetIt.instance<ProfileRepository>()),
-      child: Scaffold(
-        backgroundColor: Theme.of(context).colorScheme.background,
-        appBar: _buildAppBar(context),
-        body: BlocBuilder<ProfileCubit, ProfileState>(
-          builder: (context, state) {
-            if (state is ProfileLoading) {
-              return _buildLoadingView(context);
-            }
+      child: BlocListener<ProfileCubit, ProfileState>(
+        listener: (context, state) {
+          if (state is ProfileError) {
+            // Hata durumunda sadece hata göster, logout işlemi başarılı olursa
+            // Firebase auth durum değişikliği onboarding'e yönlendirecek
+          }
+        },
+        child: Scaffold(
+          backgroundColor: Theme.of(context).colorScheme.background,
+          appBar: _buildAppBar(context),
+          body: BlocBuilder<ProfileCubit, ProfileState>(
+            builder: (context, state) {
+              if (state is ProfileLoading) {
+                return _buildLoadingView(context);
+              }
 
-            if (state is ProfileError) {
-              return _buildErrorView(context, state.failure.message);
-            }
+              if (state is ProfileError) {
+                return _buildErrorView(context, state.failure.message);
+              }
 
-            if (state is ProfileLoaded) {
-              return _buildProfileContent(state.user);
-            }
+              if (state is ProfileLoaded) {
+                return _buildProfileContent(context, state.user);
+              }
 
-            return _buildUnknownStateView();
-          },
+              return _buildUnknownStateView();
+            },
+          ),
         ),
       ),
     );
@@ -139,7 +147,7 @@ class ProfileView extends StatelessWidget {
     );
   }
 
-  Widget _buildProfileContent(user) {
+  Widget _buildProfileContent(BuildContext context, dynamic user) {
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

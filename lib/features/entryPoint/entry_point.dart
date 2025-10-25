@@ -104,7 +104,7 @@ class _EntryPointState extends State<EntryPoint>
     return Scaffold(
       extendBody: false,
       resizeToAvoidBottomInset: false,
-      backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
+      backgroundColor: AppColors.of(context).sidebarColor,
       body: Stack(
         children: [
           // SideBar animasyonu
