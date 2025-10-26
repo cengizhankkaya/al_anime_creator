@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import '../../../../product/init/theme/app_colors.dart';
+import '../../../core/config/theme/app_colors.dart';
 
 class NameTextField extends StatelessWidget {
   const NameTextField({

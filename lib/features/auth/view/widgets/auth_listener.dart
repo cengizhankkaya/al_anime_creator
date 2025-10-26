@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:al_anime_creator/product/init/navigation/app_router.dart';
+import 'package:al_anime_creator/features/core/config/navigation/app_router.dart';
 import 'package:rive/rive.dart';
 import '../../cubit/auth_cubit.dart';
 

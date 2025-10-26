@@ -1,5 +1,5 @@
 
-import 'package:al_anime_creator/product/init/theme/app_colors.dart';
+import 'package:al_anime_creator/features/core/config/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'divider_with_or_text.dart';
 import 'sign_up_button_row.dart';

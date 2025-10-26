@@ -1,4 +1,5 @@
-import 'package:al_anime_creator/features/auth/repository/auth_repository.dart';
+
+import 'package:al_anime_creator/features/data/repository/auth_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
