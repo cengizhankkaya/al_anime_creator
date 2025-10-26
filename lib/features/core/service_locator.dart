@@ -4,6 +4,7 @@ import 'package:al_anime_creator/features/data/repository/story_generation_repos
 import 'package:al_anime_creator/features/data/repository/story_repository.dart';
 import 'package:al_anime_creator/features/core/network/firestore_service.dart';
 import 'package:al_anime_creator/features/presentation/storyhistory/cubit/story_firestore_cubit.dart';
+import 'package:al_anime_creator/features/presentation/entryPoint/cubit/sidebar_cubit.dart';
 import 'package:get_it/get_it.dart';
 import 'package:firebase_ai/firebase_ai.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -67,6 +68,11 @@ Future<void> setupServiceLocator() async {
   // Auth Repository
   getIt.registerSingleton<AuthRepository>(
     AuthRepository(),
+  );
+
+  // Sidebar Cubit
+  getIt.registerFactory<SidebarCubit>(
+    () => SidebarCubit(getIt<ProfileRepository>()),
   );
 
 }

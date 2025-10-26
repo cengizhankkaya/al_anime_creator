@@ -8,8 +8,11 @@ import 'package:al_anime_creator/features/presentation/storyhistory/view/story_h
 import 'package:al_anime_creator/features/presentation/storyhistory/view/favorites_view.dart';
 import 'package:al_anime_creator/features/presentation/storygeneration/view/story_generation_view.dart';
 import 'package:al_anime_creator/features/core/index.dart';
+import 'package:al_anime_creator/features/presentation/entryPoint/cubit/sidebar_cubit.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:rive/rive.dart';
 
 import 'widgets/menu_btn.dart';
@@ -99,9 +102,9 @@ class _EntryPointState extends State<EntryPoint>
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-
-    return Scaffold(
+    return BlocProvider(
+      create: (context) => GetIt.instance<SidebarCubit>(),
+      child: Scaffold(
       extendBody: false,
       resizeToAvoidBottomInset: false,
       backgroundColor: AppColors.of(context).sidebarColor,
@@ -177,6 +180,7 @@ class _EntryPointState extends State<EntryPoint>
           ),
         ],
       ),
+    ),
     );
   }
 }

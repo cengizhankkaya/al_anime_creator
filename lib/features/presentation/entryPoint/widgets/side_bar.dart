@@ -1,7 +1,10 @@
 import 'package:al_anime_creator/features/presentation/entryPoint/menu.dart';
+import 'package:al_anime_creator/features/presentation/entryPoint/cubit/sidebar_cubit.dart';
+import 'package:al_anime_creator/features/presentation/entryPoint/cubit/sidebar_state.dart';
 import 'package:al_anime_creator/features/core/index.dart';
 import 'package:al_anime_creator/features/core/constans/rive_utils.dart' show RiveUtils;
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 
 import 'info_card.dart';
@@ -18,27 +21,32 @@ class SideBar extends StatefulWidget {
 
 class _SideBarState extends State<SideBar> {
   Menu selectedSideMenu = sidebarMenus[0]; // StoryGeneration seçili başlasın
+  
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Container(
-        width: 288,
-        height: double.infinity,
-        decoration: BoxDecoration(
-          color: AppColors.of(context).sidebarColor,
-          borderRadius: const BorderRadius.all(
-            Radius.circular(30),
-          ),
-        ),
-        child: DefaultTextStyle(
-          style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const InfoCard(
-                name: "Abu Anwar",
-                bio: "YouTuber",
+    return BlocBuilder<SidebarCubit, SidebarState>(
+      builder: (context, state) {
+        // Kullanıcı çıkış yaptıysa veya hata varsa boş widget
+        if (state is SidebarUnauthenticated || state is SidebarError) {
+          return const SizedBox.shrink();
+        }
+        
+        return SafeArea(
+          child: Container(
+            width: 288,
+            height: double.infinity,
+            decoration: BoxDecoration(
+              color: AppColors.of(context).sidebarColor,
+              borderRadius: const BorderRadius.all(
+                Radius.circular(30),
               ),
+            ),
+            child: DefaultTextStyle(
+              style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildUserInfo(state),
               Padding(
                 padding: const EdgeInsets.only(left: 24, top: 32, bottom: 16),
                 child: Text(
@@ -89,10 +97,35 @@ class _SideBarState extends State<SideBar> {
                           stateMachineName: menu.rive.stateMachineName);
                     },
                   )),
-            ],
+                ],
+              ),
+            ),
           ),
-        ),
-      ),
+        );
+      },
+    );
+  }
+
+  Widget _buildUserInfo(SidebarState state) {
+    if (state is SidebarLoading) {
+      return const InfoCard(
+        name: 'Yükleniyor...',
+        bio: '',
+      );
+    }
+
+    if (state is SidebarLoaded) {
+      return InfoCard(
+        name: state.userProfile.name,
+        bio: state.userProfile.email,
+        avatarUrl: state.userProfile.avatarUrl,
+      );
+    }
+
+    // Default durum
+    return const InfoCard(
+      name: 'Kullanıcı',
+      bio: '',
     );
   }
 }
