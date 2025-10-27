@@ -61,7 +61,7 @@ class StoryGenerationView extends StatelessWidget {
     } else if (state is StoryGenerationLoaded) {
       StoryGenerationUIHelpers.showSuccessSnackBar(context, 'Hikaye başarıyla kaydedildi!');
       if (context.mounted) {
-        context.router.push(StoryHistoryRoute(storyId: state.savedStory.id));
+        context.router.replaceAll([ StoryHistoryRoute()]);;
       }
     }
   }

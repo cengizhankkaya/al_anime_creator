@@ -139,8 +139,33 @@ class StoryCard extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 12),
+              
+              const SizedBox(height: 8),
               Row(
                 children: [
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF24FF00).withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                    child: Text(
+                      story.settings.length,
+                      style: const TextStyle(
+                        color: Color(0xFF24FF00),
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Text(
+                    formattedDate,
+                    style: TextStyle(
+                      color: Colors.grey.shade500,
+                      fontSize: 12,
+                    ),
+                  ),
                   IconButton(
                     onPressed: onToggleFavorite,
                     icon: Icon(
@@ -176,34 +201,6 @@ class StoryCard extends StatelessWidget {
                     Icons.arrow_forward_ios,
                     color: Colors.grey,
                     size: 16,
-                  ),
-                ],
-              ),
-              const SizedBox(height: 8),
-              Row(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF24FF00).withOpacity(0.1),
-                      borderRadius: BorderRadius.circular(6),
-                    ),
-                    child: Text(
-                      story.settings.length,
-                      style: const TextStyle(
-                        color: Color(0xFF24FF00),
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  Text(
-                    formattedDate,
-                    style: TextStyle(
-                      color: Colors.grey.shade500,
-                      fontSize: 12,
-                    ),
                   ),
                 ],
               ),
