@@ -22,11 +22,16 @@ class AppRouter extends RootStackRouter {
   List<AutoRoute> get routes => [
         AutoRoute(page: SplashRoute.page, initial: true),
         AutoRoute(page: OnboardingRoute.page),
-        AutoRoute(page: EntryPointRoute.page),
-        AutoRoute(page: StoryGenerationRoute.page),
-        AutoRoute(page: StoryHistoryRoute.page, path: '/story-history'),
-        AutoRoute(page: FavoritesRoute.page, path: '/favorites'),
-        AutoRoute(page: HelpRoute.page, path: '/help'),
-        AutoRoute(page: ProfileRoute.page, path: '/profile'),
+        AutoRoute(
+          page: EntryPointRoute.page,
+          path: '/main',
+          children: [
+            AutoRoute(page: StoryGenerationRoute.page, path: 'generation'),
+            AutoRoute(page: StoryHistoryRoute.page, path: 'history'),
+            AutoRoute(page: FavoritesRoute.page, path: 'favorites'),
+            AutoRoute(page: ProfileRoute.page, path: 'profile'),
+            AutoRoute(page: HelpRoute.page, path: 'help'),
+          ],
+        ),
       ];
 }

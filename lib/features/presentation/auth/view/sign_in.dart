@@ -1,13 +1,13 @@
-import 'package:al_anime_creator/features/auth/cubit/auth_cubit.dart';
+import 'package:al_anime_creator/features/presentation/auth/cubit/auth_cubit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rive/rive.dart';
-import 'package:al_anime_creator/features/auth/view/widgets/auth_listener.dart';
-import 'package:al_anime_creator/features/auth/view/widgets/loading_anim.dart';
-import 'package:al_anime_creator/features/auth/view/widgets/confetti_anim.dart';
-import 'package:al_anime_creator/features/auth/view/widgets/auth_form.dart';
-import 'package:al_anime_creator/features/auth/view/widgets/custom_positioned.dart';
+import 'package:al_anime_creator/features/presentation/auth/view/widgets/auth_listener.dart';
+import 'package:al_anime_creator/features/presentation/auth/view/widgets/loading_anim.dart';
+import 'package:al_anime_creator/features/presentation/auth/view/widgets/confetti_anim.dart';
+import 'package:al_anime_creator/features/presentation/auth/view/widgets/auth_form.dart';
+import 'package:al_anime_creator/features/presentation/auth/view/widgets/custom_positioned.dart';
 
 class SignInForm extends StatefulWidget {
   const SignInForm({super.key});

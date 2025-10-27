@@ -61,7 +61,7 @@ class StoryGenerationView extends StatelessWidget {
     } else if (state is StoryGenerationLoaded) {
       StoryGenerationUIHelpers.showSuccessSnackBar(context, 'Hikaye başarıyla kaydedildi!');
       if (context.mounted) {
-        context.router.replace(StoryHistoryRoute(storyId: state.savedStory.id));
+        context.router.push(StoryHistoryRoute(storyId: state.savedStory.id));
       }
     }
   }
@@ -69,7 +69,6 @@ class StoryGenerationView extends StatelessWidget {
   Widget _buildBody(BuildContext context, StoryGenerationState state) {
     return SingleChildScrollView(
       child: Padding(
-        
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

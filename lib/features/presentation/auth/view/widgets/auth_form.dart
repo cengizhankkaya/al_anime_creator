@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:al_anime_creator/features/auth/view/widgets/email_text_field.dart';
-import 'package:al_anime_creator/features/auth/view/widgets/password_text_field.dart';
-import 'package:al_anime_creator/features/auth/view/widgets/name_text_field.dart';
-import 'package:al_anime_creator/features/auth/view/widgets/auth_button.dart';
-import 'package:al_anime_creator/features/auth/view/widgets/mode_toggle.dart';
+import 'package:al_anime_creator/features/presentation/auth/view/widgets/email_text_field.dart';
+import 'package:al_anime_creator/features/presentation/auth/view/widgets/password_text_field.dart';
+import 'package:al_anime_creator/features/presentation/auth/view/widgets/name_text_field.dart';
+import 'package:al_anime_creator/features/presentation/auth/view/widgets/auth_button.dart';
+import 'package:al_anime_creator/features/presentation/auth/view/widgets/mode_toggle.dart';
 
 class AuthForm extends StatefulWidget {
   final bool isRegisterMode;

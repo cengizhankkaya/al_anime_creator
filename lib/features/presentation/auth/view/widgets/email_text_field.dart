@@ -1,5 +1,3 @@
-
-import 'package:al_anime_creator/features/core/config/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 

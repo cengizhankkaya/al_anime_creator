@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:al_anime_creator/features/auth/view/widgets/sign_up_icon_button.dart';
+import 'package:al_anime_creator/features/presentation/auth/view/widgets/sign_up_icon_button.dart';
 
 class SignUpButtonRow extends StatelessWidget {
   const SignUpButtonRow();

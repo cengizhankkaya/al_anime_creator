@@ -1,7 +1,7 @@
 import 'package:al_anime_creator/features/data/repository/auth_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:al_anime_creator/features/auth/cubit/auth_cubit.dart';
+import 'package:al_anime_creator/features/presentation/auth/cubit/auth_cubit.dart';
 
 
 import 'widgets/dialog_container.dart';

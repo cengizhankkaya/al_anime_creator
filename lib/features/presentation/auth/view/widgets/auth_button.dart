@@ -5,7 +5,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../../core/config/theme/app_colors.dart';
+import '../../../../core/config/theme/app_colors.dart';
 
 class AuthButton extends StatelessWidget {
   final bool isRegisterMode;

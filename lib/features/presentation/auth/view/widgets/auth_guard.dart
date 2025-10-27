@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:al_anime_creator/features/core/config/navigation/app_router.dart';
-import 'package:al_anime_creator/features/auth/cubit/auth_cubit.dart';
+import 'package:al_anime_creator/features/presentation/auth/cubit/auth_cubit.dart';
 import 'package:get_it/get_it.dart';
 
 /// Authentication durumunu kontrol eden ve kullanıcıyı uygun sayfaya yönlendiren widget

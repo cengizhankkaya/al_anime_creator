@@ -8,7 +8,6 @@ import 'package:al_anime_creator/features/core/config/navigation/app_router.dart
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_route/annotations.dart';
-// utils used internally by ReaderPage/StoryCard
 import 'package:al_anime_creator/features/presentation/storyhistory/view/reader_page.dart';
 import 'package:al_anime_creator/features/presentation/storyhistory/view/widgets/story_card.dart';
 import 'package:al_anime_creator/features/presentation/storygeneration/cubit/story_generation_cubit.dart';

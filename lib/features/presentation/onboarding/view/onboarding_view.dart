@@ -7,7 +7,7 @@ import 'package:rive/rive.dart' hide Image;
 
 import '../../../core/config/theme/app_colors.dart';
 import 'widgets/animated_btn.dart';
-import 'package:al_anime_creator/features/auth/view/sign_in_dialog.dart';
+import 'package:al_anime_creator/features/presentation/auth/view/sign_in_dialog.dart';
 import 'widgets/onboarding_constants.dart';
 
 @RoutePage(
