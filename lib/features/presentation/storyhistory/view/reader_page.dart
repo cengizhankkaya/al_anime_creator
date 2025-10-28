@@ -1,3 +1,4 @@
+import 'package:al_anime_creator/features/core/index.dart';
 import 'package:al_anime_creator/features/data/models/story.dart';
 import 'package:flutter/material.dart';
 import 'package:al_anime_creator/features/presentation/storyhistory/utils/date_formatter.dart';
@@ -92,7 +93,7 @@ class _ReaderPageState extends State<ReaderPage> {
         }
       },
       child: Scaffold(
-        backgroundColor: const Color(0xFF0F0F0F),
+        backgroundColor: AppColors.of(context).white,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,

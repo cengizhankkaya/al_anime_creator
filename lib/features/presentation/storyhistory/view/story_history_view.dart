@@ -1,13 +1,12 @@
 
+import 'package:al_anime_creator/features/core/index.dart';
 import 'package:al_anime_creator/features/data/models/story.dart';
 import 'package:flutter/material.dart';
 import 'package:al_anime_creator/features/presentation/storyhistory/cubit/story_firestore_cubit.dart';
 import 'package:al_anime_creator/features/presentation/storyhistory/cubit/story_firestore_state.dart';
 import 'package:al_anime_creator/features/core/service_locator.dart';
-import 'package:al_anime_creator/features/core/config/navigation/app_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:auto_route/annotations.dart';
 import 'package:al_anime_creator/features/presentation/storyhistory/view/reader_page.dart';
 import 'package:al_anime_creator/features/presentation/storyhistory/view/widgets/story_card.dart';
 import 'package:al_anime_creator/features/presentation/storygeneration/cubit/story_generation_cubit.dart';
@@ -93,15 +92,15 @@ class _StoryHistoryViewState extends State<StoryHistoryView> {
       builder: (BuildContext context) {
         return AlertDialog(
           backgroundColor: const Color(0xFF1A1A1A),
-          title: const Text(
+          title:  Text(
             'Filtrele',
-            style: TextStyle(color: Colors.white),
+            style: TextStyle(color: AppColors.of(context).white),
           ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               ListTile(
-                title: const Text('Tüm Hikayeler', style: TextStyle(color: Colors.white)),
+                title: Text('Tüm Hikayeler', style: TextStyle(color: AppColors.of(context).white)),
                 leading: Radio<bool>(
                   value: false,
                   groupValue: _showOnlyFavorites,
@@ -115,7 +114,7 @@ class _StoryHistoryViewState extends State<StoryHistoryView> {
                 ),
               ),
               ListTile(
-                title: const Text('Sadece Favoriler', style: TextStyle(color: Colors.white)),
+                title: Text('Sadece Favoriler', style: TextStyle(color: AppColors.of(context).white)),
                 leading: Radio<bool>(
                   value: true,
                   groupValue: _showOnlyFavorites,
@@ -145,21 +144,21 @@ class _StoryHistoryViewState extends State<StoryHistoryView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF0F0F0F),
+      backgroundColor: AppColors.of(context).bacgroundblue,
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: AppColors.of(context).transparent,
         elevation: 0,
-        title: const Text(
+        title: Text(
           'Story History',
           style: TextStyle(
-            color: Colors.white,
+            color: AppColors.of(context).white,
             fontSize: 20,
             fontWeight: FontWeight.w600,
           ),
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.filter_list, color: Colors.white),
+            icon: Icon(Icons.filter_list, color: AppColors.of(context).white),
             onPressed: () => _showFilterDialog(context),
           ),
         ],
@@ -189,9 +188,9 @@ class _StoryHistoryViewState extends State<StoryHistoryView> {
         child: BlocBuilder<StoryFirestoreCubit, StoryFirestoreState>(
           builder: (context, state) {
           if (state is StoryFirestoreLoading) {
-            return const Center(
+            return  Center(
               child: CircularProgressIndicator(
-                color: Color(0xFF24FF00),
+                color: AppColors.of(context).limegreen,
               ),
             );
           }
@@ -201,15 +200,15 @@ class _StoryHistoryViewState extends State<StoryHistoryView> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Icon(
+                  Icon(
                     Icons.error_outline,
-                    color: Colors.red,
+                    color: Theme.of( context).colorScheme.error,
                     size: 64,
                   ),
                   const SizedBox(height: 16),
                   Text(
                     'Hata: ${state.message}',
-                    style: const TextStyle(color: Colors.white),
+                    style: TextStyle(color: AppColors.of(context).white),
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 16),
@@ -290,16 +289,16 @@ class _StoryHistoryViewState extends State<StoryHistoryView> {
               context.router.push(const StoryGenerationRoute());
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFF24FF00),
+              backgroundColor:  AppColors.of(context).white,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
             ),
-            child: const Text(
+            child:  Text(
               'Generate Story',
               style: TextStyle(
-                color: Colors.black,
+                color: AppColors.of(context).limegreen,
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
               ),
@@ -322,30 +321,30 @@ class _StoryHistoryViewState extends State<StoryHistoryView> {
               color: const Color(0xFF1A1A1A),
               borderRadius: BorderRadius.circular(16),
             ),
-            child: const Icon(
+            child:  Icon(
               Icons.favorite_border,
               size: 40,
-              color: Colors.grey,
+              color: Theme.of(context).colorScheme.error,
             ),
           ),
-          const SizedBox(height: 24),
-          const Text(
+          SizedBox(height: 24),
+          Text(
             'No favorite stories',
             style: TextStyle(
-              color: Colors.white,
+              color: AppColors.of(context).white,
               fontSize: 20,
               fontWeight: FontWeight.w600,
             ),
           ),
           const SizedBox(height: 8),
-          const Text(
+          Text(
             'Mark stories as favorite to see them here',
             style: TextStyle(
               color: Colors.grey,
               fontSize: 16,
             ),
           ),
-          const SizedBox(height: 32),
+          SizedBox(height: 32),
           ElevatedButton(
             onPressed: () {
               setState(() {
@@ -353,16 +352,16 @@ class _StoryHistoryViewState extends State<StoryHistoryView> {
               });
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFF24FF00),
+              backgroundColor: AppColors.of(context).limegreen,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
             ),
-            child: const Text(
+            child: Text(
               'Show All Stories',
               style: TextStyle(
-                color: Colors.black,
+                color: AppColors.of(context).blackd,
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
               ),
