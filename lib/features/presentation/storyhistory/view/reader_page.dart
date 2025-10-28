@@ -113,18 +113,18 @@ class _ReaderPageState extends State<ReaderPage> {
             if (widget.story.settings.length.toLowerCase() == 'long')
               IconButton(
                 onPressed: _isContinuing ? null : () => _autoContinueStory(),
-                icon: const Icon(
+                icon: Icon(
                   Icons.auto_awesome,
-                  color: Color(0xFF24FF00),
+                  color: AppColors.of(context).limegreen,
                   size: 20,
                 ),
                 tooltip: widget.locale == 'tr' ? 'Otomatik Devam Et' : 'Auto Continue',
               ),
             IconButton(
               onPressed: _isContinuing ? null : () => _showContinueStoryDialog(context),
-              icon: const Icon(
+              icon: Icon(
                 Icons.add_circle_outline,
-                color: Color(0xFF24FF00),
+                color: AppColors.of(context).limegreen,
                 size: 20,
               ),
               tooltip: widget.locale == 'tr' ? 'Hikayeyi Devam Ettir' : 'Continue Story',
@@ -133,7 +133,7 @@ class _ReaderPageState extends State<ReaderPage> {
               onPressed: () => widget.onToggleFavorite(widget.story),
               icon: Icon(
                 widget.story.isFavorite ? Icons.favorite : Icons.favorite_border,
-                color: widget.story.isFavorite ? const Color(0xFF24FF00) : Colors.grey,
+                color: widget.story.isFavorite ? AppColors.of(context).limegreen : Colors.grey,
                 size: 20,
               ),
             ),
@@ -230,8 +230,8 @@ class _ReaderPageState extends State<ReaderPage> {
                           children: [
                             Text(
                               (widget.locale == 'tr') ? 'Sayfa  ${_index + 1} / $total' : 'Page ${_index + 1} of $total',
-                              style: const TextStyle(
-                                color: Colors.white,
+                              style:  TextStyle(
+                                color: AppColors.of(context).white,
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
                               ),
@@ -249,7 +249,7 @@ class _ReaderPageState extends State<ReaderPage> {
                           onPressed: isLast ? null : () => setState(() => _index++),
                           icon: Icon(
                             Icons.arrow_forward_ios,
-                            color: isLast ? Colors.grey : Colors.white,
+                            color: isLast ? AppColors.of(context).limegreen : AppColors.of(context).white,
                           ),
                         ),
                       ],

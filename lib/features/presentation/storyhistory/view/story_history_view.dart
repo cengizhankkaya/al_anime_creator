@@ -110,7 +110,7 @@ class _StoryHistoryViewState extends State<StoryHistoryView> {
                     });
                     Navigator.of(context).pop();
                   },
-                  activeColor: const Color(0xFF24FF00),
+                  activeColor: AppColors.of(context).limegreen,
                 ),
               ),
               ListTile(
@@ -124,7 +124,7 @@ class _StoryHistoryViewState extends State<StoryHistoryView> {
                     });
                     Navigator.of(context).pop();
                   },
-                  activeColor: const Color(0xFF24FF00),
+                  activeColor: AppColors.of(context).limegreen,
                 ),
               ),
             ],
@@ -236,9 +236,9 @@ class _StoryHistoryViewState extends State<StoryHistoryView> {
             return _buildStoriesList(filteredStories);
           }
 
-          return const Center(
+          return  Center(
             child: CircularProgressIndicator(
-              color: Color(0xFF24FF00),
+              color: AppColors.of(context).limegreen
             ),
           );
           },
@@ -265,11 +265,11 @@ class _StoryHistoryViewState extends State<StoryHistoryView> {
               color: Colors.grey,
             ),
           ),
-          const SizedBox(height: 24),
-          const Text(
+          SizedBox(height: 24),
+          Text(
             'No stories yet',
             style: TextStyle(
-              color: Colors.white,
+              color: AppColors.of(context).white,
               fontSize: 20,
               fontWeight: FontWeight.w600,
             ),
