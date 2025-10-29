@@ -1,12 +1,16 @@
 import 'package:al_anime_creator/features/core/index.dart';
 import 'package:al_anime_creator/features/data/models/story.dart';
 import 'package:flutter/material.dart';
-import 'package:al_anime_creator/features/presentation/storyhistory/utils/date_formatter.dart';
 import 'package:al_anime_creator/features/presentation/storyhistory/utils/text_paginator.dart';
-import 'package:al_anime_creator/features/presentation/storygeneration/view/widgets/continue_story_dialog.dart';
+import 'package:al_anime_creator/features/presentation/storyhistory/utils/story_history_ui_helpers.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:al_anime_creator/features/presentation/storygeneration/cubit/story_generation_cubit.dart';
 import 'package:al_anime_creator/features/presentation/storygeneration/cubit/story_generation_state.dart';
+import 'package:al_anime_creator/features/presentation/storyhistory/view/widgets/reader_header_widget.dart';
+import 'package:al_anime_creator/features/presentation/storyhistory/view/widgets/reader_image_widget.dart';
+import 'package:al_anime_creator/features/presentation/storyhistory/view/widgets/reader_content_widget.dart';
+import 'package:al_anime_creator/features/presentation/storyhistory/view/widgets/reader_navigation_widget.dart';
+import 'package:al_anime_creator/features/presentation/storyhistory/view/widgets/reader_progress_widget.dart';
 
 class ReaderPage extends StatefulWidget {
   final Story story;
@@ -65,46 +69,29 @@ class _ReaderPageState extends State<ReaderPage> {
         } else if (state is StoryGenerationLoaded) {
           setState(() { _isContinuing = false; });
           _refreshPages(story: state.savedStory);
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(widget.locale == 'tr' ? 'Bölüm eklendi!' : 'Chapter added!'),
-              backgroundColor: const Color(0xFF24FF00),
-            ),
-          );
+          StoryHistoryUIHelpers.showChapterAddedSnackBar(context, locale: widget.locale);
           final added = state.savedStory.chapters.last;
           if (added.content.trim().length < 200) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(widget.locale == 'tr'
-                    ? 'Not: Yeni bölüm oldukça kısa geldi.'
-                    : 'Note: New chapter is very short.'),
-                backgroundColor: Colors.orange,
-              ),
-            );
+            StoryHistoryUIHelpers.showShortChapterWarningSnackBar(context, locale: widget.locale);
           }
         } else if (state is StoryGenerationError) {
           setState(() { _isContinuing = false; });
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(state.message),
-              backgroundColor: Colors.red,
-            ),
-          );
+          StoryHistoryUIHelpers.showErrorSnackBar(context, state.message, locale: widget.locale);
         }
       },
       child: Scaffold(
-        backgroundColor: AppColors.of(context).white,
+        backgroundColor: AppColors.of(context).bacgroundblue,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
           leading: IconButton(
-            icon: const Icon(Icons.arrow_back, color: Colors.white),
+            icon:  Icon(Icons.arrow_back, color: AppColors.of(context).white),
             onPressed: () => Navigator.of(context).pop(),
           ),
           title: Text(
             widget.story.title,
-            style: const TextStyle(
-              color: Colors.white,
+            style:  TextStyle(
+              color: AppColors.of(context).white,
               fontSize: 20,
               fontWeight: FontWeight.w600,
             ),
@@ -147,157 +134,33 @@ class _ReaderPageState extends State<ReaderPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(height: 20),
-                  Row(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                        decoration: BoxDecoration(
-                          color: _complexityColor(widget.story.settings.complexity).withOpacity(0.2),
-                          borderRadius: BorderRadius.circular(8),
-                          border: Border.all(
-                            color: _complexityColor(widget.story.settings.complexity),
-                            width: 1,
-                          ),
-                        ),
-                        child: Text(
-                          widget.story.settings.complexity,
-                          style: TextStyle(
-                            color: _complexityColor(widget.story.settings.complexity),
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      Text(
-                        DateFormatter.relativeOrDate(widget.story.createdAt, locale: widget.locale),
-                        style: TextStyle(
-                          color: Colors.grey.shade500,
-                          fontSize: 12,
-                        ),
-                      ),
-                    ],
+                  ReaderHeaderWidget(
+                    story: widget.story,
+                    locale: widget.locale,
                   ),
                   const SizedBox(height: 16),
-                  if (widget.story.chapters.isNotEmpty && widget.story.chapters.first.imageUrl != null)
-                    Container(
-                      width: double.infinity,
-                      height: 200,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                        image: DecorationImage(
-                          image: NetworkImage(widget.story.chapters.first.imageUrl!),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
+                  if (widget.story.chapters.isNotEmpty && widget.story.chapters.first.imageUrl != null) ...[
+                    ReaderImageWidget(imageUrl: widget.story.chapters.first.imageUrl!),
+                    const SizedBox(height: 16),
+                  ],
+                  ReaderContentWidget(content: current),
                   const SizedBox(height: 16),
-                  Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF1A1A1A),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Text(
-                      current,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        height: 1.6,
-                        letterSpacing: 0.3,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  Container(
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF1A1A1A),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        IconButton(
-                          onPressed: isFirst ? null : () => setState(() => _index--),
-                          icon: Icon(
-                            Icons.arrow_back_ios,
-                            color: isFirst ? Colors.grey : Colors.white,
-                          ),
-                        ),
-                        Column(
-                          children: [
-                            Text(
-                              (widget.locale == 'tr') ? 'Sayfa  ${_index + 1} / $total' : 'Page ${_index + 1} of $total',
-                              style:  TextStyle(
-                                color: AppColors.of(context).white,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                            Text(
-                              '${current.length} ${widget.locale == 'tr' ? 'karakter' : 'characters'}',
-                              style: TextStyle(
-                                color: Colors.grey.shade400,
-                                fontSize: 14,
-                              ),
-                            ),
-                          ],
-                        ),
-                        IconButton(
-                          onPressed: isLast ? null : () => setState(() => _index++),
-                          icon: Icon(
-                            Icons.arrow_forward_ios,
-                            color: isLast ? AppColors.of(context).limegreen : AppColors.of(context).white,
-                          ),
-                        ),
-                      ],
-                    ),
+                  ReaderNavigationWidget(
+                    currentPage: _index,
+                    totalPages: total,
+                    currentContentLength: current.length,
+                    isFirst: isFirst,
+                    isLast: isLast,
+                    onPrevious: () => setState(() => _index--),
+                    onNext: () => setState(() => _index++),
+                    locale: widget.locale,
                   ),
                   const SizedBox(height: 24),
                   if (total > 0)
-                    Container(
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF1A1A1A),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                widget.locale == 'tr' ? 'Okuma İlerlemesi' : 'Reading Progress',
-                                style: TextStyle(
-                                  color: Colors.grey.shade300,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              Text(
-                                '${((_index + 1) / total * 100).toStringAsFixed(0)}%',
-                                style: const TextStyle(
-                                  color: Color(0xFF24FF00),
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 8),
-                          LinearProgressIndicator(
-                            value: (_index + 1) / total,
-                            backgroundColor: Colors.grey.shade800,
-                            minHeight: 8,
-                            valueColor: const AlwaysStoppedAnimation<Color>(
-                              Color(0xFF24FF00),
-                            ),
-                          ),
-                        ],
-                      ),
+                    ReaderProgressWidget(
+                      currentPage: _index,
+                      totalPages: total,
+                      locale: widget.locale,
                     ),
                   const SizedBox(height: 32),
                 ],
@@ -316,35 +179,13 @@ class _ReaderPageState extends State<ReaderPage> {
     );
   }
 
-  Color _complexityColor(String complexity) {
-    switch (complexity.toLowerCase()) {
-      case 'creative':
-        return const Color(0xFF24FF00);
-      case 'complex':
-        return Colors.orange;
-      case 'standard':
-        return Colors.blue;
-      default:
-        return Colors.grey;
-    }
-  }
 
   void _showContinueStoryDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) => ContinueStoryDialog(locale: widget.locale),
-    ).then((continuationPrompt) {
-      if (continuationPrompt != null && continuationPrompt is String && continuationPrompt.trim().length >= 8) {
-        _continueStory(continuationPrompt);
-      } else if (continuationPrompt != null && continuationPrompt is String && continuationPrompt.trim().isNotEmpty) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(widget.locale == 'tr' ? 'Lütfen daha açıklayıcı bir istek girin.' : 'Please enter a more descriptive prompt.'),
-            backgroundColor: Colors.orange,
-          ),
-        );
-      }
-    });
+    StoryHistoryUIHelpers.showContinueStoryDialog(
+      context,
+      locale: widget.locale,
+      onContinue: _continueStory,
+    );
   }
 
   void _continueStory(String continuationPrompt) {

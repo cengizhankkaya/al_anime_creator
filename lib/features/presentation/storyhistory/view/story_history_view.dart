@@ -8,7 +8,11 @@ import 'package:al_anime_creator/features/core/service_locator.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:al_anime_creator/features/presentation/storyhistory/view/reader_page.dart';
-import 'package:al_anime_creator/features/presentation/storyhistory/view/widgets/story_card.dart';
+import 'package:al_anime_creator/features/presentation/storyhistory/view/widgets/story_filter_dialog.dart';
+import 'package:al_anime_creator/features/presentation/storyhistory/view/widgets/story_empty_state.dart';
+import 'package:al_anime_creator/features/presentation/storyhistory/view/widgets/story_error_state.dart';
+import 'package:al_anime_creator/features/presentation/storyhistory/view/widgets/story_history_list.dart';
+import 'package:al_anime_creator/features/presentation/storyhistory/view/widgets/favorites_empty_state.dart';
 import 'package:al_anime_creator/features/presentation/storygeneration/cubit/story_generation_cubit.dart';
 
 class StoryHistoryView extends StatefulWidget {
@@ -87,49 +91,13 @@ class _StoryHistoryViewState extends State<StoryHistoryView> {
   }
 
   void _showFilterDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          backgroundColor: const Color(0xFF1A1A1A),
-          title:  Text(
-            'Filtrele',
-            style: TextStyle(color: AppColors.of(context).white),
-          ),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ListTile(
-                title: Text('Tüm Hikayeler', style: TextStyle(color: AppColors.of(context).white)),
-                leading: Radio<bool>(
-                  value: false,
-                  groupValue: _showOnlyFavorites,
-                  onChanged: (value) {
-                    setState(() {
-                      _showOnlyFavorites = value!;
-                    });
-                    Navigator.of(context).pop();
-                  },
-                  activeColor: AppColors.of(context).limegreen,
-                ),
-              ),
-              ListTile(
-                title: Text('Sadece Favoriler', style: TextStyle(color: AppColors.of(context).white)),
-                leading: Radio<bool>(
-                  value: true,
-                  groupValue: _showOnlyFavorites,
-                  onChanged: (value) {
-                    setState(() {
-                      _showOnlyFavorites = value!;
-                    });
-                    Navigator.of(context).pop();
-                  },
-                  activeColor: AppColors.of(context).limegreen,
-                ),
-              ),
-            ],
-          ),
-        );
+    StoryFilterDialog.show(
+      context,
+      showOnlyFavorites: _showOnlyFavorites,
+      onFilterChanged: (value) {
+        setState(() {
+          _showOnlyFavorites = value;
+        });
       },
     );
   }
@@ -196,29 +164,7 @@ class _StoryHistoryViewState extends State<StoryHistoryView> {
           }
 
           if (state is StoryFirestoreError) {
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.error_outline,
-                    color: Theme.of( context).colorScheme.error,
-                    size: 64,
-                  ),
-                  const SizedBox(height: 16),
-                  Text(
-                    'Hata: ${state.message}',
-                    style: TextStyle(color: AppColors.of(context).white),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 16),
-                  ElevatedButton(
-                    onPressed: () => context.read<StoryFirestoreCubit>().loadStories(),
-                    child: const Text('Tekrar Dene'),
-                  ),
-                ],
-              ),
-            );
+            return StoryErrorState(errorMessage: state.message);
           }
 
           if (state is StoryFirestoreLoaded) {
@@ -226,14 +172,24 @@ class _StoryHistoryViewState extends State<StoryHistoryView> {
             final filteredStories = _getFilteredStories(stories);
 
             if (stories.isEmpty) {
-              return _buildEmptyState();
+              return const StoryEmptyState();
             }
 
             if (filteredStories.isEmpty && _showOnlyFavorites) {
-              return _buildEmptyFavoritesState();
+              return FavoritesEmptyState(
+                onViewAll: () {
+                  setState(() {
+                    _showOnlyFavorites = false;
+                  });
+                },
+              );
             }
 
-            return _buildStoriesList(filteredStories);
+            return StoryHistoryList(
+              stories: filteredStories,
+              onStoryTap: _openReader,
+              onToggleFavorite: _toggleFavorite,
+            );
           }
 
           return  Center(
@@ -247,155 +203,6 @@ class _StoryHistoryViewState extends State<StoryHistoryView> {
     );
   }
 
-  Widget _buildEmptyState() {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            width: 80,
-            height: 80,
-            decoration: BoxDecoration(
-              color: const Color(0xFF1A1A1A),
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: const Icon(
-              Icons.book_outlined,
-              size: 40,
-              color: Colors.grey,
-            ),
-          ),
-          SizedBox(height: 24),
-          Text(
-            'No stories yet',
-            style: TextStyle(
-              color: AppColors.of(context).white,
-              fontSize: 20,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          const SizedBox(height: 8),
-          const Text(
-            'Generate your first story to see it here',
-            style: TextStyle(
-              color: Colors.grey,
-              fontSize: 16,
-            ),
-          ),
-          const SizedBox(height: 32),
-          ElevatedButton(
-            onPressed: () {
-              // Story Generation sayfasına git
-              context.router.push(const StoryGenerationRoute());
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor:  AppColors.of(context).white,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-            ),
-            child:  Text(
-              'Generate Story',
-              style: TextStyle(
-                color: AppColors.of(context).limegreen,
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildEmptyFavoritesState() {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            width: 80,
-            height: 80,
-            decoration: BoxDecoration(
-              color: const Color(0xFF1A1A1A),
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child:  Icon(
-              Icons.favorite_border,
-              size: 40,
-              color: Theme.of(context).colorScheme.error,
-            ),
-          ),
-          SizedBox(height: 24),
-          Text(
-            'No favorite stories',
-            style: TextStyle(
-              color: AppColors.of(context).white,
-              fontSize: 20,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            'Mark stories as favorite to see them here',
-            style: TextStyle(
-              color: Colors.grey,
-              fontSize: 16,
-            ),
-          ),
-          SizedBox(height: 32),
-          ElevatedButton(
-            onPressed: () {
-              setState(() {
-                _showOnlyFavorites = false;
-              });
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.of(context).limegreen,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-            ),
-            child: Text(
-              'Show All Stories',
-              style: TextStyle(
-                color: AppColors.of(context).blackd,
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildStoriesList(List<Story> stories) {
-    return ListView.builder(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      itemCount: stories.length,
-      itemBuilder: (context, index) {
-        final story = stories[index];
-        return _buildStoryCard(story);
-      },
-    );
-  }
-
-  Widget _buildStoryCard(Story story) {
-    return StoryCard(
-      story: story,
-      onTap: () => _openReader(story),
-      onToggleFavorite: () => _toggleFavorite(story),
-      locale: 'en',
-    );
-  }
-  
-
-
-
-  
 
   // Parça hesaplama ReaderPage'e taşındı
 

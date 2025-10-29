@@ -1,3 +1,4 @@
+import 'package:al_anime_creator/features/core/index.dart';
 import 'package:al_anime_creator/features/data/models/profile_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -120,17 +121,17 @@ class SettingsSectionWidget extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: ProfileConstants.defaultPadding),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.secondaryContainer,
+        color: AppColors.of(context).limegreen.withValues(alpha: 0.2),
         borderRadius: BorderRadius.circular(ProfileConstants.borderRadius),
       ),
       child: ListTile(
         leading: Icon(
           icon,
-          color: Theme.of(context).colorScheme.primary,
+          color: AppColors.of(context).limegreen,
         ),
         title: Text(
           title,
-          style: TextStyle(color: Theme.of(context).colorScheme.onSecondaryContainer),
+          style: TextStyle(color: AppColors.of(context).white),
         ),
         subtitle: subtitle != null
             ? Text(

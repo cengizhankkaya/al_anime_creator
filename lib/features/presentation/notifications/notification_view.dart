@@ -1,5 +1,6 @@
 
 
+import 'package:al_anime_creator/features/core/index.dart';
 import 'package:flutter/material.dart';
 
 class NotificationView extends StatefulWidget {
@@ -51,17 +52,27 @@ class _NotificationViewState extends State<NotificationView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.of(context).bacgroundblue,
       appBar: AppBar(
-        title: const Text('Bildirimler'),
+        backgroundColor: AppColors.of(context).transparent,
+        elevation: 0,
+        title: Text(
+          'Bildirimler',
+          style: TextStyle(
+            color: AppColors.of(context).white,
+            fontSize: 20,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
         centerTitle: true,
-        elevation: 1,
       ),
       body: _notifications.isEmpty
           ? Center(
               child: Column(
+                
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Icon(Icons.notifications_none, size: 64, color: Colors.grey),
+                children:  [
+                  Icon(Icons.notifications_none, size: 64, color:AppColors.of(context).limegreen),
                   SizedBox(height: 16),
                   Text(
                     'Henüz bildirimin yok',
@@ -77,23 +88,53 @@ class _NotificationViewState extends State<NotificationView> {
               itemBuilder: (context, index) {
                 final notif = _notifications[index];
                 return Card(
-                  color: notif.isUnread ? Colors.blue[50] : null,
-                  elevation: 2,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  color: AppColors.of(context).limegreen.withValues(alpha: 0.1),
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    side: BorderSide(
+                      color: notif.isUnread 
+                          ? AppColors.of(context).limegreen.withOpacity(0.3)
+                          : Colors.grey.shade800,
+                      width: 1,
+                    ),
+                  ),
                   child: ListTile(
-                    leading: Icon(notif.icon, size: 32, color: notif.isUnread ? Colors.blue : Colors.grey),
-                    title: Text(notif.title, style: TextStyle(fontWeight: notif.isUnread ? FontWeight.bold : FontWeight.normal)),
-                    subtitle: Text(notif.description),
+                    leading: Icon(
+                      notif.icon,
+                      size: 32,
+                      color: notif.isUnread
+                          ? AppColors.of(context).limegreen
+                          : Colors.grey,
+                    ),
+                    title: Text(
+                      notif.title,
+                      style: TextStyle(
+                        color: AppColors.of(context).white,
+                        fontWeight: notif.isUnread ? FontWeight.bold : FontWeight.normal,
+                      ),
+                    ),
+                    subtitle: Text(
+                      notif.description,
+                      style: TextStyle(color: Colors.grey),
+                    ),
                     trailing: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         if (notif.isUnread)
                           Container(
-                            width: 8, height: 8,
-                            decoration: const BoxDecoration(color: Colors.red, shape: BoxShape.circle),
+                            width: 8,
+                            height: 8,
+                            decoration: BoxDecoration(
+                              color: AppColors.of(context).limegreen,
+                              shape: BoxShape.circle,
+                            ),
                           ),
                         const SizedBox(height: 6),
-                        Text(notif.time, style: const TextStyle(fontSize: 11, color: Colors.grey)),
+                        Text(
+                          notif.time,
+                          style: TextStyle(fontSize: 11, color: Colors.grey),
+                        ),
                       ],
                     ),
                     contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),

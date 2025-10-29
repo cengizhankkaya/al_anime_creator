@@ -1,3 +1,4 @@
+import 'package:al_anime_creator/features/core/index.dart';
 import 'package:al_anime_creator/features/data/repository/profile_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,7 +22,6 @@ class ProfileView extends StatelessWidget {
     if (user == null) {
       return _buildUnauthenticatedView(context);
     }
-
     return BlocProvider(
       create: (context) => ProfileCubit(GetIt.instance<ProfileRepository>()),
       child: BlocListener<ProfileCubit, ProfileState>(
@@ -32,7 +32,7 @@ class ProfileView extends StatelessWidget {
           }
         },
         child: Scaffold(
-          backgroundColor: Theme.of(context).colorScheme.background,
+          backgroundColor: AppColors.of(context).bacgroundblue,
           appBar: _buildAppBar(context),
           body: BlocBuilder<ProfileCubit, ProfileState>(
             builder: (context, state) {
@@ -58,12 +58,12 @@ class ProfileView extends StatelessWidget {
 
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     return AppBar(
-      backgroundColor: Theme.of(context).colorScheme.background,
+      backgroundColor:AppColors.of(context).transparent,
       elevation: 0,
       title: Text(
         ProfileConstants.profileTitle,
         style: TextStyle(
-          color: Theme.of(context).colorScheme.onBackground,
+          color: AppColors.of(context).white,
           fontSize: ProfileConstants.titleFontSize,
           fontWeight: FontWeight.w600,
         ),
@@ -73,7 +73,7 @@ class ProfileView extends StatelessWidget {
 
   Widget _buildUnauthenticatedView(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.primary,
+      backgroundColor: AppColors.of(context).bacgroundblue,
       appBar: _buildAppBar(context),
       body: Center(
         child: Column(
@@ -88,7 +88,7 @@ class ProfileView extends StatelessWidget {
             Text(
               ProfileConstants.signInRequiredTitle,
               style: TextStyle(
-                color: Theme.of(context).colorScheme.onBackground,
+                color: AppColors.of(context).white,
                 fontSize: ProfileConstants.nameFontSize,
                 fontWeight: FontWeight.w600,
               ),
@@ -133,7 +133,7 @@ class ProfileView extends StatelessWidget {
   Widget _buildLoadingView(BuildContext context) {
     return Center(
       child: CircularProgressIndicator(
-        color: Theme.of(context).colorScheme.primary,
+        color: AppColors.of(context).limegreen,
       ),
     );
   }

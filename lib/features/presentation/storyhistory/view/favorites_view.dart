@@ -1,3 +1,4 @@
+import 'package:al_anime_creator/features/core/index.dart';
 import 'package:al_anime_creator/features/data/models/story.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,7 +8,8 @@ import 'package:al_anime_creator/features/core/service_locator.dart';
 import 'package:auto_route/auto_route.dart';
 // utils now used inside ReaderPage/StoryCard
 import 'package:al_anime_creator/features/presentation/storyhistory/view/reader_page.dart';
-import 'package:al_anime_creator/features/presentation/storyhistory/view/widgets/story_card.dart';
+import 'package:al_anime_creator/features/presentation/storyhistory/view/widgets/favorites_empty_state.dart';
+import 'package:al_anime_creator/features/presentation/storyhistory/view/widgets/favorites_list.dart';
 import 'package:al_anime_creator/features/presentation/storygeneration/cubit/story_generation_cubit.dart';
 
 @RoutePage()
@@ -33,17 +35,32 @@ class _FavoritesViewState extends State<FavoritesView> {
     _storyCubit.toggleFavoriteStory(story.id, !story.isFavorite);
   }
 
+  void _openReader(Story story) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => BlocProvider(
+          create: (_) => getIt<StoryGenerationCubit>(),
+          child: ReaderPage(
+            story: story,
+            onToggleFavorite: _toggleFavorite,
+            locale: 'tr',
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF0F0F0F),
+      backgroundColor: AppColors.of(context).bacgroundblue,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: const Text(
+        title:  Text(
           'Favori Hikayeler',
           style: TextStyle(
-            color: Colors.white,
+            color: AppColors.of(context).white,
             fontSize: 20,
             fontWeight: FontWeight.w600,
           ),
@@ -54,9 +71,9 @@ class _FavoritesViewState extends State<FavoritesView> {
         bloc: _storyCubit,
         builder: (context, state) {
           if (state is StoryFirestoreLoading) {
-            return const Center(
+            return  Center(
               child: CircularProgressIndicator(
-                color: Color(0xFF24FF00),
+                color: AppColors.of(context).limegreen,
               ),
             );
           }
@@ -74,7 +91,7 @@ class _FavoritesViewState extends State<FavoritesView> {
                   const SizedBox(height: 16),
                   Text(
                     'Hata: ${state.message}',
-                    style: const TextStyle(color: Colors.white),
+                    style:  TextStyle(color: AppColors.of(context).white),
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 16),
@@ -89,24 +106,18 @@ class _FavoritesViewState extends State<FavoritesView> {
 
           if (state is StoryFirestoreLoaded) {
             final favoriteStories = state.stories.where((story) => story.isFavorite).toList();
-
             if (favoriteStories.isEmpty) {
-              return _buildEmptyFavoritesState();
+              return FavoritesEmptyState(onViewAll: () => Navigator.of(context).pop());
             }
-
-            return ListView.builder(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              itemCount: favoriteStories.length,
-              itemBuilder: (context, index) {
-                final story = favoriteStories[index];
-                return _buildFavoriteStoryCard(story);
-              },
+            return FavoritesList(
+              stories: favoriteStories,
+              onOpenStory: _openReader,
+              onToggleFavorite: _toggleFavorite,
             );
           }
-
-          return const Center(
+          return  Center(
             child: CircularProgressIndicator(
-              color: Color(0xFF24FF00),
+              color: AppColors.of(context).limegreen,
             ),
           );
         },
@@ -114,87 +125,7 @@ class _FavoritesViewState extends State<FavoritesView> {
     );
   }
 
-  Widget _buildEmptyFavoritesState() {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            width: 80,
-            height: 80,
-            decoration: BoxDecoration(
-              color: const Color(0xFF1A1A1A),
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: const Icon(
-              Icons.favorite_border,
-              size: 40,
-              color: Colors.grey,
-            ),
-          ),
-          const SizedBox(height: 24),
-          const Text(
-            'Henüz favori hikaye yok',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 20,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          const SizedBox(height: 8),
-          const Text(
-            'Hikayeleri favoriye ekleyerek burada görüntüleyin',
-            style: TextStyle(
-              color: Colors.grey,
-              fontSize: 16,
-            ),
-          ),
-          const SizedBox(height: 32),
-          ElevatedButton(
-            onPressed: () => Navigator.of(context).pop(),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFF24FF00),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-            ),
-            child: const Text(
-              'Tüm Hikayeleri Görüntüle',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildFavoriteStoryCard(Story story) {
-    return StoryCard(
-      story: story,
-      onTap: () {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (_) => BlocProvider(
-              create: (_) => getIt<StoryGenerationCubit>(),
-              child: ReaderPage(
-                story: story,
-                onToggleFavorite: _toggleFavorite,
-                locale: 'tr',
-              ),
-            ),
-          ),
-        );
-      },
-      onToggleFavorite: () => _toggleFavorite(story),
-      locale: 'tr',
-      highlightFavorite: true,
-    );
-  }
+  
 
   
 }

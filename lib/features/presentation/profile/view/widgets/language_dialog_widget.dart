@@ -17,10 +17,10 @@ class LanguageDialogWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      backgroundColor: const Color(ProfileConstants.secondaryBackgroundColor),
-      title: const Text(
+      backgroundColor: AppColors.of(context).sidebarColor.withValues(alpha: 0.9),
+      title:  Text(
         ProfileConstants.selectLanguageTitle,
-        style: TextStyle(color: Colors.white),
+        style: TextStyle(color: AppColors.of(context).white),
       ),
       content: Column(
         mainAxisSize: MainAxisSize.min,
@@ -28,7 +28,7 @@ class LanguageDialogWidget extends StatelessWidget {
           return ListTile(
             title: Text(
               language,
-              style: const TextStyle(color: Colors.white),
+              style:  TextStyle(color: AppColors.of(context).white),
             ),
             trailing: language == currentLanguage
                 ?  Icon(

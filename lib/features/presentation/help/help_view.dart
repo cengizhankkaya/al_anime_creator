@@ -9,15 +9,15 @@ class HelpView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.of(context).transparent,
+      backgroundColor: AppColors.of(context).bacgroundblue,
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: AppColors.of(context).transparent,
         elevation: 0,
         centerTitle: true,
-        title: const Text(
+        title:  Text(
           'Yardım',
           style: TextStyle(
-            color: Colors.white,
+            color: AppColors.of(context).white,
             fontSize: 22,
             fontWeight: FontWeight.bold,
           ),
@@ -68,7 +68,7 @@ class _HelpCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.of(context).bacgroundblue,
+        color: AppColors.of(context).limegreen.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(14),
       ),
       padding: const EdgeInsets.all(20),
@@ -83,8 +83,8 @@ class _HelpCard extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: const TextStyle(
-                    color: Colors.white,
+                  style:  TextStyle(
+                    color: AppColors.of(context).white,
                     fontSize: 18,
                     fontWeight: FontWeight.w600,
                   ),
@@ -92,7 +92,7 @@ class _HelpCard extends StatelessWidget {
                 const SizedBox(height: 8),
                 Text(
                   description,
-                  style: const TextStyle(
+                  style:  TextStyle(
                     color: Colors.grey,
                     fontSize: 15,
                     fontWeight: FontWeight.normal,

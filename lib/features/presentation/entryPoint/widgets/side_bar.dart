@@ -36,7 +36,7 @@ class _SideBarState extends State<SideBar> {
             width: 288,
             height: double.infinity,
             decoration: BoxDecoration(
-              color: AppColors.of(context).sidebarColor,
+              color: AppColors.of(context).sidebarColor.withValues(alpha: 0.9),
               borderRadius: const BorderRadius.all(
                 Radius.circular(30),
               ),

@@ -1,3 +1,4 @@
+import 'package:al_anime_creator/features/core/index.dart';
 import 'package:al_anime_creator/features/data/models/profile_model.dart';
 import 'package:al_anime_creator/features/presentation/profile/utils/profile_constants.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +18,7 @@ class ProfileHeaderWidget extends StatelessWidget {
       margin: const EdgeInsets.all(ProfileConstants.defaultPadding),
       padding: const EdgeInsets.all(ProfileConstants.defaultPadding),
       decoration: BoxDecoration(
-        color: const Color(ProfileConstants.secondaryBackgroundColor),
+        color: AppColors.of(context).limegreen.withValues(alpha: 0.2),
         borderRadius: BorderRadius.circular(ProfileConstants.largeBorderRadius),
       ),
       child: Row(
