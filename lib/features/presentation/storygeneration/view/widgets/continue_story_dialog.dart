@@ -1,3 +1,5 @@
+import 'package:al_anime_creator/features/core/constans/index.dart';
+import 'package:al_anime_creator/features/core/index.dart';
 import 'package:flutter/material.dart';
 
 class ContinueStoryDialog extends StatefulWidget {
@@ -27,8 +29,8 @@ class _ContinueStoryDialogState extends State<ContinueStoryDialog> {
     return AlertDialog(
       backgroundColor: const Color(0xFF1A1A1A),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-        side: const BorderSide(color: Color(0xFF24FF00), width: 1),
+        borderRadius: ProjectRadius.xLarge,
+        side:  BorderSide(color: AppColors.of(context).limegreen, width: 1),
       ),
       title: Text(
         widget.locale == 'tr' ? 'Hikayeyi Devam Ettir' : 'Continue Story',

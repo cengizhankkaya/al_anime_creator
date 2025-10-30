@@ -2,6 +2,7 @@
 
 
 
+import 'package:al_anime_creator/features/core/constans/index.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -23,13 +24,8 @@ class AuthButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         backgroundColor:   AppColors.of(context).bacgroundblue,
         minimumSize: const Size(double.infinity, 56),
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(10),
-            topRight: Radius.circular(25),
-            bottomRight: Radius.circular(25),
-            bottomLeft: Radius.circular(25),
-          ),
+        shape:  RoundedRectangleBorder(
+          borderRadius: ProjectRadius.topOnly,
         ),
       ),
       icon: Icon(

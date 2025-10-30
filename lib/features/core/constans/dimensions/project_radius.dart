@@ -9,6 +9,7 @@ class ProjectRadius {
   static const BorderRadius small = BorderRadius.all(Radius.circular(4));
   static const BorderRadius normal = BorderRadius.all(Radius.circular(6));
   static const BorderRadius medium = BorderRadius.all(Radius.circular(8));
+  static const BorderRadius smallMedium = BorderRadius.all(Radius.circular(10));
   static const BorderRadius large = BorderRadius.all(Radius.circular(12));
   static const BorderRadius xLarge = BorderRadius.all(Radius.circular(16));
   static const BorderRadius xxLarge = BorderRadius.all(Radius.circular(18));
@@ -17,8 +18,15 @@ class ProjectRadius {
   static const BorderRadius xxBig = BorderRadius.all(Radius.circular(32));
   static const BorderRadius xxxBig = BorderRadius.all(Radius.circular(28));
 
-  // Special border radius for top corners only
   static const BorderRadius topOnly = BorderRadius.only(
+            topLeft: Radius.circular(10),
+    topRight: Radius.circular(25),
+    bottomRight: Radius.circular(25),
+    bottomLeft: Radius.circular(25),
+  );
+
+  // Special border radius for top corners only
+  static const BorderRadius topRightOnly = BorderRadius.only(
     topLeft: Radius.circular(32),
     topRight: Radius.circular(32),
   );

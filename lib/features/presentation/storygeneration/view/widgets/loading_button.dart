@@ -1,3 +1,4 @@
+import 'package:al_anime_creator/features/core/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:al_anime_creator/features/presentation/storygeneration/cubit/story_generation_cubit.dart';
@@ -20,7 +21,7 @@ class LoadingButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           backgroundColor: isLoading
               ? Colors.grey.shade700
-              : const Color(0xFF24FF00),
+              : AppColors.of(context).limegreen,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(30),
           ),
