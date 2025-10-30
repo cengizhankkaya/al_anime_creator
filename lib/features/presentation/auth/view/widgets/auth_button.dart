@@ -22,17 +22,17 @@ class AuthButton extends StatelessWidget {
     return ElevatedButton.icon(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
-        backgroundColor:   AppColors.of(context).bacgroundblue,
-        minimumSize: const Size(double.infinity, 56),
+        backgroundColor:   AppColors.of(context).onboardColor,
+        minimumSize: ProjectSize.buttonMin,
         shape:  RoundedRectangleBorder(
           borderRadius: ProjectRadius.topOnly,
         ),
       ),
       icon: Icon(
         CupertinoIcons.arrow_right,
-        color: Theme.of(context).colorScheme.surface,
+        color: AppColors.of(context).ondarkliht,
       ),
-      label: Text(isRegisterMode ? "Kayıt Ol" : "Giriş Yap", style: TextStyle(color: Theme.of(context).colorScheme.surface),),
+      label: Text(isRegisterMode ? "Kayıt Ol" : "Giriş Yap", style: TextStyle(color: AppColors.of(context).ondarkliht),),
     );
   }
 }

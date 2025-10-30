@@ -14,4 +14,7 @@ class ProjectMargin {
   static const EdgeInsets xLarge = EdgeInsets.all(24);
   // Özel örnek
   static const EdgeInsets topMedium = EdgeInsets.only(top: 16);
+
+  // Horizontal-only margins
+  static const EdgeInsets horizontalMedium = EdgeInsets.symmetric(horizontal: 16);
 }

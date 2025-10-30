@@ -1,3 +1,5 @@
+import 'package:al_anime_creator/features/core/constans/index.dart';
+import 'package:al_anime_creator/features/core/index.dart';
 import 'package:al_anime_creator/features/data/repository/auth_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,13 +13,13 @@ void showCustomDialog(BuildContext context, {required ValueChanged onValue}) {
     context: context,
     barrierLabel: "Barrier",
     barrierDismissible: true,
-    barrierColor: Colors.black.withOpacity(0.5),
-    transitionDuration: const Duration(milliseconds: 400),
+    barrierColor: AppColors.of(context).blackd.withValues(alpha: 0.5),
+    transitionDuration: ProjectDuration.longMs,
     pageBuilder: (context, animation, secondaryAnimation) {
       return BlocProvider<AuthCubit>(
         create: (_) => AuthCubit(AuthRepository()),
         child: Center(
-          child: const DialogContainer(),
+          child: DialogContainer(),
         ),
       );
     },

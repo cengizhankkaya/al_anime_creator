@@ -1,3 +1,4 @@
+import 'package:al_anime_creator/features/core/constans/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -18,7 +19,7 @@ class PasswordTextField extends StatelessWidget {
           value!.isEmpty ? " Parola boş olamaz" : null,
       decoration: InputDecoration(
         prefixIcon: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8),
+          padding: ProjectPadding.symmetricHorizontalSmall,
           child: SvgPicture.asset("assets/icons/password.svg"),
         ),
       ),

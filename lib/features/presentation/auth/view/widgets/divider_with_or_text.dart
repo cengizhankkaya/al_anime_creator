@@ -1,3 +1,5 @@
+import 'package:al_anime_creator/features/core/constans/index.dart';
+import 'package:al_anime_creator/features/core/index.dart';
 import 'package:flutter/material.dart';
 
 class DividerWithOrText extends StatelessWidget {
@@ -5,14 +7,14 @@ class DividerWithOrText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      children: const [
+      children:  [
         Expanded(child: Divider()),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16),
+          padding: ProjectPadding.symmetricHorizontalNormal,
           child: Text(
             "VEYA",
             style: TextStyle(
-              color: Colors.black26,
+              color: AppColors.of(context).onboardColor,
               fontWeight: FontWeight.w500,
             ),
           ),

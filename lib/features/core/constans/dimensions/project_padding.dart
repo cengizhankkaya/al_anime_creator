@@ -48,6 +48,17 @@ final class ProjectPadding extends EdgeInsets {
   static const EdgeInsets verticalLarge = EdgeInsets.symmetric(vertical: 24);
   static const EdgeInsets verticalXLarge = EdgeInsets.symmetric(vertical: 32);
 
+  
+
+  // Top Bottom Padding
+  static const EdgeInsets topBottomSmall = EdgeInsets.only(top: 8, bottom: 16);
+  static const EdgeInsets topBottomNormal = EdgeInsets.only(top: 8, bottom: 24);
+
+  // Horizontal Padding
+  static const EdgeInsets symmetricHorizontalNormal = EdgeInsets.symmetric(horizontal: 16);
+  static const EdgeInsets symmetricHorizontalSmall = EdgeInsets.symmetric(horizontal: 8);
+
+
   static const EdgeInsets symmetricVerySmall = EdgeInsets.symmetric(
     horizontal: 12,
     vertical: 16,
@@ -80,6 +91,12 @@ final class ProjectPadding extends EdgeInsets {
   static const EdgeInsets symmetricPrivate = EdgeInsets.symmetric(
     horizontal: 20,
     vertical: 16,
+  );
+
+  // Dialog default padding: vertical 32, horizontal 24
+  static const EdgeInsets symmetricDialog = EdgeInsets.symmetric(
+    vertical: 32,
+    horizontal: 24,
   );
 
   // Special padding for product detail view

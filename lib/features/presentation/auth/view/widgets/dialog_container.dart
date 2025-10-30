@@ -1,6 +1,7 @@
 
 import 'package:al_anime_creator/features/core/config/theme/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:al_anime_creator/features/core/constans/index.dart';
 import 'divider_with_or_text.dart';
 import 'sign_up_button_row.dart';
 import 'close_button.dart';
@@ -13,14 +14,14 @@ class DialogContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 670,
-      margin: const EdgeInsets.symmetric(horizontal: 16),
-      padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 24),
+      margin: ProjectMargin.horizontalMedium,
+      padding: ProjectPadding.symmetricDialog,
       decoration: BoxDecoration(
         color: AppColors.of(context).ondarkliht,
-        borderRadius: BorderRadius.circular(40),
+        borderRadius: ProjectRadius.dialogLarge,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.3),
+            color: AppColors.of(context).blackd.withValues(alpha: 0.3),
             offset: const Offset(0, 30),
             blurRadius: 60,
           ),
@@ -44,7 +45,7 @@ class DialogContainer extends StatelessWidget {
                     ),
                   ),
                    Padding(
-                    padding: EdgeInsets.symmetric(vertical: 16),
+                    padding: ProjectPadding.verticalNormal,
                     child: Text(
                       "AI Anime Creator ile yapay zekâ desteğiyle kendi sahnelerini ve hikâyelerini oluştur.",
                       textAlign: TextAlign.center,
@@ -54,7 +55,7 @@ class DialogContainer extends StatelessWidget {
                   SignInForm(),
                   const DividerWithOrText(),
                    Padding(
-                    padding: EdgeInsets.symmetric(vertical: 24),
+                    padding: ProjectPadding.verticalLarge,
                     child: Text(
                       "E-posta, Apple veya Google ile kaydol.",
                       style: TextStyle(color: Theme.of(context).colorScheme.onSurface),

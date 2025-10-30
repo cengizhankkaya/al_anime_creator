@@ -1,3 +1,4 @@
+import 'package:al_anime_creator/features/core/constans/index.dart';
 import 'package:flutter/material.dart';
 import 'package:al_anime_creator/features/presentation/auth/view/widgets/email_text_field.dart';
 import 'package:al_anime_creator/features/presentation/auth/view/widgets/password_text_field.dart';
@@ -43,18 +44,17 @@ class _AuthFormState extends State<AuthForm> {
               widget.onToggleMode?.call(val);
             },
           ),
-          const SizedBox(height: 24),
-          // Ad soyad alanı sadece kayıt modunda gösterilir
+          ProjectSizedBox.heightXLarge,
           if (widget.isRegisterMode) ...[
             Text("Ad Soyad", style: TextStyle(color: Theme.of(context).colorScheme.onSurface)),
             Padding(
-              padding: const EdgeInsets.only(top: 8, bottom: 16),
+              padding:  ProjectPadding.topBottomSmall,
               child: NameTextField(nameController: widget.nameController),
             ),
           ],
           Text("Email", style: TextStyle(color: Theme.of(context).colorScheme.onSurface)),
           Padding(
-            padding: const EdgeInsets.only(top: 8, bottom: 16),
+            padding:  ProjectPadding.topBottomSmall,
             child: EmailTextField(emailController: widget.emailController),
           ),
            Text(
@@ -62,11 +62,11 @@ class _AuthFormState extends State<AuthForm> {
             style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 8, bottom: 16),
+            padding: ProjectPadding.topBottomSmall,
             child: PasswordTextField(passwordController: widget.passwordController),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 8, bottom: 24),
+            padding: ProjectPadding.topBottomNormal,
             child: AuthButton(
               isRegisterMode: widget.isRegisterMode,
               onPressed: () {

@@ -1,3 +1,4 @@
+import 'package:al_anime_creator/features/core/constans/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -19,7 +20,7 @@ class EmailTextField extends StatelessWidget {
       textInputAction: TextInputAction.next,
       decoration: InputDecoration(
         prefixIcon: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8),
+          padding: ProjectPadding.symmetricHorizontalSmall,
           child: SvgPicture.asset(
             "assets/icons/email.svg",
           ),

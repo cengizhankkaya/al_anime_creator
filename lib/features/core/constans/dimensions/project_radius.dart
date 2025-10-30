@@ -17,6 +17,7 @@ class ProjectRadius {
   static const BorderRadius xBig = BorderRadius.all(Radius.circular(24));
   static const BorderRadius xxBig = BorderRadius.all(Radius.circular(32));
   static const BorderRadius xxxBig = BorderRadius.all(Radius.circular(28));
+  static const BorderRadius dialogLarge = BorderRadius.all(Radius.circular(40));
 
   static const BorderRadius topOnly = BorderRadius.only(
             topLeft: Radius.circular(10),

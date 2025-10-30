@@ -1,4 +1,5 @@
 import 'package:al_anime_creator/features/core/config/theme/app_colors.dart';
+import 'package:al_anime_creator/features/core/constans/index.dart';
 import 'package:flutter/material.dart';
 
 class ModeToggle extends StatelessWidget {
@@ -14,10 +15,10 @@ class ModeToggle extends StatelessWidget {
           child: GestureDetector(
             onTap: () => onToggle(false),
             child: Container(
-              padding:  EdgeInsets.symmetric(vertical: 12),
+              padding:  ProjectPadding.verticalMedium,
               decoration: BoxDecoration(
                 color: !isRegisterMode ? AppColors.of(context).limegreen : Theme.of(context).colorScheme.onSurface,
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: ProjectRadius.medium,
               ),
               child: Text(
                 "Giriş Yap",
@@ -30,15 +31,15 @@ class ModeToggle extends StatelessWidget {
             ),
           ),
         ),
-        const SizedBox(width: 8),
+        ProjectSizedBox.widthSmall,
         Expanded(
           child: GestureDetector(
             onTap: () => onToggle(true),
             child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 12),
+              padding: ProjectPadding.verticalMedium,
               decoration: BoxDecoration(
                 color: isRegisterMode ?  AppColors.of(context).limegreen  :  Theme.of(context).colorScheme.onSurface,
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: ProjectRadius.medium,
               ),
               child: Text(
                 "Kayıt Ol",

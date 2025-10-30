@@ -1,4 +1,5 @@
 import 'package:al_anime_creator/features/core/config/theme/app_colors.dart';
+import 'package:al_anime_creator/features/core/constans/index.dart';
 import 'package:flutter/material.dart';
 
 class CloseButtonWidget extends StatelessWidget {
@@ -8,15 +9,15 @@ class CloseButtonWidget extends StatelessWidget {
     return Positioned(
       left: 0,
       right: 0,
-      bottom: -48,
+      bottom: ProjectValues.dialogCloseBottomOffset,
       child: GestureDetector(
         onTap: () => Navigator.of(context, rootNavigator: true).pop(),
         child:  CircleAvatar(
-          radius: 16,
+          radius: ProjectValues.avatarRadiusSmall,
           backgroundColor: AppColors.of(context).limegreen,
           child: Icon(
             Icons.close,
-            size: 20,
+            size: ProjectValues.iconSmall,
             color: Theme.of(context).colorScheme.onSurface,
           ),
         ),
