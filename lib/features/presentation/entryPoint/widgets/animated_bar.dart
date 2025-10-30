@@ -1,3 +1,5 @@
+import 'package:al_anime_creator/features/core/constans/index.dart';
+import 'package:al_anime_creator/features/core/index.dart';
 import 'package:flutter/material.dart';
 
 class AnimatedBar extends StatelessWidget {
@@ -11,15 +13,13 @@ class AnimatedBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
-      margin: const EdgeInsets.only(bottom: 2),
-      duration: const Duration(milliseconds: 200),
-      height: 4,
+      margin: ProjectMargin.bottomSmall,
+      duration: ProjectDuration.short,
+      height: ProjectSize.barHeight,
       width: isActive ? 20 : 0,
-      decoration: const BoxDecoration(
-          color: Color(0xFF81B4FF),
-          borderRadius: BorderRadius.all(
-            Radius.circular(12),
-          )),
+      decoration: BoxDecoration(
+          color: AppColors.of(context).blueColor,
+          borderRadius: ProjectRadius.large),
     );
   }
 }

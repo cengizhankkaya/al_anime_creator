@@ -17,4 +17,11 @@ class ProjectMargin {
 
   // Horizontal-only margins
   static const EdgeInsets horizontalMedium = EdgeInsets.symmetric(horizontal: 16);
+
+  static const EdgeInsets bottomSmall = EdgeInsets.only(bottom: 2);
+
+  // Left margin
+  static const EdgeInsets leftSmall = EdgeInsets.only(left: 12);
+
+
 }

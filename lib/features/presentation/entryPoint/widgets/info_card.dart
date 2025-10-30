@@ -1,3 +1,4 @@
+import 'package:al_anime_creator/features/core/index.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -16,25 +17,29 @@ class InfoCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: CircleAvatar(
-        backgroundColor: Colors.white24,
+        backgroundColor: AppColors.of(context).limegreen,
         backgroundImage: avatarUrl != null && avatarUrl!.isNotEmpty
             ? NetworkImage(avatarUrl!)
             : null,
         child: avatarUrl == null || avatarUrl!.isEmpty
-            ? const Icon(
+            ?  Icon(
                 CupertinoIcons.person,
-                color: Colors.white,
+                color: AppColors.of(context).blackd,
               )
             : null,
       ),
-      title: Text(
-        name,
-        style: const TextStyle(color: Colors.white),
-      ),
-      subtitle: Text(
-        bio,
-        style: const TextStyle(color: Colors.white70),
-      ),
+        title: Text(
+          name,
+          style: TextStyle(color: AppColors.of(context).white),
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
+        subtitle: Text(
+          bio,
+          style: TextStyle(color: AppColors.of(context).white.withValues(alpha: 0.7)),
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
     );
   }
 }

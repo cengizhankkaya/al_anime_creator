@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:al_anime_creator/features/core/constans/index.dart';
 import 'package:al_anime_creator/features/presentation/entryPoint/menu.dart';
 import 'package:al_anime_creator/features/presentation/help/help_view.dart';
 import 'package:al_anime_creator/features/presentation/notifications/notification_view.dart';
@@ -54,7 +55,7 @@ class _EntryPointState extends State<EntryPoint>
 
   Widget _getCurrentScreen() {
     return AnimatedSwitcher(
-      duration: const Duration(milliseconds: 300),
+      duration: ProjectDuration.medium,
       switchInCurve: Curves.easeInOut,
       switchOutCurve: Curves.easeInOut,
       transitionBuilder: (Widget child, Animation<double> animation) {

@@ -16,6 +16,7 @@ class BtmNavItem extends StatelessWidget {
   final VoidCallback press;
   final ValueChanged<Artboard> riveOnInit;
   final Menu selectedNav;
+  final double iconSize = 36;
 
   @override
 
@@ -29,11 +30,11 @@ class BtmNavItem extends StatelessWidget {
         children: [
           AnimatedBar(isActive: selectedNav == navBar),
           SizedBox(
-            height: 36,
-            width: 36,
+            height: iconSize,
+            width: iconSize,
             child: ColorFiltered(
               colorFilter: ColorFilter.mode(
-                selectedNav == navBar ? colorScheme.surface : colorScheme.surface.withOpacity(0.6),
+                selectedNav == navBar ? colorScheme.surface : colorScheme.surface.withValues(alpha: 0.6),
                 selectedNav == navBar ? BlendMode.srcATop : BlendMode.modulate,
               ),
               child: Opacity(

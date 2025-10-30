@@ -1,3 +1,4 @@
+import 'package:al_anime_creator/features/core/constans/index.dart';
 import 'package:al_anime_creator/features/presentation/entryPoint/menu.dart';
 import 'package:al_anime_creator/features/core/config/theme/app_colors.dart';
 import 'package:flutter/material.dart';
@@ -17,35 +18,36 @@ class SideMenu extends StatelessWidget {
   final VoidCallback press;
   final ValueChanged<Artboard> riveOnInit;
   final Menu selectedMenu;
+  final double itemSize = 36;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
          Padding(
-          padding: EdgeInsets.only(left: 24),
+          padding: ProjectPadding.leftLarge,
           child: Divider(height: 1, color: AppColors.of(context).transparent), // Tema üzerinden almak için değiştirildi
         ),
         Stack(
           children: [
             AnimatedPositioned(
-              duration: const Duration(milliseconds: 300),
+              duration: ProjectDuration.medium,
               curve: Curves.fastOutSlowIn,
               width: selectedMenu == menu ? 288 : 0,
-              height: 56,
+              height: ProjectSize.buttonMin.height,
               left: 0,
               child: Container(
                 decoration: BoxDecoration(
                   color:AppColors.of(context).limegreen,
-                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  borderRadius: ProjectRadius.smallMedium,
                 ),
               ),
             ),
             ListTile(
               onTap: press,
               leading: SizedBox(
-                height: 36,
-                width: 36,
+                height: itemSize,
+                width: itemSize,
                 child: ColorFiltered(
                   colorFilter: ColorFilter.mode(
                     selectedMenu == menu 
@@ -65,7 +67,7 @@ class SideMenu extends StatelessWidget {
                 style: TextStyle(
                   color: selectedMenu == menu 
                     ? AppColors.of(context).blackd 
-                    : Colors.white,
+                    : AppColors.of(context).white,
                 ),
               ),
             ),

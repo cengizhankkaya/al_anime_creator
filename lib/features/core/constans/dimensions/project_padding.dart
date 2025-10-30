@@ -58,6 +58,9 @@ final class ProjectPadding extends EdgeInsets {
   static const EdgeInsets symmetricHorizontalNormal = EdgeInsets.symmetric(horizontal: 16);
   static const EdgeInsets symmetricHorizontalSmall = EdgeInsets.symmetric(horizontal: 8);
 
+  static const EdgeInsets symmetricHorizontalLarge = EdgeInsets.symmetric(horizontal: 24);
+
+static const EdgeInsets onlyLeft24Top32Bottom16 = EdgeInsets.only(left: 24, top: 32, bottom: 16);
 
   static const EdgeInsets symmetricVerySmall = EdgeInsets.symmetric(
     horizontal: 12,

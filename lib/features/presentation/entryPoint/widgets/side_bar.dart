@@ -1,3 +1,4 @@
+import 'package:al_anime_creator/features/core/constans/index.dart';
 import 'package:al_anime_creator/features/presentation/entryPoint/menu.dart';
 import 'package:al_anime_creator/features/presentation/entryPoint/cubit/sidebar_cubit.dart';
 import 'package:al_anime_creator/features/presentation/entryPoint/cubit/sidebar_state.dart';
@@ -20,7 +21,8 @@ class SideBar extends StatefulWidget {
 }
 
 class _SideBarState extends State<SideBar> {
-  Menu selectedSideMenu = sidebarMenus[0]; // StoryGeneration seçili başlasın
+  Menu selectedSideMenu = sidebarMenus[0];
+   // StoryGeneration seçili başlasın
   
   @override
   Widget build(BuildContext context) {
@@ -37,9 +39,7 @@ class _SideBarState extends State<SideBar> {
             height: double.infinity,
             decoration: BoxDecoration(
               color: AppColors.of(context).sidebarColor.withValues(alpha: 0.9),
-              borderRadius: const BorderRadius.all(
-                Radius.circular(30),
-              ),
+              borderRadius: ProjectRadius.xxBig,
             ),
             child: DefaultTextStyle(
               style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
@@ -48,7 +48,7 @@ class _SideBarState extends State<SideBar> {
                 children: [
                   _buildUserInfo(state),
               Padding(
-                padding: const EdgeInsets.only(left: 24, top: 32, bottom: 16),
+                padding: ProjectPadding.onlyLeft24Top32Bottom16,
                 child: Text(
                   "Browse".toUpperCase(),
                   style: Theme.of(context)
@@ -73,7 +73,7 @@ class _SideBarState extends State<SideBar> {
                     },
                   )),
               Padding(
-                padding: const EdgeInsets.only(left: 24, top: 40, bottom: 16),
+                padding: ProjectPadding.onlyLeft24Top32Bottom16,
                 child: Text(
                   "History".toUpperCase(),
                   style: Theme.of(context)
