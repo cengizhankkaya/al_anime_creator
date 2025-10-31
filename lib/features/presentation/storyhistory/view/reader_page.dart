@@ -53,7 +53,10 @@ class _ReaderPageState extends State<ReaderPage> {
       _pages = paginated;
       if (story != null) {
         _currentStory = story;
-        _index = _pages.length - 1; // Son sayfaya git
+        // Mevcut sayfayı koru; yeni sayfa sayısından büyükse son geçerli sayfaya kırp
+        if (_index >= _pages.length) {
+          _index = _pages.isEmpty ? 0 : _pages.length - 1;
+        }
       }
     });
   }

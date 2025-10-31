@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:al_anime_creator/features/presentation/storygeneration/cubit/story_generation_cubit.dart';
 import 'package:al_anime_creator/features/presentation/storygeneration/cubit/story_generation_state.dart';
 import 'package:al_anime_creator/features/presentation/storygeneration/view/widgets/input_section.dart';
+import 'package:al_anime_creator/features/presentation/storygeneration/utils/random_story_inputs.dart';
 
 class InputSections extends StatelessWidget {
   final StoryGenerationInitial state;
@@ -20,6 +21,10 @@ class InputSections extends StatelessWidget {
           onChanged: (value) {
             context.read<StoryGenerationCubit>().updateCharacterDetails(value);
           },
+          onRandom: () {
+            final r = RandomStoryInputsGenerator.generate();
+            context.read<StoryGenerationCubit>().updateCharacterDetails(r.characterDetails);
+          },
         ),
         const SizedBox(height: 16),
         InputSection(
@@ -28,6 +33,10 @@ class InputSections extends StatelessWidget {
           value: state.settingDetails ?? '',
           onChanged: (value) {
             context.read<StoryGenerationCubit>().updateSettingDetails(value);
+          },
+          onRandom: () {
+            final r = RandomStoryInputsGenerator.generate();
+            context.read<StoryGenerationCubit>().updateSettingDetails(r.settingDetails);
           },
         ),
         const SizedBox(height: 16),
@@ -38,6 +47,10 @@ class InputSections extends StatelessWidget {
           onChanged: (value) {
             context.read<StoryGenerationCubit>().updatePlotDetails(value);
           },
+          onRandom: () {
+            final r = RandomStoryInputsGenerator.generate();
+            context.read<StoryGenerationCubit>().updatePlotDetails(r.plotDetails);
+          },
         ),
         const SizedBox(height: 16),
         InputSection(
@@ -46,6 +59,10 @@ class InputSections extends StatelessWidget {
           value: state.emotionDetails ?? '',
           onChanged: (value) {
             context.read<StoryGenerationCubit>().updateEmotionDetails(value);
+          },
+          onRandom: () {
+            final r = RandomStoryInputsGenerator.generate();
+            context.read<StoryGenerationCubit>().updateEmotionDetails(r.emotionDetails);
           },
         ),
       ],

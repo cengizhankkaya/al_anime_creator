@@ -6,6 +6,7 @@ import 'story_image_widget.dart';
 import 'story_header_widget.dart';
 import 'story_content_widget.dart';
 import 'story_actions_widget.dart';
+import 'package:al_anime_creator/features/presentation/storyhistory/utils/text_paginator.dart';
 
 class StoryCard extends StatelessWidget {
   final Story story;
@@ -33,6 +34,7 @@ class StoryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final formattedDate = DateFormatter.relativeOrDate(story.createdAt, locale: locale);
     final contentPreview = _getContentPreview();
+    final int? pageCount = _calculatePageCount();
     
     return GestureDetector(
       onTap: onTap,
@@ -64,6 +66,7 @@ class StoryCard extends StatelessWidget {
               StoryContentWidget(
                 chapterCount: story.chapters.length,
                 contentPreview: contentPreview,
+                pageCount: pageCount,
                 locale: locale,
               ),
               const SizedBox(height: 12),
@@ -98,6 +101,20 @@ class StoryCard extends StatelessWidget {
     // # karakterlerini kaldır (markdown başlık işaretleri için)
     text = text.replaceAll(RegExp(r'#+\s*'), '');
     return text;
+  }
+
+  int? _calculatePageCount() {
+    try {
+      final buffer = StringBuffer();
+      for (final c in story.chapters) {
+        buffer.write(_cleanMarkdownCharacters(c.content));
+        buffer.write('\n\n');
+      }
+      final pages = TextPaginator.paginate(buffer.toString(), maxCharactersPerPage: 500);
+      return pages.length;
+    } catch (_) {
+      return null;
+    }
   }
 
 }

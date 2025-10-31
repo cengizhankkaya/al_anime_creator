@@ -5,12 +5,14 @@ class StoryContentWidget extends StatelessWidget {
   final int chapterCount;
   final String contentPreview;
   final String locale;
+  final int? pageCount;
 
   const StoryContentWidget({
     super.key,
     required this.chapterCount,
     required this.contentPreview,
     this.locale = 'en',
+    this.pageCount,
   });
 
   @override
@@ -24,7 +26,7 @@ class StoryContentWidget extends StatelessWidget {
         ),
         const SizedBox(width: 4),
         Text(
-          _getChapterText(),
+          _getMetaText(),
           style: TextStyle(
             color: Colors.grey.shade400,
             fontSize: 14,
@@ -52,11 +54,21 @@ class StoryContentWidget extends StatelessWidget {
     );
   }
 
-  String _getChapterText() {
+  String _getMetaText() {
     final isTurkish = locale == 'tr';
-    final chapterText = isTurkish ? 'Bölüm' : 'Chapter';
-    final chaptersText = isTurkish ? 'Bölüm' : 'Chapters';
-    
-    return '$chapterCount ${chapterCount == 1 ? chapterText : chaptersText}';
+    final chapterText = chapterCount == 1
+        ? (isTurkish ? 'Bölüm' : 'Chapter')
+        : (isTurkish ? 'Bölüm' : 'Chapters');
+
+    final chapterPart = '$chapterCount $chapterText';
+
+    if (pageCount != null) {
+      final pageText = pageCount == 1
+          ? (isTurkish ? 'sayfa' : 'page')
+          : (isTurkish ? 'sayfa' : 'pages');
+      return '$chapterPart • $pageCount $pageText';
+    }
+
+    return chapterPart;
   }
 }

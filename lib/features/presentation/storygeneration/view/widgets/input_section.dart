@@ -8,6 +8,7 @@ class InputSection extends StatefulWidget {
   final String subtitle;
   final String value;
   final Function(String) onChanged;
+  final VoidCallback? onRandom;
 
   const InputSection({
     super.key,
@@ -15,6 +16,7 @@ class InputSection extends StatefulWidget {
     required this.subtitle,
     required this.value,
     required this.onChanged,
+    this.onRandom,
   });
 
   @override
@@ -46,6 +48,7 @@ class _InputSectionState extends State<InputSection> {
                 isExpanded = !isExpanded;
               });
             },
+            onRandom: widget.onRandom,
           ),
           if (isExpanded)
             TextInputField(

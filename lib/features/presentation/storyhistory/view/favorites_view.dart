@@ -6,6 +6,8 @@ import 'package:al_anime_creator/features/presentation/storyhistory/cubit/story_
 import 'package:al_anime_creator/features/presentation/storyhistory/cubit/story_firestore_state.dart';
 import 'package:al_anime_creator/features/core/service_locator.dart';
 import 'package:auto_route/auto_route.dart';
+// import 'package:al_anime_creator/features/core/config/navigation/app_router.dart';
+import 'package:al_anime_creator/features/presentation/entryPoint/entry_point.dart';
 // utils now used inside ReaderPage/StoryCard
 import 'package:al_anime_creator/features/presentation/storyhistory/view/reader_page.dart';
 import 'package:al_anime_creator/features/presentation/storyhistory/view/widgets/favorites_empty_state.dart';
@@ -107,7 +109,13 @@ class _FavoritesViewState extends State<FavoritesView> {
           if (state is StoryFirestoreLoaded) {
             final favoriteStories = state.stories.where((story) => story.isFavorite).toList();
             if (favoriteStories.isEmpty) {
-              return FavoritesEmptyState(onViewAll: () => Navigator.of(context).pop());
+              return FavoritesEmptyState(
+                onViewAll: () => Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => const EntryPoint(initialMenuTitle: 'Geçmiş'),
+                  ),
+                ),
+              );
             }
             return FavoritesList(
               stories: favoriteStories,

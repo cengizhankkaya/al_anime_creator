@@ -6,6 +6,7 @@ class SectionHeader extends StatelessWidget {
   final String subtitle;
   final bool isExpanded;
   final VoidCallback onTap;
+  final VoidCallback? onRandom;
 
   const SectionHeader({
     super.key,
@@ -13,6 +14,7 @@ class SectionHeader extends StatelessWidget {
     required this.subtitle,
     required this.isExpanded,
     required this.onTap,
+    this.onRandom,
   });
 
   @override
@@ -46,6 +48,18 @@ class SectionHeader extends StatelessWidget {
                 ],
               ),
             ),
+            if (onRandom != null)
+              Padding(
+                padding: const EdgeInsets.only(right: 8),
+                child: IconButton(
+                  onPressed: onRandom,
+                  tooltip: 'Rastgele Ekle',
+                  icon: Icon(
+                    Icons.auto_awesome_rounded,
+                    color: AppColors.of(context).limegreen,
+                  ),
+                ),
+              ),
             AnimatedRotation(
               turns: isExpanded ? 0.5 : 0,
               duration: const Duration(milliseconds: 200),

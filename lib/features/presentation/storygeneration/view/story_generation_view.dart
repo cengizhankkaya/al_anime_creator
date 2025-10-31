@@ -48,9 +48,14 @@ class StoryGenerationView extends StatelessWidget {
         ),
       ),
       actions: [
-        IconButton(
-          icon:  Icon(Icons.more_vert, color: AppColors.of(context).limegreen),
-          onPressed: () {},
+        PopupMenuButton<String>(
+          icon: Icon(Icons.more_vert, color: AppColors.of(context).limegreen),
+          onSelected: (value) {
+            
+          },
+          itemBuilder: (context) => [
+            
+          ],
         ),
       ],
     );

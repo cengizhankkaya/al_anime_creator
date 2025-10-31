@@ -5,6 +5,7 @@ import 'package:al_anime_creator/features/data/models/story_generation_params.da
 import 'package:al_anime_creator/features/data/models/story.dart';
 import 'package:al_anime_creator/features/presentation/storygeneration/utils/story_generation_validation.dart';
 import 'package:al_anime_creator/features/presentation/storygeneration/utils/story_generation_error_handler.dart';
+import 'package:al_anime_creator/features/presentation/storygeneration/utils/random_story_inputs.dart';
 
 class StoryGenerationCubit extends Cubit<StoryGenerationState> {
   final StoryGenerationRepository _repository;
@@ -51,6 +52,20 @@ class StoryGenerationCubit extends Cubit<StoryGenerationState> {
     if (state is StoryGenerationInitial) {
       final currentState = state as StoryGenerationInitial;
       emit(currentState.copyWith(sliderValue: value));
+    }
+  }
+
+  // Formu rastgele örnek metinlerle doldur
+  void fillWithRandomInputs() {
+    if (state is StoryGenerationInitial) {
+      final currentState = state as StoryGenerationInitial;
+      final randomInputs = RandomStoryInputsGenerator.generate();
+      emit(currentState.copyWith(
+        characterDetails: randomInputs.characterDetails,
+        settingDetails: randomInputs.settingDetails,
+        plotDetails: randomInputs.plotDetails,
+        emotionDetails: randomInputs.emotionDetails,
+      ));
     }
   }
 

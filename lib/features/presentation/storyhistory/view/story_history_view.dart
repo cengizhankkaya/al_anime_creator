@@ -83,7 +83,11 @@ class _StoryHistoryViewState extends State<StoryHistoryView> {
           ),
         ),
       ),
-    );
+    ).then((_) {
+      if (mounted) {
+        context.read<StoryFirestoreCubit>().loadStories();
+      }
+    });
   }
 
   void _toggleFavorite(Story story) {
