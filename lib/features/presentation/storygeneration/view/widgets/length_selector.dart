@@ -16,21 +16,21 @@ class LengthSelector extends StatelessWidget {
     return Row(
       children: [
         _LengthButton(
-          text: 'Short',
+          text: 'Kısa',
           index: 0,
           isSelected: selectedLength == 0,
           onPressed: () => onLengthSelected(0),
         ),
         const SizedBox(width: 8),
         _LengthButton(
-          text: 'Mid',
+          text: 'Orta',
           index: 1,
           isSelected: selectedLength == 1,
           onPressed: () => onLengthSelected(1),
         ),
         const SizedBox(width: 8),
         _LengthButton(
-          text: 'Long',
+          text: 'Uzun',
           index: 2,
           isSelected: selectedLength == 2,
           onPressed: () => onLengthSelected(2),

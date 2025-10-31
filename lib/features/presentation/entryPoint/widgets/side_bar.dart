@@ -50,7 +50,7 @@ class _SideBarState extends State<SideBar> {
               Padding(
                 padding: ProjectPadding.onlyLeft24Top32Bottom16,
                 child: Text(
-                  "Browse".toUpperCase(),
+                  "Gezinme".toUpperCase(),
                   style: Theme.of(context)
                       .textTheme
                       .titleMedium!
@@ -75,7 +75,7 @@ class _SideBarState extends State<SideBar> {
               Padding(
                 padding: ProjectPadding.onlyLeft24Top32Bottom16,
                 child: Text(
-                  "History".toUpperCase(),
+                  "Geçmiş".toUpperCase(),
                   style: Theme.of(context)
                       .textTheme
                       .titleMedium!

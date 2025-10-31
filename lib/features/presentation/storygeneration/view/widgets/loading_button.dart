@@ -36,7 +36,7 @@ class LoadingButton extends StatelessWidget {
                 ),
               )
             : const Text(
-                'Generate',
+                'Oluştur',
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 18,

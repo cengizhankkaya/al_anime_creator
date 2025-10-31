@@ -45,12 +45,12 @@ class _EntryPointState extends State<EntryPoint>
 
   // Ekranlar ile başlıkları eşleştirerek kodu sadeleştir
   final Map<String, Widget> _screens = const {
-    "Story Generation": StoryGenerationView(),
-    "Favorites": FavoritesView(),
-    "Help": HelpView(),
-    "History": StoryHistoryViewWrapper(),
-    "Profile": ProfileView(),
-    "Notifications": NotificationView(),
+    "Hikaye Oluşturma": StoryGenerationView(),
+    "Favoriler": FavoritesView(),
+    "Yardım": HelpView(),
+    "Geçmiş": StoryHistoryViewWrapper(),
+    "Profil": ProfileView(),
+    "Bildirimler": NotificationView(),
   };
 
   Widget _getCurrentScreen() {

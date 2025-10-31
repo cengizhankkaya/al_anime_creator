@@ -55,7 +55,7 @@ class _ResultHeader extends StatelessWidget {
         ),
         const SizedBox(width: 12),
         const Text(
-          'Generated Story',
+          'Oluşturulan Hikaye',
           style: TextStyle(
             color: Colors.white,
             fontSize: 18,

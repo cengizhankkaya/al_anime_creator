@@ -43,7 +43,7 @@ class SplashLogo extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         Text(
-          'Yaratıcılığın Başlıyor...',
+          'Yaratıcılığını ortaya koy...',
           style: textTheme.titleMedium?.copyWith(
             color: colors.limegreen.withOpacity(0.7),
           ),

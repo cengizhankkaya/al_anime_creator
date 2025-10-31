@@ -19,15 +19,15 @@ class CreativitySlider extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             _SliderLabel(
-              text: 'Standard',
+              text: 'Standart',
               isActive: value <= -0.3,
             ),
             _SliderLabel(
-              text: 'Complex',
+              text: 'Karmaşık',
               isActive: value.abs() <= 0.3,
             ),
             _SliderLabel(
-              text: 'Creative',
+              text: 'Yenilikçi',
               isActive: value >= 0.3,
             ),
           ],

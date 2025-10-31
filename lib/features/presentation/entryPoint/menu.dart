@@ -9,28 +9,28 @@ class Menu {
 
 List<Menu> sidebarMenus = [
   Menu(
-    title: "Story Generation",
+    title: "Hikaye Oluşturma",
     rive: RiveModel(
         src: "assets/RiveAssets/icons.riv",
         artboard: "HOME",
         stateMachineName: "HOME_interactivity"),
   ),
   Menu(
-    title: "History",
+    title: "Geçmiş",
     rive: RiveModel(
         src: "assets/RiveAssets/icons.riv",
         artboard: "TIMER",
         stateMachineName: "TIMER_Interactivity"),
   ),
   Menu(
-    title: "Favorites",
+    title: "Favoriler",
     rive: RiveModel(
         src: "assets/RiveAssets/icons.riv",
         artboard: "LIKE/STAR",
         stateMachineName: "STAR_Interactivity"),
   ),
   Menu(
-    title: "Help",
+    title: "Yardım",
     rive: RiveModel(
         src: "assets/RiveAssets/icons.riv",
         artboard: "CHAT",
@@ -39,14 +39,14 @@ List<Menu> sidebarMenus = [
 ];
 List<Menu> sidebarMenus2 = [
   Menu(
-    title: "Profile",
+    title: "Profil",
     rive: RiveModel(
         src: "assets/RiveAssets/icons.riv",
         artboard: "USER",
         stateMachineName: "USER_Interactivity"),
   ),
   Menu(
-    title: "Notifications",
+    title: "Bildirimler",
     rive: RiveModel(
         src: "assets/RiveAssets/icons.riv",
         artboard: "BELL",

@@ -39,7 +39,7 @@ class StoryGenerationView extends StatelessWidget {
       backgroundColor: AppColors.of(context).bacgroundblue,
       elevation: 0,
       title:  Text(
-        'Result Image',
+        'Hikaye Oluşturucu',
         style: TextStyle(
           color: AppColors.of(context).white,
           fontSize: 18,
