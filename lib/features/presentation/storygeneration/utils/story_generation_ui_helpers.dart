@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
 
 class StoryGenerationUIHelpers {
   static void showErrorSnackBar(BuildContext context, String message) {
@@ -28,12 +27,8 @@ class StoryGenerationUIHelpers {
     showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (context) => Center(
-        child: Lottie.asset(
-          'assets/lottie/Parchment.lottie',
-          width: 140,
-          repeat: true,
-        ),
+      builder: (context) => const Center(
+        child: CircularProgressIndicator(),
       ),
     );
   }

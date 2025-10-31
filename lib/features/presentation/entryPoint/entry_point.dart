@@ -29,7 +29,10 @@ const Duration kSidebarAnimationDuration = Duration(milliseconds: 200);
   name: 'EntryPointRoute',
 )
 class EntryPoint extends StatefulWidget {
-  const EntryPoint({super.key});
+  final String? initialMenuTitle; // Hangi ekranla açılsın
+  final String? initialStoryId;   // Geçmiş ekranında otomatik açılacak hikaye
+
+  const EntryPoint({super.key, this.initialMenuTitle, this.initialStoryId});
 
   @override
   State<EntryPoint> createState() => _EntryPointState();
@@ -39,19 +42,12 @@ class _EntryPointState extends State<EntryPoint>
     with SingleTickerProviderStateMixin {
   bool isSideBarOpen = false;
 
-  Menu selectedSideMenu = sidebarMenus[0]; // StoryGeneration seçili başlasın
+  late Menu selectedSideMenu; // Başlangıç menüsü parametreden gelir
 
   late SMIBool isMenuOpenInput;
 
   // Ekranlar ile başlıkları eşleştirerek kodu sadeleştir
-  final Map<String, Widget> _screens = const {
-    "Hikaye Oluşturma": StoryGenerationView(),
-    "Favoriler": FavoritesView(),
-    "Yardım": HelpView(),
-    "Geçmiş": StoryHistoryViewWrapper(),
-    "Profil": ProfileView(),
-    "Bildirimler": NotificationView(),
-  };
+  late Map<String, Widget> _screens;
 
   Widget _getCurrentScreen() {
     return AnimatedSwitcher(
@@ -83,6 +79,24 @@ class _EntryPointState extends State<EntryPoint>
 
   @override
   void initState() {
+    // Başlangıç menüsünü belirle
+    final allMenus = [...sidebarMenus, ...sidebarMenus2];
+    final defaultMenu = sidebarMenus[0];
+    selectedSideMenu = allMenus.firstWhere(
+      (m) => m.title == (widget.initialMenuTitle ?? defaultMenu.title),
+      orElse: () => defaultMenu,
+    );
+
+    // Ekranları oluştur (Geçmiş için opsiyonel storyId ver)
+    _screens = {
+      "Hikaye Oluşturma": const StoryGenerationView(),
+      "Favoriler": const FavoritesView(),
+      "Yardım": const HelpView(),
+      "Geçmiş": StoryHistoryViewWrapper(storyId: widget.initialStoryId),
+      "Profil": const ProfileView(),
+      "Bildirimler": const NotificationView(),
+    };
+
     _sidebarAnimationController = AnimationController(
         vsync: this, duration: kSidebarAnimationDuration)
       ..addListener(() {

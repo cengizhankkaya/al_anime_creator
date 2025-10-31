@@ -87,6 +87,8 @@ class StoryGenerationCubit extends Cubit<StoryGenerationState> {
 
         final story = await _repository.generateAndSaveStory(params);
         emit(StoryGenerationLoaded(story.content, story));
+        // Başarıdan sonra form verilerini koru (initial state'e geri dön)
+        emit(currentState);
         
       } catch (e) {
         emit(StoryGenerationError(

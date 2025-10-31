@@ -8,8 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:al_anime_creator/features/presentation/storygeneration/utils/story_generation_ui_helpers.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:al_anime_creator/features/presentation/storyhistory/view/story_history_view.dart';
-import 'package:lottie/lottie.dart';
+import 'package:al_anime_creator/features/presentation/entryPoint/entry_point.dart';
 
 import 'widgets/index.dart';
 
@@ -67,10 +66,13 @@ class StoryGenerationView extends StatelessWidget {
     } else if (state is StoryGenerationLoaded) {
       StoryGenerationUIHelpers.showSuccessSnackBar(context, 'Hikaye başarıyla kaydedildi!');
       if (context.mounted) {
-        // EntryPoint nested router kullanmadığı için, root navigator üzerinden History ekranına geç.
-        Navigator.of(context, rootNavigator: true).pushReplacement(
+        // Side bar görünürlüğünü korumak için EntryPoint'i hedef menü ile aç.
+        Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (_) => StoryHistoryViewWrapper(storyId: state.savedStory.id),
+            builder: (_) => EntryPoint(
+              initialMenuTitle: 'Geçmiş',
+              initialStoryId: state.savedStory.id,
+            ),
           ),
         );
       }
@@ -83,10 +85,11 @@ class StoryGenerationView extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Lottie.asset(
-              'assets/lottie/Parchment.lottie',
-              width: 160,
-              repeat: true,
+            CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(
+                AppColors.of(context).limegreen,
+              ),
+              strokeWidth: 3,
             ),
             const SizedBox(height: 20),
             Text(

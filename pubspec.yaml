@@ -11,7 +11,6 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.8
-  lottie: ^3.1.0
 
   # State Management
   flutter_bloc: ^9.1.1
@@ -76,7 +75,6 @@ flutter:
     - assets/Backgrounds/
     - assets/icons/
     - assets/RiveAssets/
-    - assets/lottie/
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
