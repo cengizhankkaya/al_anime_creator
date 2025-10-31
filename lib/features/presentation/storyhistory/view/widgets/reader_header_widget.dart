@@ -28,7 +28,7 @@ class ReaderHeaderWidget extends StatelessWidget {
             ),
           ),
           child: Text(
-            story.settings.complexity,
+            _getTranslatedComplexity(story.settings.complexity),
             style: TextStyle(
               color: _complexityColor(story.settings.complexity),
               fontSize: 12,
@@ -46,6 +46,22 @@ class ReaderHeaderWidget extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  String _getTranslatedComplexity(String complexity) {
+    if (locale.toLowerCase() == 'tr') {
+      switch (complexity.toLowerCase()) {
+        case 'creative':
+          return 'Yaratıcı';
+        case 'complex':
+          return 'Karmaşık';
+        case 'standard':
+          return 'Standart';
+        default:
+          return complexity;
+      }
+    }
+    return complexity;
   }
 
   Color _complexityColor(String complexity) {

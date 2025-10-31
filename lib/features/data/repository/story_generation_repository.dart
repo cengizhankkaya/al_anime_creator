@@ -91,7 +91,7 @@ class StoryGenerationRepositoryImpl implements StoryGenerationRepository {
     return updatedStory;
   }
 
-  /// AI cevabındaki gereksiz giriş cümlelerini temizler
+  /// AI cevabındaki gereksiz giriş cümlelerini ve markdown karakterlerini temizler
   String _sanitizeContent(String content) {
     String text = content.trim();
 
@@ -119,6 +119,12 @@ class StoryGenerationRepositoryImpl implements StoryGenerationRepository {
         text = lines.skip(1).join('\n');
       }
     }
+
+    // Markdown karakterlerini temizle (* ve # karakterlerini kaldır)
+    // * karakterlerini kaldır (markdown bold ve list işaretleri için)
+    text = text.replaceAll(RegExp(r'\*+'), '');
+    // # karakterlerini kaldır (markdown başlık işaretleri için)
+    text = text.replaceAll(RegExp(r'#+\s*'), '');
 
     return text.trimLeft();
   }

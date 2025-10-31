@@ -58,6 +58,7 @@ class StoryCard extends StatelessWidget {
               StoryHeaderWidget(
                 title: story.title,
                 complexity: story.settings.complexity,
+                locale: locale,
               ),
               const SizedBox(height: 8),
               StoryContentWidget(
@@ -85,8 +86,18 @@ class StoryCard extends StatelessWidget {
 
   /// İçerik önizlemesini hazırlar
   String _getContentPreview() {
-    final content = story.chapters.first.content;
+    final content = _cleanMarkdownCharacters(story.chapters.first.content);
     return content.length > 80 ? '${content.substring(0, 80)}...' : content;
+  }
+
+  /// Markdown karakterlerini (* ve #) temizler
+  String _cleanMarkdownCharacters(String content) {
+    String text = content;
+    // * karakterlerini kaldır (markdown bold ve list işaretleri için)
+    text = text.replaceAll(RegExp(r'\*+'), '');
+    // # karakterlerini kaldır (markdown başlık işaretleri için)
+    text = text.replaceAll(RegExp(r'#+\s*'), '');
+    return text;
   }
 
 }

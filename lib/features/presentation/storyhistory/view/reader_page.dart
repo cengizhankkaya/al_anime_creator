@@ -43,7 +43,7 @@ class _ReaderPageState extends State<ReaderPage> {
     final targetStory = story ?? widget.story;
     final buffer = StringBuffer();
     for (final c in targetStory.chapters) {
-      buffer.write(c.content);
+      buffer.write(_cleanMarkdownCharacters(c.content));
       buffer.write('\n\n');
     }
     final paginated = TextPaginator.paginate(buffer.toString(), maxCharactersPerPage: 500);
@@ -53,6 +53,16 @@ class _ReaderPageState extends State<ReaderPage> {
         _index = _pages.length - 1; // Son sayfaya git
       }
     });
+  }
+
+  /// Markdown karakterlerini (* ve #) temizler
+  String _cleanMarkdownCharacters(String content) {
+    String text = content;
+    // * karakterlerini kaldır (markdown bold ve list işaretleri için)
+    text = text.replaceAll(RegExp(r'\*+'), '');
+    // # karakterlerini kaldır (markdown başlık işaretleri için)
+    text = text.replaceAll(RegExp(r'#+\s*'), '');
+    return text;
   }
 
   @override

@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 class StoryHeaderWidget extends StatelessWidget {
   final String title;
   final String complexity;
+  final String locale;
 
   const StoryHeaderWidget({
     super.key,
     required this.title,
     required this.complexity,
+    this.locale = 'en',
   });
 
   @override
@@ -36,7 +38,7 @@ class StoryHeaderWidget extends StatelessWidget {
             ),
           ),
           child: Text(
-            complexity,
+            _getTranslatedComplexity(complexity),
             style: TextStyle(
               color: _complexityColor(complexity),
               fontSize: 12,
@@ -46,6 +48,22 @@ class StoryHeaderWidget extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  String _getTranslatedComplexity(String complexity) {
+    if (locale.toLowerCase() == 'tr') {
+      switch (complexity.toLowerCase()) {
+        case 'creative':
+          return 'Yaratıcı';
+        case 'complex':
+          return 'Karmaşık';
+        case 'standard':
+          return 'Standart';
+        default:
+          return complexity;
+      }
+    }
+    return complexity;
   }
 
   Color _complexityColor(String complexity) {

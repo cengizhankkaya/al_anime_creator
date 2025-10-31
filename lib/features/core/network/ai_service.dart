@@ -46,6 +46,8 @@ class AIServiceImpl implements AIService {
       ${params.emotionDetails.isNotEmpty ? 'Duygu ve Ton: ${params.emotionDetails}' : ''}
 
       Hikaye anime tarzında, sürükleyici ve görsel olarak zengin olsun. Türkçe yaz.
+      
+      ÖNEMLİ: Hikayede markdown formatı (örneğin *, # gibi işaretler) kullanma. Sadece düz metin olarak yaz.
       ''';
 
       final Content content = Content.text(prompt);
@@ -82,6 +84,8 @@ class AIServiceImpl implements AIService {
 
       Lütfen hikayenin devamını yaz. Mevcut karakterleri, ortamı ve hikaye tonunu koruyarak devam et. 
       Anime tarzında, sürükleyici ve görsel olarak zengin olsun. Türkçe yaz.
+      
+      ÖNEMLİ: Hikayede markdown formatı (örneğin *, # gibi işaretler) kullanma. Sadece düz metin olarak yaz.
       ''';
 
       final Content content = Content.text(prompt);
@@ -127,6 +131,8 @@ class AIServiceImpl implements AIService {
       5. Uzun hikaye formatına uygun detaylı ve sürükleyici içerik üret
 
       Lütfen hikayenin doğal devamını yaz. Anime tarzında, görsel olarak zengin ve sürükleyici olsun. Türkçe yaz.
+      
+      ÖNEMLİ: Hikayede markdown formatı (örneğin *, # gibi işaretler) kullanma. Sadece düz metin olarak yaz.
       ''';
 
       final Content content = Content.text(prompt);
