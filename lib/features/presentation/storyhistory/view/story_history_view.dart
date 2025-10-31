@@ -78,7 +78,7 @@ class _StoryHistoryViewState extends State<StoryHistoryView> {
           create: (_) => getIt<StoryGenerationCubit>(),
           child: ReaderPage(
             story: story,
-            onToggleFavorite: (s) => context.read<StoryFirestoreCubit>().toggleFavoriteStory(s.id, !s.isFavorite),
+            onToggleFavorite: (s) => context.read<StoryFirestoreCubit>().toggleFavoriteStory(s.id, s.isFavorite),
             locale: 'tr',
           ),
         ),

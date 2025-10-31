@@ -8,6 +8,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:al_anime_creator/features/presentation/storygeneration/utils/story_generation_ui_helpers.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:al_anime_creator/features/presentation/storyhistory/view/story_history_view.dart';
+import 'package:lottie/lottie.dart';
 
 import 'widgets/index.dart';
 
@@ -58,15 +60,48 @@ class StoryGenerationView extends StatelessWidget {
   void _handleStateListener(BuildContext context, StoryGenerationState state) {
     if (state is StoryGenerationError) {
       StoryGenerationUIHelpers.showErrorSnackBar(context, state.message);
+      // Hata durumunda form verilerini koruyarak state'i initial'a döndür
+      if (state.previousState != null && context.mounted) {
+        context.read<StoryGenerationCubit>().restoreState(state.previousState!);
+      }
     } else if (state is StoryGenerationLoaded) {
       StoryGenerationUIHelpers.showSuccessSnackBar(context, 'Hikaye başarıyla kaydedildi!');
       if (context.mounted) {
-        context.router.replaceAll([ StoryHistoryRoute()]);;
+        // EntryPoint nested router kullanmadığı için, root navigator üzerinden History ekranına geç.
+        Navigator.of(context, rootNavigator: true).pushReplacement(
+          MaterialPageRoute(
+            builder: (_) => StoryHistoryViewWrapper(storyId: state.savedStory.id),
+          ),
+        );
       }
     }
   }
 
   Widget _buildBody(BuildContext context, StoryGenerationState state) {
+    if (state is StoryGenerationLoading) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Lottie.asset(
+              'assets/lottie/Parchment.lottie',
+              width: 160,
+              repeat: true,
+            ),
+            const SizedBox(height: 20),
+            Text(
+              'Hikaye oluşturuluyor...',
+              style: TextStyle(
+                color: AppColors.of(context).white,
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),

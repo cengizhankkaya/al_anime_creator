@@ -1,5 +1,6 @@
 import 'package:al_anime_creator/features/core/index.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:al_anime_creator/features/presentation/storygeneration/cubit/story_generation_cubit.dart';
 import 'package:al_anime_creator/features/presentation/storygeneration/cubit/story_generation_state.dart';
@@ -27,12 +28,13 @@ class LoadingButton extends StatelessWidget {
           ),
         ),
         child: isLoading
-            ? const SizedBox(
-                width: 20,
-                height: 20,
-                child: CircularProgressIndicator(
-                  strokeWidth: 2,
-                  valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
+            ? SizedBox(
+                width: 28,
+                height: 28,
+                child: Lottie.asset(
+                  'assets/lottie/Parchment.lottie',
+                  fit: BoxFit.contain,
+                  repeat: true,
                 ),
               )
             : const Text(

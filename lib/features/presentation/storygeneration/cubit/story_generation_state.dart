@@ -51,6 +51,7 @@ class StoryGenerationLoaded extends StoryGenerationState {
 
 class StoryGenerationError extends StoryGenerationState {
   final String message;
+  final StoryGenerationInitial? previousState;
 
-  StoryGenerationError(this.message);
+  StoryGenerationError(this.message, {this.previousState});
 }

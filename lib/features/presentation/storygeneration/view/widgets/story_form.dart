@@ -13,11 +13,15 @@ class StoryForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (state is! StoryGenerationInitial) {
+    StoryGenerationInitial initialState;
+    
+    if (state is StoryGenerationInitial) {
+      initialState = state as StoryGenerationInitial;
+    } else if (state is StoryGenerationError && (state as StoryGenerationError).previousState != null) {
+      initialState = (state as StoryGenerationError).previousState!;
+    } else {
       return const SizedBox();
     }
-
-    final initialState = state as StoryGenerationInitial;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

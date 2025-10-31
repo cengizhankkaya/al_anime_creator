@@ -66,7 +66,10 @@ class StoryGenerationCubit extends Cubit<StoryGenerationState> {
         currentState.plotDetails,
         currentState.emotionDetails,
       )) {
-        emit(StoryGenerationError(StoryGenerationErrorHandler.getValidationErrorMessage()));
+        emit(StoryGenerationError(
+          StoryGenerationErrorHandler.getValidationErrorMessage(),
+          previousState: currentState,
+        ));
         return;
       }
 
@@ -86,13 +89,21 @@ class StoryGenerationCubit extends Cubit<StoryGenerationState> {
         emit(StoryGenerationLoaded(story.content, story));
         
       } catch (e) {
-        emit(StoryGenerationError(StoryGenerationErrorHandler.getErrorMessage(e)));
+        emit(StoryGenerationError(
+          StoryGenerationErrorHandler.getErrorMessage(e),
+          previousState: currentState,
+        ));
       }
     }
   }
 
   void resetStory() {
     emit(StoryGenerationInitial());
+  }
+
+  // Hata durumunda form state'ini geri yükle
+  void restoreState(StoryGenerationInitial initialState) {
+    emit(initialState);
   }
 
   // Hikaye devam ettirme metodu

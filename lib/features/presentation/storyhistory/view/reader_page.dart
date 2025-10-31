@@ -32,15 +32,17 @@ class _ReaderPageState extends State<ReaderPage> {
   late List<String> _pages;
   int _index = 0;
   bool _isContinuing = false; // Yükleme state'i
+  late Story _currentStory; // Güncel story state'i
 
   @override
   void initState() {
     super.initState();
+    _currentStory = widget.story;
     _refreshPages();
   }
 
   void _refreshPages({Story? story}) {
-    final targetStory = story ?? widget.story;
+    final targetStory = story ?? _currentStory;
     final buffer = StringBuffer();
     for (final c in targetStory.chapters) {
       buffer.write(_cleanMarkdownCharacters(c.content));
@@ -50,6 +52,7 @@ class _ReaderPageState extends State<ReaderPage> {
     setState(() {
       _pages = paginated;
       if (story != null) {
+        _currentStory = story;
         _index = _pages.length - 1; // Son sayfaya git
       }
     });
@@ -99,7 +102,7 @@ class _ReaderPageState extends State<ReaderPage> {
             onPressed: () => Navigator.of(context).pop(),
           ),
           title: Text(
-            widget.story.title,
+            _currentStory.title,
             style:  TextStyle(
               color: AppColors.of(context).white,
               fontSize: 20,
@@ -107,7 +110,7 @@ class _ReaderPageState extends State<ReaderPage> {
             ),
           ),
           actions: [
-            if (widget.story.settings.length.toLowerCase() == 'long')
+            if (_currentStory.settings.length.toLowerCase() == 'long')
               IconButton(
                 onPressed: _isContinuing ? null : () => _autoContinueStory(),
                 icon: Icon(
@@ -115,7 +118,7 @@ class _ReaderPageState extends State<ReaderPage> {
                   color: AppColors.of(context).limegreen,
                   size: 20,
                 ),
-                tooltip: widget.locale == 'tr' ? 'Otomatik Devam Et' : 'Auto Continue',
+                tooltip: widget.locale == 'tr' ? 'Yarat' : 'Create',
               ),
             IconButton(
               onPressed: _isContinuing ? null : () => _showContinueStoryDialog(context),
@@ -124,15 +127,21 @@ class _ReaderPageState extends State<ReaderPage> {
                 color: AppColors.of(context).limegreen,
                 size: 20,
               ),
-              tooltip: widget.locale == 'tr' ? 'Hikayeyi Devam Ettir' : 'Continue Story',
+              tooltip: widget.locale == 'tr' ? 'Ekle' : 'Add',
             ),
             IconButton(
-              onPressed: () => widget.onToggleFavorite(widget.story),
+              onPressed: () {
+                setState(() {
+                  _currentStory = _currentStory.copyWith(isFavorite: !_currentStory.isFavorite);
+                });
+                widget.onToggleFavorite(_currentStory);
+              },
               icon: Icon(
-                widget.story.isFavorite ? Icons.favorite : Icons.favorite_border,
-                color: widget.story.isFavorite ? AppColors.of(context).limegreen : Colors.grey,
+                _currentStory.isFavorite ? Icons.favorite : Icons.favorite_border,
+                color: _currentStory.isFavorite ? AppColors.of(context).limegreen : Colors.grey,
                 size: 20,
               ),
+              tooltip: widget.locale == 'tr' ? 'Beğen' : 'Favorite',
             ),
           ],
         ),
@@ -145,12 +154,12 @@ class _ReaderPageState extends State<ReaderPage> {
                 children: [
                   const SizedBox(height: 20),
                   ReaderHeaderWidget(
-                    story: widget.story,
+                    story: _currentStory,
                     locale: widget.locale,
                   ),
                   const SizedBox(height: 16),
-                  if (widget.story.chapters.isNotEmpty && widget.story.chapters.first.imageUrl != null) ...[
-                    ReaderImageWidget(imageUrl: widget.story.chapters.first.imageUrl!),
+                  if (_currentStory.chapters.isNotEmpty && _currentStory.chapters.first.imageUrl != null) ...[
+                    ReaderImageWidget(imageUrl: _currentStory.chapters.first.imageUrl!),
                     const SizedBox(height: 16),
                   ],
                   ReaderContentWidget(content: current),
@@ -200,12 +209,12 @@ class _ReaderPageState extends State<ReaderPage> {
 
   void _continueStory(String continuationPrompt) {
     final storyGenerationCubit = context.read<StoryGenerationCubit>();
-    storyGenerationCubit.continueStory(widget.story, continuationPrompt);
+    storyGenerationCubit.continueStory(_currentStory, continuationPrompt);
   }
 
   void _autoContinueStory() {
     final storyGenerationCubit = context.read<StoryGenerationCubit>();
-    storyGenerationCubit.autoContinueStory(widget.story);
+    storyGenerationCubit.autoContinueStory(_currentStory);
   }
 }
 

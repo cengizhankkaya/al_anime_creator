@@ -30,6 +30,7 @@ final class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp.router(
+        debugShowCheckedModeBanner: false,
         routerConfig: appRouter.config(),
         theme: CustomLightTheme().themeData,
         darkTheme: CustomDarkTheme().themeData,
