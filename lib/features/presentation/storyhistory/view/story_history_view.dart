@@ -79,7 +79,7 @@ class _StoryHistoryViewState extends State<StoryHistoryView> {
           child: ReaderPage(
             story: story,
             onToggleFavorite: (s) => context.read<StoryFirestoreCubit>().toggleFavoriteStory(s.id, !s.isFavorite),
-            locale: 'en',
+            locale: 'tr',
           ),
         ),
       ),
@@ -88,6 +88,32 @@ class _StoryHistoryViewState extends State<StoryHistoryView> {
 
   void _toggleFavorite(Story story) {
     context.read<StoryFirestoreCubit>().toggleFavoriteStory(story.id, !story.isFavorite);
+  }
+
+  void _deleteStory(Story story) {
+    final cubit = context.read<StoryFirestoreCubit>();
+    showDialog(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        backgroundColor: AppColors.of(context).sidebarColor.withValues(alpha: 0.9),
+        title: Text('Hikayeyi Sil', style: TextStyle(color: AppColors.of(context).white)),
+        content: Text('${story.title} hikayesini silmek istediğinize emin misiniz?', style: TextStyle(color: AppColors.of(context).white)),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(dialogContext).pop(),
+            child: const Text('İptal'),
+          ),
+          TextButton(
+            onPressed: () {
+              cubit.deleteStory(story.id);
+              Navigator.of(dialogContext).pop();
+            },
+            style: TextButton.styleFrom(foregroundColor: Colors.red),
+            child: const Text('Sil'),
+          ),
+        ],
+      ),
+    );
   }
 
   void _showFilterDialog(BuildContext context) {
@@ -117,7 +143,7 @@ class _StoryHistoryViewState extends State<StoryHistoryView> {
         backgroundColor: AppColors.of(context).transparent,
         elevation: 0,
         title: Text(
-          'Story History',
+          'Hikaye Geçmişi',
           style: TextStyle(
             color: AppColors.of(context).white,
             fontSize: 20,
@@ -189,6 +215,7 @@ class _StoryHistoryViewState extends State<StoryHistoryView> {
               stories: filteredStories,
               onStoryTap: _openReader,
               onToggleFavorite: _toggleFavorite,
+              onDeleteStory: _deleteStory,
             );
           }
 

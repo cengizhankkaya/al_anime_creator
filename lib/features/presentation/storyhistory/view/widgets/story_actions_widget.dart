@@ -8,6 +8,7 @@ class StoryActionsWidget extends StatelessWidget {
   final VoidCallback onToggleFavorite;
   final VoidCallback? onContinueStory;
   final VoidCallback? onAutoContinueStory;
+  final VoidCallback? onDeleteStory;
   final String locale;
 
   const StoryActionsWidget({
@@ -18,8 +19,27 @@ class StoryActionsWidget extends StatelessWidget {
     required this.onToggleFavorite,
     this.onContinueStory,
     this.onAutoContinueStory,
+    this.onDeleteStory,
     this.locale = 'en',
   });
+
+  String _getTranslatedLength(String length) {
+    switch (locale.toLowerCase()) {
+      case 'tr':
+        switch (length.toLowerCase()) {
+          case 'long':
+            return 'Uzun';
+          case 'mid':
+            return 'Orta';
+          case 'short':
+            return 'Kısa';
+          default:
+            return length;
+        }
+      default:
+        return length;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +52,7 @@ class StoryActionsWidget extends StatelessWidget {
             borderRadius: BorderRadius.circular(6),
           ),
           child: Text(
-            length,
+            _getTranslatedLength(length),
             style: const TextStyle(
               color: Color(0xFF24FF00),
               fontSize: 12,
@@ -76,7 +96,17 @@ class StoryActionsWidget extends StatelessWidget {
             ),
             tooltip: locale == 'tr' ? 'Hikayeyi Devam Ettir' : 'Continue Story',
           ),
-        const Spacer(),
+          Spacer(),
+        if (onDeleteStory != null)
+          IconButton(
+            onPressed: onDeleteStory,
+            icon: const Icon(
+              Icons.delete_outline,
+              color: Colors.red,
+              size: 20,
+            ),
+            tooltip: locale == 'tr' ? 'Hikayeyi Sil' : 'Delete Story',
+          ),
         const Icon(
           Icons.arrow_forward_ios,
           color: Colors.grey,

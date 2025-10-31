@@ -13,6 +13,7 @@ class StoryCard extends StatelessWidget {
   final VoidCallback onToggleFavorite;
   final VoidCallback? onContinueStory;
   final VoidCallback? onAutoContinueStory;
+  final VoidCallback? onDeleteStory;
   final String locale;
   final bool highlightFavorite;
 
@@ -23,6 +24,7 @@ class StoryCard extends StatelessWidget {
     required this.onToggleFavorite,
     this.onContinueStory,
     this.onAutoContinueStory,
+    this.onDeleteStory,
     this.locale = 'en',
     this.highlightFavorite = false,
   });
@@ -40,7 +42,7 @@ class StoryCard extends StatelessWidget {
           color: AppColors.of(context).limegreen.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            color: highlightFavorite ? const Color(0xFF24FF00).withOpacity(0.3) : Colors.grey.shade800,
+            color: highlightFavorite ? AppColors.of(context).limegreen.withValues(alpha: 0.3) : AppColors.of(context).greyColor,
             width: 1,
           ),
         ),
@@ -71,6 +73,7 @@ class StoryCard extends StatelessWidget {
                 onToggleFavorite: onToggleFavorite,
                 onContinueStory: onContinueStory,
                 onAutoContinueStory: onAutoContinueStory,
+                onDeleteStory: onDeleteStory,
                 locale: locale,
               ),
             ],

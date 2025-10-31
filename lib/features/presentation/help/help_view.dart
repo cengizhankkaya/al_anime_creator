@@ -37,12 +37,7 @@ class HelpView extends StatelessWidget {
             title: 'Nasıl Kullanılır?',
             description: 'Menüden hikaye oluşturucuya girerek hikayenizi başlatabilirsiniz. Adım adım yönergeleri takip edin.',
           ),
-          const SizedBox(height: 18),
-          _HelpCard(
-            icon: Icons.security,
-            title: 'Gizlilik',
-            description: 'Verileriniz gizli tutulur ve üçüncü kişilerle paylaşılmaz.',
-          ),
+        
           const SizedBox(height: 18),
           _HelpCard(
             icon: Icons.contact_support,

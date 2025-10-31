@@ -6,12 +6,14 @@ class StoryHistoryList extends StatelessWidget {
   final List<Story> stories;
   final ValueChanged<Story> onStoryTap;
   final ValueChanged<Story> onToggleFavorite;
+  final ValueChanged<Story>? onDeleteStory;
 
   const StoryHistoryList({
     super.key,
     required this.stories,
     required this.onStoryTap,
     required this.onToggleFavorite,
+    this.onDeleteStory,
   });
 
   @override
@@ -25,7 +27,8 @@ class StoryHistoryList extends StatelessWidget {
           story: story,
           onTap: () => onStoryTap(story),
           onToggleFavorite: () => onToggleFavorite(story),
-          locale: 'en',
+          onDeleteStory: onDeleteStory != null ? () => onDeleteStory!(story) : null,
+          locale: 'tr',
         );
       },
     );

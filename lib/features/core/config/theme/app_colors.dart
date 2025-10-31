@@ -14,6 +14,7 @@ class AppColors extends ThemeExtension<AppColors> {
   final Color sidebarColor;
   final Color onboardColor;
   final Color blueColor;
+  final Color greyColor;
   const AppColors({
     required this.limegreen,
     required this.bacgroundblue,
@@ -25,6 +26,7 @@ class AppColors extends ThemeExtension<AppColors> {
     required this.sidebarColor,
     required this.onboardColor,
     required this.blueColor,
+    required this.greyColor,
   });
 
   static const AppColors light = AppColors(
@@ -38,6 +40,7 @@ class AppColors extends ThemeExtension<AppColors> {
     sidebarColor: Color.fromARGB(255, 37, 37, 37),
     onboardColor: Color(0xFF040116),
     blueColor: Color(0xFF81B4FF),
+    greyColor: Color(0xFF555555),
     );
 
 
@@ -53,6 +56,7 @@ class AppColors extends ThemeExtension<AppColors> {
     sidebarColor: Color.fromARGB(255, 37, 37, 37),
     onboardColor:  Colors.white,
     blueColor: Color(0xFF81B4FF),
+    greyColor: Color(0xFF555555),
   );
 
 
@@ -68,6 +72,7 @@ class AppColors extends ThemeExtension<AppColors> {
     Color? sidebarColor,
     Color? onboardColor,
     Color? blueColor,
+    Color? greyColor,
   }) {
     return AppColors(
       limegreen: limegreen ?? this.limegreen,
@@ -80,6 +85,7 @@ class AppColors extends ThemeExtension<AppColors> {
       sidebarColor: sidebarColor ?? this.sidebarColor,
       onboardColor: onboardColor ?? this.onboardColor,
       blueColor: blueColor ?? this.blueColor,
+      greyColor: greyColor ?? this.greyColor,
     );
   }
 
@@ -97,6 +103,7 @@ class AppColors extends ThemeExtension<AppColors> {
       sidebarColor: Color.lerp(sidebarColor, other.sidebarColor, t)!,
       onboardColor: Color.lerp(onboardColor, other.onboardColor, t)!,
       blueColor: Color.lerp(blueColor, other.blueColor, t)!,
+      greyColor: Color.lerp(greyColor, other.greyColor, t)!,
     );
   }
 
