@@ -1,6 +1,7 @@
 import 'package:al_anime_creator/features/core/constans/index.dart';
 import 'package:al_anime_creator/features/core/index.dart';
 import 'package:al_anime_creator/features/data/repository/auth_repository.dart';
+import 'package:get_it/get_it.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:al_anime_creator/features/presentation/auth/cubit/auth_cubit.dart';
@@ -17,7 +18,7 @@ void showCustomDialog(BuildContext context, {required ValueChanged onValue}) {
     transitionDuration: ProjectDuration.longMs,
     pageBuilder: (context, animation, secondaryAnimation) {
       return BlocProvider<AuthCubit>(
-        create: (_) => AuthCubit(AuthRepository()),
+        create: (_) => AuthCubit(GetIt.instance<AuthRepository>()),
         child: Center(
           child: DialogContainer(),
         ),

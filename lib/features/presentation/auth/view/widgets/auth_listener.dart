@@ -39,6 +39,9 @@ void authListener(
       setShowLoading(false);
       reset?.fire();
     });
+  } else if (state is AuthInitial && isShowLoading) {
+    // Beklenmedik durumlarda yüklemeyi temizle
+    setShowLoading(false);
   } else if (state is AuthLoading) {
     setShowLoading(true);
   }
