@@ -2,16 +2,18 @@
 import 'package:al_anime_creator/features/data/repository/auth_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'dart:async';
 
 part 'auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {
   final AuthRepository authRepository ;
   late final Stream<User?> _authStateChanges;
+  late final StreamSubscription<User?> _authSubscription;
   AuthCubit(this.authRepository) : super(AuthInitial()) {
 
     _authStateChanges = authRepository.user;
-    _authStateChanges.listen((user) {
+    _authSubscription = _authStateChanges.listen((user) {
       if (user != null) {
         emit(AuthSuccess(user));
       } else {
@@ -51,6 +53,12 @@ class AuthCubit extends Cubit<AuthState> {
   Future<void> logout() async {
     await authRepository.signOut();
     emit(AuthInitial());
+  }
+
+  @override
+  Future<void> close() async {
+    await _authSubscription.cancel();
+    return super.close();
   }
 
 }
